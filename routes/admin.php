@@ -60,12 +60,12 @@ Route::post('{type}/bulk', BulkActionController::class)
     ->whereIn('type', ['items', 'banknotes', 'coins', 'magazines', 'newspapers', 'postcards', 'stamps'])
     ->name('bulk');
 
-Route::resource('newspapers', NewspaperController::class);
-Route::resource('magazines', MagazineController::class);
-Route::resource('banknotes', BanknoteController::class);
-Route::resource('coins', CoinController::class);
-Route::resource('postcards', PostcardController::class);
-Route::resource('stamps', StampController::class);
+Route::resource('newspapers', NewspaperController::class)->except('show');
+Route::resource('magazines', MagazineController::class)->except('show');
+Route::resource('banknotes', BanknoteController::class)->except('show');
+Route::resource('coins', CoinController::class)->except('show');
+Route::resource('postcards', PostcardController::class)->except('show');
+Route::resource('stamps', StampController::class)->except('show');
 
 Route::resource('profile', UserController::class);
 

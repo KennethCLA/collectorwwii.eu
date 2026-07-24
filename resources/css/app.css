@@ -422,3 +422,12 @@ img[src*="error-image-not-found"] {
         clear: both;
     }
 }
+
+/* ─── Choices.js dropdown: package default is white bg, but app text is
+   white too — force dark text in the popup so options stay legible ─── */
+.choices__list--dropdown .choices__item,
+.choices__list[aria-expanded] .choices__item,
+.choices__list--dropdown .choices__group,
+.choices__list--dropdown .choices__input {
+    color: #1a1a1a !important;
+}
