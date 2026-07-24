@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             // Drop bestaande FK
-            $table->dropForeign('users_role_id_foreign');
+            $table->dropForeign(['role_id']);
 
             // Recreate met RESTRICT (in Laravel: noActionOnDelete)
             $table->foreign('role_id')
@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             // Terug naar CASCADE zoals het nu is
-            $table->dropForeign('users_role_id_foreign');
+            $table->dropForeign(['role_id']);
 
             $table->foreign('role_id')
                 ->references('id')

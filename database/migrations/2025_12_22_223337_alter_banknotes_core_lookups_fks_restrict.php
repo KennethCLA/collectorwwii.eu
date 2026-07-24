@@ -10,11 +10,11 @@ return new class extends Migration
     {
         Schema::table('banknotes', function (Blueprint $table) {
             // Drop de 5 CASCADE lookups
-            $table->dropForeign('banknotes_country_id_foreign');
-            $table->dropForeign('banknotes_currency_id_foreign');
-            $table->dropForeign('banknotes_nominal_value_id_foreign');
-            $table->dropForeign('banknotes_series_id_foreign');
-            $table->dropForeign('banknotes_time_period_id_foreign');
+            $table->dropForeign(['country_id']);
+            $table->dropForeign(['currency_id']);
+            $table->dropForeign(['nominal_value_id']);
+            $table->dropForeign(['series_id']);
+            $table->dropForeign(['time_period_id']);
 
             // Recreate als RESTRICT/NO ACTION
             $table->foreign('country_id')
@@ -43,11 +43,11 @@ return new class extends Migration
     {
         Schema::table('banknotes', function (Blueprint $table) {
             // Terug naar CASCADE zoals het nu in je schema zit
-            $table->dropForeign('banknotes_country_id_foreign');
-            $table->dropForeign('banknotes_currency_id_foreign');
-            $table->dropForeign('banknotes_nominal_value_id_foreign');
-            $table->dropForeign('banknotes_series_id_foreign');
-            $table->dropForeign('banknotes_time_period_id_foreign');
+            $table->dropForeign(['country_id']);
+            $table->dropForeign(['currency_id']);
+            $table->dropForeign(['nominal_value_id']);
+            $table->dropForeign(['series_id']);
+            $table->dropForeign(['time_period_id']);
 
             $table->foreign('country_id')
                 ->references('id')->on('countries')

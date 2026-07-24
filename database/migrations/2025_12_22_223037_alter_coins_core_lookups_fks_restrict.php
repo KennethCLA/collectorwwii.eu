@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::table('coins', function (Blueprint $table) {
             // drop de 3 CASCADE lookups
-            $table->dropForeign('coins_country_id_foreign');
-            $table->dropForeign('coins_currency_id_foreign');
-            $table->dropForeign('coins_nominal_value_id_foreign');
+            $table->dropForeign(['country_id']);
+            $table->dropForeign(['currency_id']);
+            $table->dropForeign(['nominal_value_id']);
 
             // recreate als RESTRICT/NO ACTION
             $table->foreign('country_id')
@@ -36,9 +36,9 @@ return new class extends Migration
     {
         Schema::table('coins', function (Blueprint $table) {
             // rollback naar CASCADE zoals het nu in je schema zit
-            $table->dropForeign('coins_country_id_foreign');
-            $table->dropForeign('coins_currency_id_foreign');
-            $table->dropForeign('coins_nominal_value_id_foreign');
+            $table->dropForeign(['country_id']);
+            $table->dropForeign(['currency_id']);
+            $table->dropForeign(['nominal_value_id']);
 
             $table->foreign('country_id')
                 ->references('id')
