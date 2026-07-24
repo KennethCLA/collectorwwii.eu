@@ -73,7 +73,7 @@ $useAdminHeader = $useAdminHeader ?? $autoAdmin;
 
     {{-- Mobile menu: lives outside the fixed header so it can scroll freely --}}
     <div id="mobile-menu"
-         class="md:hidden"
+         class="md:hidden fixed inset-x-0 bottom-0 top-[var(--header-h,65px)] z-[60] overflow-y-scroll [-webkit-overflow-scrolling:touch] bg-[#636c65] border-t border-black/30"
          x-data="{ open: false, savedY: 0 }"
          @toggle-mobile-menu.window="
              open = !open;
@@ -85,8 +85,7 @@ $useAdminHeader = $useAdminHeader ?? $autoAdmin;
              }
          "
          x-show="open"
-         x-cloak
-         class="fixed inset-x-0 bottom-0 top-[var(--header-h,65px)] z-[60] overflow-y-scroll [-webkit-overflow-scrolling:touch] bg-[#636c65] border-t border-black/30">
+         x-cloak>
         <div class="p-4">
             <div class="flex flex-col gap-4">
 
