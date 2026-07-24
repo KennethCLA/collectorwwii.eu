@@ -48,7 +48,7 @@ class PostcardController extends Controller
 
     public function show(Postcard $postcard)
     {
-        $postcard->load(['images', 'mainImage', 'files', 'country', 'postcardType']);
+        $postcard->load(['images', 'mainImage', 'files', 'country', 'postcardType', 'location']);
 
         $previousPostcard = Postcard::where('id', '<', $postcard->id)->orderByDesc('id')->first();
         $nextPostcard = Postcard::where('id', '>', $postcard->id)->orderBy('id')->first();

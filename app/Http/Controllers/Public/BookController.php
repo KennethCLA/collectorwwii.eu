@@ -121,6 +121,8 @@ class BookController extends Controller
             'topic',
             'series',
             'cover',
+            'location',
+            'origin',
             'files',
             'images',
             'mainImage',

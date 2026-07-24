@@ -559,6 +559,7 @@
                             <img
                                 src="{{ $item->image_url ?? asset('images/error-image-not-found.png') }}"
                                 alt="{{ $item->title }}"
+                                loading="lazy" decoding="async"
                                 class="w-full h-48 object-contain">
                         </div>
                     </a>

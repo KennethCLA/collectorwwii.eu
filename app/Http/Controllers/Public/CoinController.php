@@ -48,7 +48,7 @@ class CoinController extends Controller
 
     public function show(Coin $coin)
     {
-        $coin->load(['images', 'mainImage', 'files', 'country', 'currency', 'nominalValue', 'shape', 'material', 'occasion']);
+        $coin->load(['images', 'mainImage', 'files', 'country', 'currency', 'nominalValue', 'shape', 'material', 'occasion', 'location']);
 
         $previousCoin = Coin::where('id', '<', $coin->id)->orderByDesc('id')->first();
         $nextCoin = Coin::where('id', '>', $coin->id)->orderBy('id')->first();

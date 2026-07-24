@@ -2,7 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Models\BookTopic;
+use App\Models\ItemCategory;
+use App\Models\ItemOrganization;
+use App\Models\Location;
+use App\Models\MagazineSeries;
+use App\Models\NewspaperSeries;
+use App\Models\Origin;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -20,6 +28,16 @@ class LookupsFlattenToTree extends Command
         'origins'            => 'origins',
         'magazine-series'    => 'magazine_series',
         'newspaper-series'   => 'newspaper_series',
+    ];
+
+    private array $modelMap = [
+        'book-topics'        => BookTopic::class,
+        'item-categories'    => ItemCategory::class,
+        'item-organizations' => ItemOrganization::class,
+        'locations'          => Location::class,
+        'origins'            => Origin::class,
+        'magazine-series'    => MagazineSeries::class,
+        'newspaper-series'   => NewspaperSeries::class,
     ];
 
     public function handle(): int
@@ -203,6 +221,8 @@ class LookupsFlattenToTree extends Command
                 DB::table($table)->where('id', $item['entry']->id)->update($update);
             }
         });
+
+        Cache::forget($this->modelMap[$type].'::flatTree');
 
         $this->info("  Done. " . count($plan) . " entries migrated for {$type}.");
 

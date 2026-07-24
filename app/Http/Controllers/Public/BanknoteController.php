@@ -48,7 +48,7 @@ class BanknoteController extends Controller
 
     public function show(Banknote $banknote)
     {
-        $banknote->load(['images', 'mainImage', 'files', 'country', 'currency', 'nominalValue', 'series', 'timePeriod']);
+        $banknote->load(['images', 'mainImage', 'files', 'country', 'currency', 'nominalValue', 'series', 'timePeriod', 'location']);
 
         $previousBanknote = Banknote::where('id', '<', $banknote->id)->orderByDesc('id')->first();
         $nextBanknote = Banknote::where('id', '>', $banknote->id)->orderBy('id')->first();

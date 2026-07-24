@@ -48,7 +48,7 @@ class StampController extends Controller
 
     public function show(Stamp $stamp)
     {
-        $stamp->load(['images', 'mainImage', 'files', 'country', 'currency', 'nominalValue', 'stampType']);
+        $stamp->load(['images', 'mainImage', 'files', 'country', 'currency', 'nominalValue', 'stampType', 'location']);
 
         $previousStamp = Stamp::where('id', '<', $stamp->id)->orderByDesc('id')->first();
         $nextStamp = Stamp::where('id', '>', $stamp->id)->orderBy('id')->first();

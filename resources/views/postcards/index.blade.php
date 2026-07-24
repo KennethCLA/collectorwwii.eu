@@ -235,7 +235,7 @@
                         </p>
                         <div class="flex-1 flex justify-center items-center h-80">
                             <img src="{{ $postcard->image_url ?? asset('images/error-image-not-found.png') }}"
-                                alt="{{ $postcard->card_title }}" class="w-full h-48 object-contain">
+                                alt="{{ $postcard->card_title }}" loading="lazy" decoding="async" class="w-full h-48 object-contain">
                         </div>
                     </a>
                     @endforeach
