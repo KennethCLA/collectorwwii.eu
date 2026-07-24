@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Coin;
 use App\Models\User;
 
-class CoinPolicy
+class CoinPolicy extends AdminOnlyPolicy
 {
     public function viewAny(?User $user): bool
     {
@@ -19,16 +19,16 @@ class CoinPolicy
 
     public function create(User $user): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function update(User $user, Coin $coin): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function delete(User $user, Coin $coin): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 }

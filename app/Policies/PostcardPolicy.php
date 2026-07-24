@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Postcard;
 use App\Models\User;
 
-class PostcardPolicy
+class PostcardPolicy extends AdminOnlyPolicy
 {
     public function viewAny(?User $user): bool
     {
@@ -19,16 +19,16 @@ class PostcardPolicy
 
     public function create(User $user): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function update(User $user, Postcard $postcard): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function delete(User $user, Postcard $postcard): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 }

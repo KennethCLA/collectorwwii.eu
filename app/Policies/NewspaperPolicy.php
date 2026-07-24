@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Newspaper;
 use App\Models\User;
 
-class NewspaperPolicy
+class NewspaperPolicy extends AdminOnlyPolicy
 {
     public function viewAny(?User $user): bool
     {
@@ -19,16 +19,16 @@ class NewspaperPolicy
 
     public function create(User $user): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function update(User $user, Newspaper $newspaper): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function delete(User $user, Newspaper $newspaper): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 }

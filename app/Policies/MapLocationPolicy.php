@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\MapLocation;
 use App\Models\User;
 
-class MapLocationPolicy
+class MapLocationPolicy extends AdminOnlyPolicy
 {
     public function viewAny(?User $user): bool
     {
@@ -19,16 +19,16 @@ class MapLocationPolicy
 
     public function create(User $user): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function update(User $user, MapLocation $mapLocation): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function delete(User $user, MapLocation $mapLocation): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 }

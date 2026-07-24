@@ -28,7 +28,7 @@
         </div>
         <div class="p-4 border-t border-white/10 flex justify-end gap-2">
             <button value="cancel" class="px-4 py-2 rounded-md bg-white/10">Cancel</button>
-            <button id="lookupSaveBtn" type="button" class="px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-700">Add</button>
+            <button id="lookupSaveBtn" type="button" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700">Add</button>
         </div>
     </form>
 </dialog>

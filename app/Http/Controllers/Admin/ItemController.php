@@ -21,7 +21,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         // 1. Base query: haal items op met hun relaties
-        $query = Item::query();
+        $query = Item::with(['category', 'nationality']);
 
         // 2. Filtering (op basis van request-parameters)
         if ($request->has('category')) {

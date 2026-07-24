@@ -261,6 +261,12 @@
                                 <a href="{{ route('home') }}" class="pr-2">Home</a> >
                                 <span class="text-khaki/70 font-mono text-[11px] tracking-[0.1em] uppercase">Books</span>
                             </nav>
+                            @if(auth()->user()?->isAdmin())
+                            <a href="{{ route('admin.books.create') }}"
+                                class="inline-flex items-center gap-2 rounded-md bg-black/30 hover:bg-black/40 ring-1 ring-khaki/30 px-3 py-2 font-stencil tracking-[0.15em] text-sm text-white uppercase transition">
+                                + Add Book
+                            </a>
+                            @endif
                             <button @click="filtersOpen = true"
                                     class="lg:hidden inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-sm text-white hover:bg-white/20">
                                 <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
@@ -456,8 +462,8 @@
                 @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 h-full">
                     @foreach ($books as $book)
-                    <a href="{{ route('books.show', $book) }}" target="_blank"
-                        class="collection-card bg-sage text-white p-4 rounded-md shadow-md flex flex-col h-full overflow-hidden">
+                    <div class="collection-card bg-sage text-white p-4 rounded-md shadow-md flex flex-col h-full overflow-hidden">
+                    <a href="{{ route('books.show', $book) }}" target="_blank" class="flex flex-col flex-1">
                         <div class="mb-1 flex-grow h-auto">
                             <p class="font-mono text-[9px] tracking-widest text-white/30 text-right mb-1">#{{ str_pad($book->id, 4, '0', STR_PAD_LEFT) }}</p>
                             <h3 class="text-lg font-bold text-center">{{ $book->title }}</h3>
@@ -493,6 +499,17 @@
 
                         </div>
                     </a>
+                    @if(auth()->user()?->isAdmin())
+                    <div class="flex justify-center gap-3 pt-2 mt-1 border-t border-white/15">
+                        <a href="{{ route('admin.books.edit', $book) }}" class="text-xs text-khaki/80 hover:text-khaki underline">Edit</a>
+                        <form action="{{ route('admin.books.destroy', $book) }}" method="POST" onsubmit="return confirm('Delete this book?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-xs text-red-300 hover:text-red-200 underline">Delete</button>
+                        </form>
+                    </div>
+                    @endif
+                    </div>
                     @endforeach
                 </div>
 

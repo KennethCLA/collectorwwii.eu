@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Magazine;
 use App\Models\User;
 
-class MagazinePolicy
+class MagazinePolicy extends AdminOnlyPolicy
 {
     public function viewAny(?User $user): bool
     {
@@ -19,16 +19,16 @@ class MagazinePolicy
 
     public function create(User $user): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function update(User $user, Magazine $magazine): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function delete(User $user, Magazine $magazine): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 }

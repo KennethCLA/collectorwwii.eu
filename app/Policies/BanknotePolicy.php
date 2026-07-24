@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Banknote;
 use App\Models\User;
 
-class BanknotePolicy
+class BanknotePolicy extends AdminOnlyPolicy
 {
     public function viewAny(?User $user): bool
     {
@@ -19,16 +19,16 @@ class BanknotePolicy
 
     public function create(User $user): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function update(User $user, Banknote $banknote): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 
     public function delete(User $user, Banknote $banknote): bool
     {
-        return $user->role_id === 1;
+        return $this->deny();
     }
 }
