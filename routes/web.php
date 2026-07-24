@@ -68,7 +68,7 @@ Route::get('/postcards/{postcard}', [PublicPostcardController::class, 'show'])->
 Route::get('/stamps', [PublicStampController::class, 'index'])->name('stamps.index');
 Route::get('/stamps/{stamp}', [PublicStampController::class, 'show'])->name('stamps.show');
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/login', function () {
     if (auth()->check()) {
