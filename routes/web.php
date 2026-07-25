@@ -15,11 +15,14 @@ use App\Http\Controllers\Public\NewspaperController as PublicNewspaperController
 use App\Http\Controllers\Public\PostcardController as PublicPostcardController;
 use App\Http\Controllers\Public\SectionController;
 use App\Http\Controllers\Public\SearchController;
+use App\Http\Controllers\Public\SitemapController;
 use App\Http\Controllers\Public\StampController as PublicStampController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BlogController::class, 'index'])->name('home');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/change-language/{language}', function (string $language) {
     session(['language' => $language]);
