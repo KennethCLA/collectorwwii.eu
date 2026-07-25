@@ -4,14 +4,19 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, ThrottlesLogins;
 
     protected $redirectTo = '/admin';
+
+    protected $maxAttempts = 5;
+
+    protected $decayMinutes = 1;
 
     public function __construct()
     {
@@ -31,11 +36,20 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
         if (Auth::attempt($credentials, $request->has('remember'))) {
+            $this->clearLoginAttempts($request);
             $request->session()->regenerate();
 
             return redirect()->intended(session()->pull('url.intended', '/'));
         }
+
+        $this->incrementLoginAttempts($request);
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
