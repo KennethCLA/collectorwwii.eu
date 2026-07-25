@@ -69,10 +69,10 @@
 
                         {{-- Authors --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">
+                            <label for="authors" class="text-sm font-medium text-white/80">
                                 Author(s) * <span class="text-white/50">(comma separated)</span>
                             </label>
-                            <input type="text"
+                            <input id="authors" type="text"
                                 name="authors"
                                 value="{{ old('authors', $book->authors?->pluck('name')->implode(', ') ?? '') }}"
                                 required
@@ -83,8 +83,8 @@
 
                         {{-- Title --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Title *</label>
-                            <input type="text"
+                            <label for="title" class="text-sm font-medium text-white/80">Title *</label>
+                            <input id="title" type="text"
                                 name="title"
                                 value="{{ $val('title') }}"
                                 required
@@ -94,8 +94,8 @@
 
                         {{-- Subtitle --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Subtitle</label>
-                            <input type="text"
+                            <label for="subtitle" class="text-sm font-medium text-white/80">Subtitle</label>
+                            <input id="subtitle" type="text"
                                 name="subtitle"
                                 value="{{ $val('subtitle') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
@@ -104,8 +104,8 @@
 
                         {{-- Publisher --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Publisher</label>
-                            <input type="text"
+                            <label for="publisher_name" class="text-sm font-medium text-white/80">Publisher</label>
+                            <input id="publisher_name" type="text"
                                 name="publisher_name"
                                 value="{{ $val('publisher_name') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
@@ -114,8 +114,8 @@
 
                         {{-- Year --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Copyright year</label>
-                            <input type="number"
+                            <label for="copyright_year" class="text-sm font-medium text-white/80">Copyright year</label>
+                            <input id="copyright_year" type="number"
                                 name="copyright_year"
                                 value="{{ $val('copyright_year') }}"
                                 min="1000"
@@ -126,8 +126,8 @@
 
                         {{-- Pages --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Pages</label>
-                            <input type="number"
+                            <label for="pages" class="text-sm font-medium text-white/80">Pages</label>
+                            <input id="pages" type="number"
                                 name="pages"
                                 value="{{ $val('pages') }}"
                                 min="1"
@@ -137,7 +137,7 @@
 
                         {{-- Topic --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Topic</label>
+                            <label for="topic_id" class="text-sm font-medium text-white/80">Topic</label>
 
                             <div class="flex items-center gap-2">
                                 <select id="topic_id" name="topic_id"
@@ -159,7 +159,7 @@
 
                         {{-- Series --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Series</label>
+                            <label for="series_id" class="text-sm font-medium text-white/80">Series</label>
 
                             <div class="flex items-center gap-2">
                                 <select id="series_id" name="series_id"
@@ -181,8 +181,8 @@
 
                         {{-- Series number --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Series #</label>
-                            <input type="text"
+                            <label for="series_number" class="text-sm font-medium text-white/80">Series #</label>
+                            <input id="series_number" type="text"
                                 name="series_number"
                                 value="{{ $val('series_number') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
@@ -191,7 +191,7 @@
 
                         {{-- Cover type --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Cover</label>
+                            <label for="cover_id" class="text-sm font-medium text-white/80">Cover</label>
 
                             <div class="flex items-center gap-2">
                                 <select id="cover_id" name="cover_id"
@@ -213,8 +213,8 @@
 
                         {{-- Translator --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Translator</label>
-                            <input type="text"
+                            <label for="translator" class="text-sm font-medium text-white/80">Translator</label>
+                            <input id="translator" type="text"
                                 name="translator"
                                 value="{{ $val('translator') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
@@ -223,8 +223,8 @@
 
                         {{-- Issue number --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Issue #</label>
-                            <input type="text"
+                            <label for="issue_number" class="text-sm font-medium text-white/80">Issue #</label>
+                            <input id="issue_number" type="text"
                                 name="issue_number"
                                 value="{{ $val('issue_number') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
@@ -233,8 +233,8 @@
 
                         {{-- Issue year --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Issue year</label>
-                            <input type="number"
+                            <label for="issue_year" class="text-sm font-medium text-white/80">Issue year</label>
+                            <input id="issue_year" type="number"
                                 name="issue_year"
                                 value="{{ $val('issue_year') }}"
                                 min="1000"
@@ -245,8 +245,8 @@
 
                         {{-- First edition title --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Title (1st ed.)</label>
-                            <input type="text"
+                            <label for="title_first_edition" class="text-sm font-medium text-white/80">Title (1st ed.)</label>
+                            <input id="title_first_edition" type="text"
                                 name="title_first_edition"
                                 value="{{ $val('title_first_edition') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
@@ -255,8 +255,8 @@
 
                         {{-- First edition subtitle --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Subtitle (1st ed.)</label>
-                            <input type="text"
+                            <label for="subtitle_first_edition" class="text-sm font-medium text-white/80">Subtitle (1st ed.)</label>
+                            <input id="subtitle_first_edition" type="text"
                                 name="subtitle_first_edition"
                                 value="{{ $val('subtitle_first_edition') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
@@ -265,8 +265,8 @@
 
                         {{-- Publisher first issue --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Publisher (1st)</label>
-                            <input type="text"
+                            <label for="publisher_first_issue" class="text-sm font-medium text-white/80">Publisher (1st)</label>
+                            <input id="publisher_first_issue" type="text"
                                 name="publisher_first_issue"
                                 value="{{ $val('publisher_first_issue') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
@@ -275,8 +275,8 @@
 
                         {{-- Copyright year first issue --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Copyright (1st)</label>
-                            <input type="number"
+                            <label for="copyright_year_first_issue" class="text-sm font-medium text-white/80">Copyright (1st)</label>
+                            <input id="copyright_year_first_issue" type="number"
                                 name="copyright_year_first_issue"
                                 value="{{ $val('copyright_year_first_issue') }}"
                                 min="1000"
@@ -287,8 +287,8 @@
 
                         {{-- Condition --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Condition</label>
-                            <select name="condition" class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="condition" class="text-sm font-medium text-white/80">Condition</label>
+                            <select id="condition" name="condition" class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">— Not graded —</option>
                                 @foreach(['Mint','Extremely Fine','Very Fine','Fine','Very Good','Good','Poor'] as $grade)
                                 <option value="{{ $grade }}" @selected(old('condition', $book->condition ?? '') === $grade)>{{ $grade }}</option>
@@ -299,8 +299,8 @@
 
                     {{-- Description --}}
                     <div class="mt-6 space-y-2">
-                        <label class="text-sm font-medium text-white/80">Description</label>
-                        <textarea name="description"
+                        <label for="description" class="text-sm font-medium text-white/80">Description</label>
+                        <textarea id="description" name="description"
                             rows="6"
                             class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
                                          focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('description', $book->description) }}</textarea>
@@ -322,8 +322,8 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {{-- Purchase date --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase date</label>
-                            <input type="date"
+                            <label for="purchase_date" class="text-sm font-medium text-white/80">Purchase date</label>
+                            <input id="purchase_date" type="date"
                                 name="purchase_date"
                                 value="{{ old('purchase_date', $book->purchase_date?->format('Y-m-d') ?? '') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white
@@ -332,8 +332,8 @@
 
                         {{-- Purchase price --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase €</label>
-                            <input type="number"
+                            <label for="purchase_price" class="text-sm font-medium text-white/80">Purchase €</label>
+                            <input id="purchase_price" type="number"
                                 step="0.01"
                                 name="purchase_price"
                                 value="{{ $val('purchase_price') }}"
@@ -343,7 +343,7 @@
 
                         {{-- Purchase origin --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase origin</label>
+                            <label for="origin_id" class="text-sm font-medium text-white/80">Purchase origin</label>
 
                             <div class="flex items-center gap-2">
                                 <select id="origin_id" name="origin_id"
@@ -365,7 +365,7 @@
 
                         {{-- Storage location --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Storage location</label>
+                            <label for="location_id" class="text-sm font-medium text-white/80">Storage location</label>
 
                             <div class="flex items-center gap-2">
                                 <select id="location_id" name="location_id"
@@ -391,7 +391,7 @@
 
                             <div class="flex items-center gap-3">
                                 <input type="hidden" name="for_sale" value="0">
-                                <input type="checkbox"
+                                <input id="for_sale" type="checkbox"
                                     name="for_sale"
                                     value="1"
                                     x-model="forSale"
@@ -400,8 +400,8 @@
                             </div>
 
                             <div x-show="forSale" x-cloak class="pt-2">
-                                <label class="text-sm font-medium text-white/80">Selling price €</label>
-                                <input type="number"
+                                <label for="selling_price" class="text-sm font-medium text-white/80">Selling price €</label>
+                                <input id="selling_price" type="number"
                                     step="0.01"
                                     name="selling_price"
                                     value="{{ $val('selling_price') }}"
@@ -421,14 +421,14 @@
                             </div>
                             <div x-show="sold" x-cloak class="grid grid-cols-2 gap-3 pt-2">
                                 <div>
-                                    <label class="text-sm font-medium text-white/80">Sold on</label>
-                                    <input type="date" name="sold_at"
+                                    <label for="sold_at" class="text-sm font-medium text-white/80">Sold on</label>
+                                    <input id="sold_at" type="date" name="sold_at"
                                         value="{{ old('sold_at', $book->sold_at?->format('Y-m-d') ?? '') }}"
                                         class="mt-1 w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 </div>
                                 <div>
-                                    <label class="text-sm font-medium text-white/80">Sold price €</label>
-                                    <input type="number" step="0.01" name="sold_price"
+                                    <label for="sold_price" class="text-sm font-medium text-white/80">Sold price €</label>
+                                    <input id="sold_price" type="number" step="0.01" name="sold_price"
                                         value="{{ old('sold_price', $book->sold_price ?? '') }}"
                                         class="mt-1 w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                                 </div>
@@ -438,8 +438,8 @@
 
                     {{-- Notes --}}
                     <div class="mt-6 space-y-2">
-                        <label class="text-sm font-medium text-white/80">Notes</label>
-                        <textarea name="notes"
+                        <label for="notes" class="text-sm font-medium text-white/80">Notes</label>
+                        <textarea id="notes" name="notes"
                             rows="4"
                             class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
                                          focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('notes', $book->notes) }}</textarea>
@@ -450,23 +450,23 @@
                         <div class="text-sm font-medium text-white/80 mb-2">Physical (optional)</div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             <div class="space-y-2">
-                                <label class="text-sm text-white/70">Weight (grams)</label>
-                                <input type="number" name="weight" value="{{ $val('weight') }}"
+                                <label for="weight" class="text-sm text-white/70">Weight (grams)</label>
+                                <input id="weight" type="number" name="weight" value="{{ $val('weight') }}"
                                     class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-sm text-white/70">Width</label>
-                                <input type="number" name="width" value="{{ $val('width') }}"
+                                <label for="width" class="text-sm text-white/70">Width</label>
+                                <input id="width" type="number" name="width" value="{{ $val('width') }}"
                                     class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-sm text-white/70">Height</label>
-                                <input type="number" name="height" value="{{ $val('height') }}"
+                                <label for="height" class="text-sm text-white/70">Height</label>
+                                <input id="height" type="number" name="height" value="{{ $val('height') }}"
                                     class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-sm text-white/70">Thickness</label>
-                                <input type="number" name="thickness" value="{{ $val('thickness') }}"
+                                <label for="thickness" class="text-sm text-white/70">Thickness</label>
+                                <input id="thickness" type="number" name="thickness" value="{{ $val('thickness') }}"
                                     class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                             </div>
                         </div>

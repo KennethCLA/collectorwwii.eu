@@ -51,39 +51,39 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="lg:col-span-2 space-y-2">
-                            <label class="text-sm font-medium text-white/80">Title *</label>
-                            <input type="text" name="title" value="{{ $val('title') }}" required
+                            <label for="title" class="text-sm font-medium text-white/80">Title *</label>
+                            <input id="title" type="text" name="title" value="{{ $val('title') }}" required
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Subtitle</label>
-                            <input type="text" name="subtitle" value="{{ $val('subtitle') }}"
+                            <label for="subtitle" class="text-sm font-medium text-white/80">Subtitle</label>
+                            <input id="subtitle" type="text" name="subtitle" value="{{ $val('subtitle') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Publisher</label>
-                            <input type="text" name="publisher" value="{{ $val('publisher') }}"
+                            <label for="publisher" class="text-sm font-medium text-white/80">Publisher</label>
+                            <input id="publisher" type="text" name="publisher" value="{{ $val('publisher') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Issue number</label>
-                            <input type="number" name="issue_number" value="{{ $val('issue_number') }}" min="1"
+                            <label for="issue_number" class="text-sm font-medium text-white/80">Issue number</label>
+                            <input id="issue_number" type="number" name="issue_number" value="{{ $val('issue_number') }}" min="1"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Issue year</label>
-                            <input type="number" name="issue_year" value="{{ $val('issue_year') }}"
+                            <label for="issue_year" class="text-sm font-medium text-white/80">Issue year</label>
+                            <input id="issue_year" type="number" name="issue_year" value="{{ $val('issue_year') }}"
                                 min="1800" max="{{ date('Y') + 1 }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Condition</label>
-                            <select name="condition" class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="condition" class="text-sm font-medium text-white/80">Condition</label>
+                            <select id="condition" name="condition" class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">— Not graded —</option>
                                 @foreach(['Mint','Extremely Fine','Very Fine','Fine','Very Good','Good','Poor'] as $grade)
                                 <option value="{{ $grade }}" @selected(old('condition', $magazine->condition ?? '') === $grade)>{{ $grade }}</option>
@@ -93,7 +93,7 @@
                     </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Series</label>
+                            <label for="series_id" class="text-sm font-medium text-white/80">Series</label>
                             <div class="flex items-center gap-2">
                                 <select id="series_id" name="series_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                     <option value="">— None —</option>
@@ -111,8 +111,8 @@
                         </div>
 
                     <div class="mt-6 space-y-2">
-                        <label class="text-sm font-medium text-white/80">Description</label>
-                        <textarea name="description" rows="5"
+                        <label for="description" class="text-sm font-medium text-white/80">Description</label>
+                        <textarea id="description" name="description" rows="5"
                             class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('description', $magazine->description) }}</textarea>
                     </div>
                 </section>
@@ -128,15 +128,15 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase date</label>
-                            <input type="date" name="purchase_date"
+                            <label for="purchase_date" class="text-sm font-medium text-white/80">Purchase date</label>
+                            <input id="purchase_date" type="date" name="purchase_date"
                                 value="{{ old('purchase_date', $magazine->purchase_date?->format('Y-m-d') ?? '') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase price €</label>
-                            <input type="number" step="0.01" name="purchase_price" value="{{ $val('purchase_price') }}"
+                            <label for="purchase_price" class="text-sm font-medium text-white/80">Purchase price €</label>
+                            <input id="purchase_price" type="number" step="0.01" name="purchase_price" value="{{ $val('purchase_price') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
@@ -144,13 +144,13 @@
                             <label class="text-sm font-medium text-white/80">For sale</label>
                             <div class="flex items-center gap-3">
                                 <input type="hidden" name="for_sale" value="0">
-                                <input type="checkbox" name="for_sale" value="1" x-model="forSale"
+                                <input id="for_sale" type="checkbox" name="for_sale" value="1" x-model="forSale"
                                     class="h-5 w-5 rounded border-white/20 bg-white/10">
                                 <span class="text-sm text-white/70">Mark as for sale</span>
                             </div>
                             <div x-show="forSale" x-cloak class="pt-2">
-                                <label class="text-sm font-medium text-white/80">Selling price €</label>
-                                <input type="number" step="0.01" name="selling_price" value="{{ $val('selling_price') }}"
+                                <label for="selling_price" class="text-sm font-medium text-white/80">Selling price €</label>
+                                <input id="selling_price" type="number" step="0.01" name="selling_price" value="{{ $val('selling_price') }}"
                                     class="mt-2 w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                             </div>
                         </div>
@@ -166,14 +166,14 @@
                             </div>
                             <div x-show="sold" x-cloak class="grid grid-cols-2 gap-3 pt-2">
                                 <div>
-                                    <label class="text-sm font-medium text-white/80">Sold on</label>
-                                    <input type="date" name="sold_at"
+                                    <label for="sold_at" class="text-sm font-medium text-white/80">Sold on</label>
+                                    <input id="sold_at" type="date" name="sold_at"
                                         value="{{ old('sold_at', $magazine->sold_at?->format('Y-m-d') ?? '') }}"
                                         class="mt-1 w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 </div>
                                 <div>
-                                    <label class="text-sm font-medium text-white/80">Sold price €</label>
-                                    <input type="number" step="0.01" name="sold_price"
+                                    <label for="sold_price" class="text-sm font-medium text-white/80">Sold price €</label>
+                                    <input id="sold_price" type="number" step="0.01" name="sold_price"
                                         value="{{ old('sold_price', $magazine->sold_price ?? '') }}"
                                         class="mt-1 w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                                 </div>
@@ -182,8 +182,8 @@
                     </div>
 
                     <div class="mt-6 space-y-2">
-                        <label class="text-sm font-medium text-white/80">Notes</label>
-                        <textarea name="notes" rows="4"
+                        <label for="notes" class="text-sm font-medium text-white/80">Notes</label>
+                        <textarea id="notes" name="notes" rows="4"
                             class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('notes', $magazine->notes) }}</textarea>
                     </div>
                 </section>

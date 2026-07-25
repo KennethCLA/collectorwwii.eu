@@ -19,7 +19,7 @@
                 </select>
             </div>
             <div class="space-y-1">
-                <label class="text-sm text-white/80">Name</label>
+                <label for="lookupName" class="text-sm text-white/80">Name</label>
                 <input id="lookupName" type="text"
                     class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white"
                     placeholder="Name..." />

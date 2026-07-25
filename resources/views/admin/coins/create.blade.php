@@ -39,8 +39,8 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Country</label>
-                            <select name="country_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="country_id" class="text-sm font-medium text-white/80">Country</label>
+                            <select id="country_id" name="country_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($countries as $c)
                                 <option value="{{ $c->id }}" @selected($val('country_id') == $c->id)>{{ $c->name }}</option>
@@ -49,8 +49,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Currency</label>
-                            <select name="currency_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="currency_id" class="text-sm font-medium text-white/80">Currency</label>
+                            <select id="currency_id" name="currency_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($currencies as $c)
                                 <option value="{{ $c->id }}" @selected($val('currency_id') == $c->id)>{{ $c->name }}</option>
@@ -59,8 +59,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Nominal value</label>
-                            <select name="nominal_value_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="nominal_value_id" class="text-sm font-medium text-white/80">Nominal value</label>
+                            <select id="nominal_value_id" name="nominal_value_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($nominalValues as $nv)
                                 <option value="{{ $nv->id }}" @selected($val('nominal_value_id') == $nv->id)>{{ $nv->name }}</option>
@@ -69,8 +69,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Shape</label>
-                            <select name="shape_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="shape_id" class="text-sm font-medium text-white/80">Shape</label>
+                            <select id="shape_id" name="shape_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($shapes as $s)
                                 <option value="{{ $s->id }}" @selected($val('shape_id') == $s->id)>{{ $s->name }}</option>
@@ -79,8 +79,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Material</label>
-                            <select name="material_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="material_id" class="text-sm font-medium text-white/80">Material</label>
+                            <select id="material_id" name="material_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($materials as $m)
                                 <option value="{{ $m->id }}" @selected($val('material_id') == $m->id)>{{ $m->name }}</option>
@@ -89,15 +89,15 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Year</label>
-                            <input type="number" name="year" value="{{ $val('year') }}"
+                            <label for="year" class="text-sm font-medium text-white/80">Year</label>
+                            <input id="year" type="number" name="year" value="{{ $val('year') }}"
                                 min="1800" max="{{ date('Y') + 1 }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Occasion</label>
-                            <select name="occasion_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="occasion_id" class="text-sm font-medium text-white/80">Occasion</label>
+                            <select id="occasion_id" name="occasion_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($occasions as $o)
                                 <option value="{{ $o->id }}" @selected($val('occasion_id') == $o->id)>{{ $o->name }}</option>
@@ -106,8 +106,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Head of state</label>
-                            <select name="head_of_state_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="head_of_state_id" class="text-sm font-medium text-white/80">Head of state</label>
+                            <select id="head_of_state_id" name="head_of_state_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($headsOfState as $item)
                                 <option value="{{ $item->id }}" @selected($val('head_of_state_id') == $item->id)>{{ $item->name }}</option>
@@ -116,8 +116,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Strike mark</label>
-                            <select name="strike_mark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="strike_mark_id" class="text-sm font-medium text-white/80">Strike mark</label>
+                            <select id="strike_mark_id" name="strike_mark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($strikeMarks as $item)
                                 <option value="{{ $item->id }}" @selected($val('strike_mark_id') == $item->id)>{{ $item->name }}</option>
@@ -126,8 +126,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Designer</label>
-                            <select name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="designer_id" class="text-sm font-medium text-white/80">Designer</label>
+                            <select id="designer_id" name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($designers as $item)
                                 <option value="{{ $item->id }}" @selected($val('designer_id') == $item->id)>{{ $item->name }}</option>
@@ -136,8 +136,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Front image</label>
-                            <select name="front_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="front_image_id" class="text-sm font-medium text-white/80">Front image</label>
+                            <select id="front_image_id" name="front_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($frontImages as $item)
                                 <option value="{{ $item->id }}" @selected($val('front_image_id') == $item->id)>{{ $item->name }}</option>
@@ -146,8 +146,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Front text</label>
-                            <select name="front_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="front_text_id" class="text-sm font-medium text-white/80">Front text</label>
+                            <select id="front_text_id" name="front_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($frontTexts as $item)
                                 <option value="{{ $item->id }}" @selected($val('front_text_id') == $item->id)>{{ $item->name }}</option>
@@ -156,8 +156,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Reverse image</label>
-                            <select name="reverse_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="reverse_image_id" class="text-sm font-medium text-white/80">Reverse image</label>
+                            <select id="reverse_image_id" name="reverse_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($reverseImages as $item)
                                 <option value="{{ $item->id }}" @selected($val('reverse_image_id') == $item->id)>{{ $item->name }}</option>
@@ -166,8 +166,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Reverse text</label>
-                            <select name="reverse_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="reverse_text_id" class="text-sm font-medium text-white/80">Reverse text</label>
+                            <select id="reverse_text_id" name="reverse_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($reverseTexts as $item)
                                 <option value="{{ $item->id }}" @selected($val('reverse_text_id') == $item->id)>{{ $item->name }}</option>
@@ -176,8 +176,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Rim</label>
-                            <select name="rim_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="rim_id" class="text-sm font-medium text-white/80">Rim</label>
+                            <select id="rim_id" name="rim_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($rims as $item)
                                 <option value="{{ $item->id }}" @selected($val('rim_id') == $item->id)>{{ $item->name }}</option>
@@ -186,8 +186,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Rim text</label>
-                            <select name="rim_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="rim_text_id" class="text-sm font-medium text-white/80">Rim text</label>
+                            <select id="rim_text_id" name="rim_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($rimTexts as $item)
                                 <option value="{{ $item->id }}" @selected($val('rim_text_id') == $item->id)>{{ $item->name }}</option>
@@ -196,57 +196,57 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Time period</label>
-                            <input type="text" name="time_period" value="{{ $val('time_period') }}"
+                            <label for="time_period" class="text-sm font-medium text-white/80">Time period</label>
+                            <input id="time_period" type="text" name="time_period" value="{{ $val('time_period') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Number Jaeger</label>
-                            <input type="text" name="number_jaeger" value="{{ $val('number_jaeger') }}"
+                            <label for="number_jaeger" class="text-sm font-medium text-white/80">Number Jaeger</label>
+                            <input id="number_jaeger" type="text" name="number_jaeger" value="{{ $val('number_jaeger') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Date of issue</label>
-                            <input type="date" name="date_of_issue" value="{{ $val('date_of_issue') }}"
+                            <label for="date_of_issue" class="text-sm font-medium text-white/80">Date of issue</label>
+                            <input id="date_of_issue" type="date" name="date_of_issue" value="{{ $val('date_of_issue') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Gold/silver content</label>
-                            <input type="number" step="0.01" name="gold_silver_content" value="{{ $val('gold_silver_content') }}"
+                            <label for="gold_silver_content" class="text-sm font-medium text-white/80">Gold/silver content</label>
+                            <input id="gold_silver_content" type="number" step="0.01" name="gold_silver_content" value="{{ $val('gold_silver_content') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Weight (g)</label>
-                            <input type="number" step="0.01" name="weight" value="{{ $val('weight') }}"
+                            <label for="weight" class="text-sm font-medium text-white/80">Weight (g)</label>
+                            <input id="weight" type="number" step="0.01" name="weight" value="{{ $val('weight') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Diameter (mm)</label>
-                            <input type="number" step="0.01" name="diameter" value="{{ $val('diameter') }}"
+                            <label for="diameter" class="text-sm font-medium text-white/80">Diameter (mm)</label>
+                            <input id="diameter" type="number" step="0.01" name="diameter" value="{{ $val('diameter') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Thickness (mm)</label>
-                            <input type="number" step="0.01" name="thickness" value="{{ $val('thickness') }}"
+                            <label for="thickness" class="text-sm font-medium text-white/80">Thickness (mm)</label>
+                            <input id="thickness" type="number" step="0.01" name="thickness" value="{{ $val('thickness') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Run / Mintage</label>
-                            <input type="number" name="run" value="{{ $val('run') }}"
+                            <label for="run" class="text-sm font-medium text-white/80">Run / Mintage</label>
+                            <input id="run" type="number" name="run" value="{{ $val('run') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
                     </div>
 
                     <div class="mt-6 space-y-2">
-                        <label class="text-sm font-medium text-white/80">Special features</label>
-                        <textarea name="special_features" rows="3"
+                        <label for="special_features" class="text-sm font-medium text-white/80">Special features</label>
+                        <textarea id="special_features" name="special_features" rows="3"
                             class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('special_features') }}</textarea>
                     </div>
                 </section>
@@ -259,19 +259,19 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase date</label>
-                            <input type="date" name="purchase_date" value="{{ $val('purchase_date') }}"
+                            <label for="purchase_date" class="text-sm font-medium text-white/80">Purchase date</label>
+                            <input id="purchase_date" type="date" name="purchase_date" value="{{ $val('purchase_date') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchasing price €</label>
-                            <input type="number" step="0.01" name="purchasing_price" value="{{ $val('purchasing_price') }}"
+                            <label for="purchasing_price" class="text-sm font-medium text-white/80">Purchasing price €</label>
+                            <input id="purchasing_price" type="number" step="0.01" name="purchasing_price" value="{{ $val('purchasing_price') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Location</label>
+                            <label for="location_id" class="text-sm font-medium text-white/80">Location</label>
                             <div class="flex items-center gap-2">
                                 <select id="location_id" name="location_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                     <option value="">—</option>
@@ -287,14 +287,14 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Current value &euro;</label>
-                            <input type="number" step="0.01" name="current_value" value="{{ $val('current_value') }}"
+                            <label for="current_value" class="text-sm font-medium text-white/80">Current value &euro;</label>
+                            <input id="current_value" type="number" step="0.01" name="current_value" value="{{ $val('current_value') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Location detail</label>
-                            <input type="text" name="location_detail" value="{{ $val('location_detail') }}"
+                            <label for="location_detail" class="text-sm font-medium text-white/80">Location detail</label>
+                            <input id="location_detail" type="text" name="location_detail" value="{{ $val('location_detail') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
@@ -302,21 +302,21 @@
                             <label class="text-sm font-medium text-white/80">For sale</label>
                             <div class="flex items-center gap-3">
                                 <input type="hidden" name="for_sale" value="0">
-                                <input type="checkbox" name="for_sale" value="1" x-model="forSale"
+                                <input id="for_sale" type="checkbox" name="for_sale" value="1" x-model="forSale"
                                     class="h-5 w-5 rounded border-white/20 bg-white/10">
                                 <span class="text-sm text-white/70">Mark as for sale</span>
                             </div>
                             <div x-show="forSale" x-cloak class="pt-2">
-                                <label class="text-sm font-medium text-white/80">Selling price €</label>
-                                <input type="number" step="0.01" name="selling_price" value="{{ $val('selling_price') }}"
+                                <label for="selling_price" class="text-sm font-medium text-white/80">Selling price €</label>
+                                <input id="selling_price" type="number" step="0.01" name="selling_price" value="{{ $val('selling_price') }}"
                                     class="mt-2 w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-6 space-y-2">
-                        <label class="text-sm font-medium text-white/80">Personal remarks</label>
-                        <textarea name="personal_remarks" rows="4"
+                        <label for="personal_remarks" class="text-sm font-medium text-white/80">Personal remarks</label>
+                        <textarea id="personal_remarks" name="personal_remarks" rows="4"
                             class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('personal_remarks') }}</textarea>
                     </div>
                 </section>

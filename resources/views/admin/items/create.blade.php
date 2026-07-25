@@ -56,8 +56,8 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {{-- Title --}}
                         <div class="lg:col-span-2 space-y-2">
-                            <label class="text-sm font-medium text-white/80">Title *</label>
-                            <input type="text"
+                            <label for="title" class="text-sm font-medium text-white/80">Title *</label>
+                            <input id="title" type="text"
                                 name="title"
                                 value="{{ $val('title') }}"
                                 required
@@ -67,8 +67,8 @@
 
                         {{-- Description --}}
                         <div class="lg:col-span-2 space-y-2">
-                            <label class="text-sm font-medium text-white/80">Description</label>
-                            <textarea name="description"
+                            <label for="description" class="text-sm font-medium text-white/80">Description</label>
+                            <textarea id="description" name="description"
                                 rows="4"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
                                              focus:outline-none focus:ring-2 focus:ring-white/20">{{ $val('description') }}</textarea>
@@ -76,7 +76,7 @@
 
                         {{-- Category --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Category</label>
+                            <label for="category_id" class="text-sm font-medium text-white/80">Category</label>
                             <div class="flex items-center gap-2">
                                 <select id="category_id" name="category_id"
                                     class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
@@ -94,8 +94,8 @@
 
                         {{-- Nationality --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Nationality</label>
-                            <select name="nationality_id"
+                            <label for="nationality_id" class="text-sm font-medium text-white/80">Nationality</label>
+                            <select id="nationality_id" name="nationality_id"
                                 class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($nationalities as $n)
@@ -106,7 +106,7 @@
 
                         {{-- Organization --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Organization</label>
+                            <label for="organization_id" class="text-sm font-medium text-white/80">Organization</label>
                             <div class="flex items-center gap-2">
                                 <select id="organization_id" name="organization_id"
                                     class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
@@ -128,7 +128,7 @@
 
                             <div class="flex items-center gap-3">
                                 <input type="hidden" name="for_sale" value="0">
-                                <input type="checkbox"
+                                <input id="for_sale" type="checkbox"
                                     name="for_sale"
                                     value="1"
                                     x-model="forSale"
@@ -137,8 +137,8 @@
                             </div>
 
                             <div x-show="forSale" x-cloak class="pt-2">
-                                <label class="text-sm font-medium text-white/80">Selling price €</label>
-                                <input type="number"
+                                <label for="selling_price" class="text-sm font-medium text-white/80">Selling price €</label>
+                                <input id="selling_price" type="number"
                                     step="0.01"
                                     name="selling_price"
                                     value="{{ $val('selling_price') }}"
@@ -164,7 +164,7 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {{-- Purchase origin --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase origin</label>
+                            <label for="origin_id" class="text-sm font-medium text-white/80">Purchase origin</label>
                             <div class="flex items-center gap-2">
                                 <select id="origin_id" name="origin_id"
                                     class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
@@ -182,8 +182,8 @@
 
                         {{-- Purchase date --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase date</label>
-                            <input type="date"
+                            <label for="purchase_date" class="text-sm font-medium text-white/80">Purchase date</label>
+                            <input id="purchase_date" type="date"
                                 name="purchase_date"
                                 value="{{ $val('purchase_date') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white
@@ -192,8 +192,8 @@
 
                         {{-- Purchase price --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase €</label>
-                            <input type="number"
+                            <label for="purchase_price" class="text-sm font-medium text-white/80">Purchase €</label>
+                            <input id="purchase_price" type="number"
                                 step="0.01"
                                 name="purchase_price"
                                 value="{{ $val('purchase_price') }}"
@@ -203,8 +203,8 @@
 
                         {{-- Purchase location --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase location</label>
-                            <input type="text"
+                            <label for="purchase_location" class="text-sm font-medium text-white/80">Purchase location</label>
+                            <input id="purchase_location" type="text"
                                 name="purchase_location"
                                 value="{{ $val('purchase_location') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
@@ -213,8 +213,8 @@
 
                         {{-- Storage location --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Storage location</label>
-                            <input type="text"
+                            <label for="storage_location" class="text-sm font-medium text-white/80">Storage location</label>
+                            <input id="storage_location" type="text"
                                 name="storage_location"
                                 value="{{ $val('storage_location') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
@@ -223,8 +223,8 @@
 
                         {{-- Notes --}}
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Notes</label>
-                            <textarea name="notes"
+                            <label for="notes" class="text-sm font-medium text-white/80">Notes</label>
+                            <textarea id="notes" name="notes"
                                 rows="4"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40
                                              focus:outline-none focus:ring-2 focus:ring-white/20">{{ $val('notes') }}</textarea>

@@ -41,8 +41,8 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Country</label>
-                            <select name="country_id"
+                            <label for="country_id" class="text-sm font-medium text-white/80">Country</label>
+                            <select id="country_id" name="country_id"
                                 class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($countries as $c)
@@ -52,8 +52,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Currency</label>
-                            <select name="currency_id"
+                            <label for="currency_id" class="text-sm font-medium text-white/80">Currency</label>
+                            <select id="currency_id" name="currency_id"
                                 class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($currencies as $c)
@@ -63,8 +63,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Nominal value</label>
-                            <select name="nominal_value_id"
+                            <label for="nominal_value_id" class="text-sm font-medium text-white/80">Nominal value</label>
+                            <select id="nominal_value_id" name="nominal_value_id"
                                 class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($nominalValues as $nv)
@@ -74,8 +74,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Series</label>
-                            <select name="series_id"
+                            <label for="series_id" class="text-sm font-medium text-white/80">Series</label>
+                            <select id="series_id" name="series_id"
                                 class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($seriesList as $s)
@@ -85,8 +85,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Time period</label>
-                            <select name="time_period_id"
+                            <label for="time_period_id" class="text-sm font-medium text-white/80">Time period</label>
+                            <select id="time_period_id" name="time_period_id"
                                 class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($timePeriods as $tp)
@@ -96,21 +96,21 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Year</label>
-                            <input type="number" name="year" value="{{ $val('year') }}"
+                            <label for="year" class="text-sm font-medium text-white/80">Year</label>
+                            <input id="year" type="number" name="year" value="{{ $val('year') }}"
                                 min="1800" max="{{ date('Y') + 1 }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Variation</label>
-                            <input type="text" name="variation" value="{{ $val('variation') }}"
+                            <label for="variation" class="text-sm font-medium text-white/80">Variation</label>
+                            <input id="variation" type="text" name="variation" value="{{ $val('variation') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Head of state</label>
-                            <select name="head_of_state_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="head_of_state_id" class="text-sm font-medium text-white/80">Head of state</label>
+                            <select id="head_of_state_id" name="head_of_state_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($headsOfState as $h)
                                 <option value="{{ $h->id }}" @selected($val('head_of_state_id') == $h->id)>{{ $h->name }}</option>
@@ -119,8 +119,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Colour</label>
-                            <select name="colour_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="colour_id" class="text-sm font-medium text-white/80">Colour</label>
+                            <select id="colour_id" name="colour_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($colours as $col)
                                 <option value="{{ $col->id }}" @selected($val('colour_id') == $col->id)>{{ $col->name }}</option>
@@ -129,8 +129,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Designer</label>
-                            <select name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="designer_id" class="text-sm font-medium text-white/80">Designer</label>
+                            <select id="designer_id" name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($designers as $d)
                                 <option value="{{ $d->id }}" @selected($val('designer_id') == $d->id)>{{ $d->name }}</option>
@@ -139,8 +139,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Watermark</label>
-                            <select name="watermark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <label for="watermark_id" class="text-sm font-medium text-white/80">Watermark</label>
+                            <select id="watermark_id" name="watermark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($watermarks as $w)
                                 <option value="{{ $w->id }}" @selected($val('watermark_id') == $w->id)>{{ $w->name }}</option>
@@ -149,68 +149,68 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Date of issue</label>
-                            <input type="date" name="date_of_issue" value="{{ $val('date_of_issue') }}"
+                            <label for="date_of_issue" class="text-sm font-medium text-white/80">Date of issue</label>
+                            <input id="date_of_issue" type="date" name="date_of_issue" value="{{ $val('date_of_issue') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Number on note</label>
-                            <input type="text" name="number_on_note" value="{{ $val('number_on_note') }}"
+                            <label for="number_on_note" class="text-sm font-medium text-white/80">Number on note</label>
+                            <input id="number_on_note" type="text" name="number_on_note" value="{{ $val('number_on_note') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Number Jaeger</label>
-                            <input type="text" name="number_jaeger" value="{{ $val('number_jaeger') }}"
+                            <label for="number_jaeger" class="text-sm font-medium text-white/80">Number Jaeger</label>
+                            <input id="number_jaeger" type="text" name="number_jaeger" value="{{ $val('number_jaeger') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2 lg:col-span-2">
-                            <label class="text-sm font-medium text-white/80">Special features</label>
-                            <textarea name="special_features" rows="3"
+                            <label for="special_features" class="text-sm font-medium text-white/80">Special features</label>
+                            <textarea id="special_features" name="special_features" rows="3"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('special_features') }}</textarea>
                         </div>
 
                         <div class="space-y-2 lg:col-span-2">
-                            <label class="text-sm font-medium text-white/80">Front image description</label>
-                            <textarea name="front_image" rows="3"
+                            <label for="front_image" class="text-sm font-medium text-white/80">Front image description</label>
+                            <textarea id="front_image" name="front_image" rows="3"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('front_image') }}</textarea>
                         </div>
 
                         <div class="space-y-2 lg:col-span-2">
-                            <label class="text-sm font-medium text-white/80">Front text</label>
-                            <textarea name="front_text" rows="3"
+                            <label for="front_text" class="text-sm font-medium text-white/80">Front text</label>
+                            <textarea id="front_text" name="front_text" rows="3"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('front_text') }}</textarea>
                         </div>
 
                         <div class="space-y-2 lg:col-span-2">
-                            <label class="text-sm font-medium text-white/80">Reverse image description</label>
-                            <textarea name="reverse_image" rows="3"
+                            <label for="reverse_image" class="text-sm font-medium text-white/80">Reverse image description</label>
+                            <textarea id="reverse_image" name="reverse_image" rows="3"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('reverse_image') }}</textarea>
                         </div>
 
                         <div class="space-y-2 lg:col-span-2">
-                            <label class="text-sm font-medium text-white/80">Reverse text</label>
-                            <textarea name="reverse_text" rows="3"
+                            <label for="reverse_text" class="text-sm font-medium text-white/80">Reverse text</label>
+                            <textarea id="reverse_text" name="reverse_text" rows="3"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('reverse_text') }}</textarea>
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Width mm</label>
-                            <input type="number" name="width" value="{{ $val('width') }}" min="0"
+                            <label for="width" class="text-sm font-medium text-white/80">Width mm</label>
+                            <input id="width" type="number" name="width" value="{{ $val('width') }}" min="0"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Height mm</label>
-                            <input type="number" name="height" value="{{ $val('height') }}" min="0"
+                            <label for="height" class="text-sm font-medium text-white/80">Height mm</label>
+                            <input id="height" type="number" name="height" value="{{ $val('height') }}" min="0"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Print run</label>
-                            <input type="number" name="print_run" value="{{ $val('print_run') }}" min="0"
+                            <label for="print_run" class="text-sm font-medium text-white/80">Print run</label>
+                            <input id="print_run" type="number" name="print_run" value="{{ $val('print_run') }}" min="0"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
                     </div>
@@ -225,25 +225,25 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchase date</label>
-                            <input type="date" name="purchase_date" value="{{ $val('purchase_date') }}"
+                            <label for="purchase_date" class="text-sm font-medium text-white/80">Purchase date</label>
+                            <input id="purchase_date" type="date" name="purchase_date" value="{{ $val('purchase_date') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Purchasing price €</label>
-                            <input type="number" step="0.01" name="purchasing_price" value="{{ $val('purchasing_price') }}"
+                            <label for="purchasing_price" class="text-sm font-medium text-white/80">Purchasing price €</label>
+                            <input id="purchasing_price" type="number" step="0.01" name="purchasing_price" value="{{ $val('purchasing_price') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Current value €</label>
-                            <input type="number" step="0.01" name="current_value" value="{{ $val('current_value') }}"
+                            <label for="current_value" class="text-sm font-medium text-white/80">Current value €</label>
+                            <input id="current_value" type="number" step="0.01" name="current_value" value="{{ $val('current_value') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Location</label>
+                            <label for="location_id" class="text-sm font-medium text-white/80">Location</label>
                             <div class="flex items-center gap-2">
                                 <select id="location_id" name="location_id"
                                     class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
@@ -260,8 +260,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-white/80">Location detail</label>
-                            <input type="text" name="location_detail" value="{{ $val('location_detail') }}"
+                            <label for="location_detail" class="text-sm font-medium text-white/80">Location detail</label>
+                            <input id="location_detail" type="text" name="location_detail" value="{{ $val('location_detail') }}"
                                 class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">
                         </div>
 
@@ -269,21 +269,21 @@
                             <label class="text-sm font-medium text-white/80">For sale</label>
                             <div class="flex items-center gap-3">
                                 <input type="hidden" name="for_sale" value="0">
-                                <input type="checkbox" name="for_sale" value="1" x-model="forSale"
+                                <input id="for_sale" type="checkbox" name="for_sale" value="1" x-model="forSale"
                                     class="h-5 w-5 rounded border-white/20 bg-white/10">
                                 <span class="text-sm text-white/70">Mark as for sale</span>
                             </div>
                             <div x-show="forSale" x-cloak class="pt-2">
-                                <label class="text-sm font-medium text-white/80">Selling price €</label>
-                                <input type="number" step="0.01" name="selling_price" value="{{ $val('selling_price') }}"
+                                <label for="selling_price" class="text-sm font-medium text-white/80">Selling price €</label>
+                                <input id="selling_price" type="number" step="0.01" name="selling_price" value="{{ $val('selling_price') }}"
                                     class="mt-2 w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-6 space-y-2">
-                        <label class="text-sm font-medium text-white/80">Personal remarks</label>
-                        <textarea name="personal_remarks" rows="4"
+                        <label for="personal_remarks" class="text-sm font-medium text-white/80">Personal remarks</label>
+                        <textarea id="personal_remarks" name="personal_remarks" rows="4"
                             class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('personal_remarks') }}</textarea>
                     </div>
                 </section>
