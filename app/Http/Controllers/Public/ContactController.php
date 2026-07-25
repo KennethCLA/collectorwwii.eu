@@ -26,10 +26,11 @@ class ContactController extends Controller
 
         $contact = Contact::create($validated);
 
-        $admin = User::where('role_id', 1)->first();
+        $notifyAddress = config('collector.contact_notify_address')
+            ?? User::where('role_id', 1)->first()?->email;
 
-        if ($admin) {
-            Mail::to($admin->email)->send(new ContactSubmitted($contact));
+        if ($notifyAddress) {
+            Mail::to($notifyAddress)->send(new ContactSubmitted($contact));
         }
 
         return back()->with('success', 'Your message has been sent successfully!');
