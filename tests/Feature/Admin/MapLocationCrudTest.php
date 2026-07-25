@@ -24,31 +24,27 @@ class MapLocationCrudTest extends TestCase
         $this->withoutMiddleware(Authorize::class);
     }
 
+    private function findOrCreateRole(string $name): int
+    {
+        return DB::table('roles')->where('name', $name)->value('id')
+            ?? DB::table('roles')->insertGetId([
+                'name' => $name,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+    }
+
     private function makeAdminUser(): User
     {
-        DB::table('roles')->insert([
-            'id' => 1,
-            'name' => 'Admin',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
         return User::factory()->create([
-            'role_id' => 1,
+            'role_id' => $this->findOrCreateRole('Admin'),
         ]);
     }
 
     private function makeNonAdminUser(): User
     {
-        DB::table('roles')->insert([
-            'id' => 2,
-            'name' => 'User',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
         return User::factory()->create([
-            'role_id' => 2,
+            'role_id' => $this->findOrCreateRole('User'),
         ]);
     }
 

@@ -28,12 +28,13 @@ class AdminBookStoreUpdateTest extends TestCase
 
     private function makeAdminUser(): User
     {
-        // roles heeft geen factory => insert zelf
-        $roleId = DB::table('roles')->insertGetId([
-            'name' => 'Admin',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // roles heeft geen factory => insert zelf (idempotent, kan meermaals aangeroepen worden)
+        $roleId = DB::table('roles')->where('name', 'Admin')->value('id')
+            ?? DB::table('roles')->insertGetId([
+                'name' => 'Admin',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
         // users factory faalde eerder door role_id FK, dus zet role_id expliciet
         // (en enkel velden die je users-table écht heeft)

@@ -14,29 +14,27 @@ class LookupDeleteProtectionTest extends TestCase
 {
     use RefreshDatabase;
 
+    private function findOrCreateRole(string $name): int
+    {
+        return DB::table('roles')->where('name', $name)->value('id')
+            ?? DB::table('roles')->insertGetId([
+                'name' => $name,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+    }
+
     private function makeAdminUser(): User
     {
-        $roleId = DB::table('roles')->insertGetId([
-            'name' => 'Admin',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
         return User::factory()->create([
-            'role_id' => $roleId,
+            'role_id' => $this->findOrCreateRole('Admin'),
         ]);
     }
 
     private function makeNonAdminUser(): User
     {
-        $roleId = DB::table('roles')->insertGetId([
-            'name' => 'User',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
         return User::factory()->create([
-            'role_id' => $roleId,
+            'role_id' => $this->findOrCreateRole('User'),
         ]);
     }
 

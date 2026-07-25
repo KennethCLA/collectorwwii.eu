@@ -23,8 +23,9 @@ class ContactFormTest extends TestCase
     {
         Mail::fake();
 
-        \DB::table('roles')->insert(['id' => 1, 'name' => 'admin']);
-        $admin = User::factory()->create(['role_id' => 1]);
+        $roleId = \DB::table('roles')->where('name', 'admin')->value('id')
+            ?? \DB::table('roles')->insertGetId(['name' => 'admin', 'created_at' => now(), 'updated_at' => now()]);
+        $admin = User::factory()->create(['role_id' => $roleId]);
 
         $response = $this->post(route('contact.store'), [
             'name' => 'John Doe',
@@ -41,7 +42,7 @@ class ContactFormTest extends TestCase
             'message' => 'Hello, this is a test message.',
         ]);
 
-        Mail::assertQueued(ContactSubmitted::class, function ($mail) use ($admin) {
+        Mail::assertSent(ContactSubmitted::class, function ($mail) use ($admin) {
             return $mail->hasTo($admin->email);
         });
     }
