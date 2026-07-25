@@ -97,7 +97,7 @@ class PdfController extends Controller
 
     private function itemData(Item $item): array
     {
-        $item->load(['category', 'nationality', 'organization', 'origin', 'location']);
+        $item->load(['category', 'nationality', 'organization', 'origin']);
         $mainUrl = $item->mainImageFile()?->url();
 
         return [
@@ -118,7 +118,7 @@ class PdfController extends Controller
                 'Purchase date'  => $item->purchase_date?->format('d/m/Y'),
                 'Purchase price' => $item->purchase_price !== null ? $this->money($item->purchase_price) : null,
                 'Origin'         => $item->origin?->name,
-                'Location'       => $item->location?->name,
+                'Location'       => $item->storage_location,
                 'Notes'          => $item->notes,
                 'Sold on'        => $item->sold_at?->format('d/m/Y'),
                 'Sold price'     => $item->sold_price !== null ? $this->money($item->sold_price) : null,
