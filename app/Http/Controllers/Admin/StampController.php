@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HandlesInlineMediaUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Currency;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 
 class StampController extends Controller
 {
+    use HandlesInlineMediaUploads;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -108,6 +111,11 @@ class StampController extends Controller
             'condition' => 'nullable|string|max:50',
             'sold_at' => 'nullable|date',
             'sold_price' => 'nullable|numeric|min:0',
+            'images' => ['nullable', 'array'],
+            'images.*' => ['file', 'mimes:jpeg,png,jpg,gif,webp', 'max:51200'],
+            'pdfs' => ['nullable', 'array'],
+            'pdfs.*' => ['file', 'mimetypes:application/pdf', 'max:51200'],
+            'main_image_index' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $validated['for_sale'] = $request->boolean('for_sale');
@@ -121,10 +129,39 @@ class StampController extends Controller
             $validated['selling_price'] = null;
         }
 
-        $stamp = Stamp::create($validated);
+        $uploadedForCleanup = [];
+
+        try {
+            $stamp = DB::transaction(function () use ($validated, $request, &$uploadedForCleanup) {
+                $data = $validated;
+                unset($data['images'], $data['pdfs'], $data['main_image_index']);
+
+                /** @var \App\Models\Stamp $stamp */
+                $stamp = Stamp::create($data);
+
+                $this->attachInlineMedia(
+                    $stamp,
+                    "stamps/{$stamp->id}",
+                    $request->file('images', []),
+                    $request->file('pdfs', []),
+                    (int) $request->input('main_image_index', 0),
+                    $uploadedForCleanup,
+                );
+
+                return $stamp;
+            });
+        } catch (\Throwable $e) {
+            foreach ($uploadedForCleanup as [$d, $p]) {
+                try {
+                    Storage::disk($d)->delete($p);
+                } catch (\Throwable $ignore) {
+                }
+            }
+            throw $e;
+        }
 
         return redirect()->route('admin.stamps.edit', $stamp)
-            ->with('success', 'Stamp created. Upload images below.');
+            ->with('success', 'Stamp created.');
     }
 
     public function edit(Stamp $stamp)

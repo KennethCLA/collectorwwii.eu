@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HandlesInlineMediaUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Banknote;
 use App\Models\BanknoteSeries;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Storage;
 
 class BanknoteController extends Controller
 {
+    use HandlesInlineMediaUploads;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -100,6 +103,11 @@ class BanknoteController extends Controller
             'condition' => 'nullable|string|max:50',
             'sold_at' => 'nullable|date',
             'sold_price' => 'nullable|numeric|min:0',
+            'images' => ['nullable', 'array'],
+            'images.*' => ['file', 'mimes:jpeg,png,jpg,gif,webp', 'max:51200'],
+            'pdfs' => ['nullable', 'array'],
+            'pdfs.*' => ['file', 'mimetypes:application/pdf', 'max:51200'],
+            'main_image_index' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $validated['for_sale'] = $request->boolean('for_sale');
@@ -108,10 +116,39 @@ class BanknoteController extends Controller
             $validated['selling_price'] = null;
         }
 
-        $banknote = Banknote::create($validated);
+        $uploadedForCleanup = [];
+
+        try {
+            $banknote = DB::transaction(function () use ($validated, $request, &$uploadedForCleanup) {
+                $data = $validated;
+                unset($data['images'], $data['pdfs'], $data['main_image_index']);
+
+                /** @var \App\Models\Banknote $banknote */
+                $banknote = Banknote::create($data);
+
+                $this->attachInlineMedia(
+                    $banknote,
+                    "banknotes/{$banknote->id}",
+                    $request->file('images', []),
+                    $request->file('pdfs', []),
+                    (int) $request->input('main_image_index', 0),
+                    $uploadedForCleanup,
+                );
+
+                return $banknote;
+            });
+        } catch (\Throwable $e) {
+            foreach ($uploadedForCleanup as [$d, $p]) {
+                try {
+                    Storage::disk($d)->delete($p);
+                } catch (\Throwable $ignore) {
+                }
+            }
+            throw $e;
+        }
 
         return redirect()->route('admin.banknotes.edit', $banknote)
-            ->with('success', 'Banknote created. Upload images below.');
+            ->with('success', 'Banknote created.');
     }
 
     public function edit(Banknote $banknote)

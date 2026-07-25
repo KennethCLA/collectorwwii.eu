@@ -8,7 +8,7 @@
         $forSaleJs = old('for_sale') ? 'true' : 'false';
         @endphp
 
-        <form action="{{ route('admin.newspapers.store') }}" method="POST"
+        <form action="{{ route('admin.newspapers.store') }}" method="POST" enctype="multipart/form-data"
             class="w-full mx-auto max-w-7xl">
             @csrf
 
@@ -123,6 +123,8 @@
                             class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('notes') }}</textarea>
                     </div>
                 </section>
+
+                @include('admin.partials.create-media-upload')
 
                 <div class="flex items-center justify-end gap-3 pt-2">
                     <a href="{{ route('admin.dashboard') }}"

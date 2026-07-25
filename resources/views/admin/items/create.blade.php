@@ -15,6 +15,7 @@
         <form id="item-form"
             action="{{ route('admin.items.store') }}"
             method="POST"
+            enctype="multipart/form-data"
             class="w-full mx-auto max-w-7xl">
             @csrf
 
@@ -231,6 +232,8 @@
                         </div>
                     </div>
                 </section>
+
+                @include('admin.partials.create-media-upload')
 
                 {{-- Actions --}}
                 <div class="flex items-center justify-end gap-3 pt-2">

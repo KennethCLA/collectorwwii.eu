@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HandlesInlineMediaUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Magazine;
 use App\Models\MagazineSeries;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class MagazineController extends Controller
 {
+    use HandlesInlineMediaUploads;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -64,6 +68,11 @@ class MagazineController extends Controller
             'condition' => 'nullable|string|max:50',
             'sold_at' => 'nullable|date',
             'sold_price' => 'nullable|numeric|min:0',
+            'images' => ['nullable', 'array'],
+            'images.*' => ['file', 'mimes:jpeg,png,jpg,gif,webp', 'max:51200'],
+            'pdfs' => ['nullable', 'array'],
+            'pdfs.*' => ['file', 'mimetypes:application/pdf', 'max:51200'],
+            'main_image_index' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $validated['for_sale'] = $request->boolean('for_sale');
@@ -72,10 +81,39 @@ class MagazineController extends Controller
             $validated['selling_price'] = null;
         }
 
-        $magazine = Magazine::create($validated);
+        $uploadedForCleanup = [];
+
+        try {
+            $magazine = DB::transaction(function () use ($validated, $request, &$uploadedForCleanup) {
+                $data = $validated;
+                unset($data['images'], $data['pdfs'], $data['main_image_index']);
+
+                /** @var \App\Models\Magazine $magazine */
+                $magazine = Magazine::create($data);
+
+                $this->attachInlineMedia(
+                    $magazine,
+                    "magazines/{$magazine->id}",
+                    $request->file('images', []),
+                    $request->file('pdfs', []),
+                    (int) $request->input('main_image_index', 0),
+                    $uploadedForCleanup,
+                );
+
+                return $magazine;
+            });
+        } catch (\Throwable $e) {
+            foreach ($uploadedForCleanup as [$d, $p]) {
+                try {
+                    Storage::disk($d)->delete($p);
+                } catch (\Throwable $ignore) {
+                }
+            }
+            throw $e;
+        }
 
         return redirect()->route('admin.magazines.edit', $magazine)
-            ->with('success', 'Magazine created. Upload images below.');
+            ->with('success', 'Magazine created.');
     }
 
     public function edit(Magazine $magazine)

@@ -7,7 +7,9 @@ use App\Models\Magazine;
 use App\Models\User;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class MagazineCrudTest extends TestCase
@@ -70,6 +72,24 @@ class MagazineCrudTest extends TestCase
 
         $response->assertRedirect();
         $this->assertDatabaseHas('magazines', ['title' => 'Signal Magazine']);
+    }
+
+    public function test_store_accepts_inline_image_upload(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $response = $this->post(route('admin.magazines.store'), [
+            'title' => 'Magazine With Photo',
+            'images' => [UploadedFile::fake()->image('cover.jpg', 800, 600)],
+        ]);
+
+        $response->assertRedirect();
+        $magazine = Magazine::where('title', 'Magazine With Photo')->firstOrFail();
+        $media = $magazine->media()->where('collection', 'images')->first();
+        $this->assertNotNull($media);
+        $this->assertTrue((bool) $media->is_main);
+        $this->assertNotNull($media->thumb_path);
+        Storage::disk('b2')->assertExists($media->path);
     }
 
     public function test_store_validates_required_title(): void

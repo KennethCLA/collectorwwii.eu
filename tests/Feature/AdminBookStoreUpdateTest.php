@@ -81,8 +81,8 @@ class AdminBookStoreUpdateTest extends TestCase
 
         ['topicId' => $topicId, 'seriesId' => $seriesId, 'coverId' => $coverId, 'locationId' => $locationId] = $this->makeLookupIds();
 
-        $img1 = UploadedFile::fake()->create('a.jpg', 100, 'image/jpeg');
-        $img2 = UploadedFile::fake()->create('b.jpg', 100, 'image/jpeg');
+        $img1 = UploadedFile::fake()->image('a.jpg');
+        $img2 = UploadedFile::fake()->image('b.jpg');
         $pdf1 = UploadedFile::fake()->create('doc.pdf', 200, 'application/pdf');
 
         $payload = [

@@ -12,7 +12,9 @@ use App\Models\NominalValue;
 use App\Models\User;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class BanknoteCrudTest extends TestCase
@@ -87,6 +89,23 @@ class BanknoteCrudTest extends TestCase
 
         $response->assertRedirect();
         $this->assertDatabaseHas('banknotes', ['country_id' => $lookups['country_id']]);
+    }
+
+    public function test_store_accepts_inline_image_upload(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $response = $this->post(route('admin.banknotes.store'), $this->makeRequiredLookups() + [
+            'images' => [UploadedFile::fake()->image('cover.jpg', 800, 600)],
+        ]);
+
+        $response->assertRedirect();
+        $banknote = Banknote::latest('id')->firstOrFail();
+        $media = $banknote->media()->where('collection', 'images')->first();
+        $this->assertNotNull($media);
+        $this->assertTrue((bool) $media->is_main);
+        $this->assertNotNull($media->thumb_path);
+        Storage::disk('b2')->assertExists($media->path);
     }
 
     public function test_store_without_required_lookups_fails_validation_not_500(): void

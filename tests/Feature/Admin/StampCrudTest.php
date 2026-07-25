@@ -7,7 +7,9 @@ use App\Models\Stamp;
 use App\Models\User;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class StampCrudTest extends TestCase
@@ -70,6 +72,24 @@ class StampCrudTest extends TestCase
 
         $response->assertRedirect();
         $this->assertDatabaseHas('stamps', ['year' => 1943]);
+    }
+
+    public function test_store_accepts_inline_image_upload(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $response = $this->post(route('admin.stamps.store'), [
+            'year' => 1943,
+            'images' => [UploadedFile::fake()->image('cover.jpg', 800, 600)],
+        ]);
+
+        $response->assertRedirect();
+        $stamp = Stamp::latest('id')->firstOrFail();
+        $media = $stamp->media()->where('collection', 'images')->first();
+        $this->assertNotNull($media);
+        $this->assertTrue((bool) $media->is_main);
+        $this->assertNotNull($media->thumb_path);
+        Storage::disk('b2')->assertExists($media->path);
     }
 
     public function test_store_validates_year_range(): void

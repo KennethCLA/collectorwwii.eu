@@ -8,7 +8,7 @@
         $forSaleJs = old('for_sale') ? 'true' : 'false';
         @endphp
 
-        <form action="{{ route('admin.postcards.store') }}" method="POST" class="w-full mx-auto max-w-7xl">
+        <form action="{{ route('admin.postcards.store') }}" method="POST" enctype="multipart/form-data" class="w-full mx-auto max-w-7xl">
             @csrf
 
             <div class="mb-6 flex items-center justify-between">
@@ -262,6 +262,8 @@
                             class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20">{{ old('personal_remarks') }}</textarea>
                     </div>
                 </section>
+
+                @include('admin.partials.create-media-upload')
 
                 <div class="flex items-center justify-end gap-3 pt-2">
                     <a href="{{ route('admin.dashboard') }}" class="rounded-md bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15">Cancel</a>

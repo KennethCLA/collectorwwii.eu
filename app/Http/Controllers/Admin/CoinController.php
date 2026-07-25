@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HandlesInlineMediaUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Coin;
 use App\Models\CoinMaterial;
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Storage;
 
 class CoinController extends Controller
 {
+    use HandlesInlineMediaUploads;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -110,6 +113,11 @@ class CoinController extends Controller
             'condition' => 'nullable|string|max:50',
             'sold_at' => 'nullable|date',
             'sold_price' => 'nullable|numeric|min:0',
+            'images' => ['nullable', 'array'],
+            'images.*' => ['file', 'mimes:jpeg,png,jpg,gif,webp', 'max:51200'],
+            'pdfs' => ['nullable', 'array'],
+            'pdfs.*' => ['file', 'mimetypes:application/pdf', 'max:51200'],
+            'main_image_index' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $validated['for_sale'] = $request->boolean('for_sale');
@@ -118,10 +126,39 @@ class CoinController extends Controller
             $validated['selling_price'] = null;
         }
 
-        $coin = Coin::create($validated);
+        $uploadedForCleanup = [];
+
+        try {
+            $coin = DB::transaction(function () use ($validated, $request, &$uploadedForCleanup) {
+                $data = $validated;
+                unset($data['images'], $data['pdfs'], $data['main_image_index']);
+
+                /** @var \App\Models\Coin $coin */
+                $coin = Coin::create($data);
+
+                $this->attachInlineMedia(
+                    $coin,
+                    "coins/{$coin->id}",
+                    $request->file('images', []),
+                    $request->file('pdfs', []),
+                    (int) $request->input('main_image_index', 0),
+                    $uploadedForCleanup,
+                );
+
+                return $coin;
+            });
+        } catch (\Throwable $e) {
+            foreach ($uploadedForCleanup as [$d, $p]) {
+                try {
+                    Storage::disk($d)->delete($p);
+                } catch (\Throwable $ignore) {
+                }
+            }
+            throw $e;
+        }
 
         return redirect()->route('admin.coins.edit', $coin)
-            ->with('success', 'Coin created. Upload images below.');
+            ->with('success', 'Coin created.');
     }
 
     public function edit(Coin $coin)

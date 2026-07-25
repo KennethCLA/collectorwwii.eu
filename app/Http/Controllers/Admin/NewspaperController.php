@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HandlesInlineMediaUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Newspaper;
 use App\Models\NewspaperSeries;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class NewspaperController extends Controller
 {
+    use HandlesInlineMediaUploads;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -62,6 +66,11 @@ class NewspaperController extends Controller
             'condition' => 'nullable|string|max:50',
             'sold_at' => 'nullable|date',
             'sold_price' => 'nullable|numeric|min:0',
+            'images' => ['nullable', 'array'],
+            'images.*' => ['file', 'mimes:jpeg,png,jpg,gif,webp', 'max:51200'],
+            'pdfs' => ['nullable', 'array'],
+            'pdfs.*' => ['file', 'mimetypes:application/pdf', 'max:51200'],
+            'main_image_index' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $validated['for_sale'] = $request->boolean('for_sale');
@@ -70,10 +79,39 @@ class NewspaperController extends Controller
             $validated['selling_price'] = null;
         }
 
-        $newspaper = Newspaper::create($validated);
+        $uploadedForCleanup = [];
+
+        try {
+            $newspaper = DB::transaction(function () use ($validated, $request, &$uploadedForCleanup) {
+                $data = $validated;
+                unset($data['images'], $data['pdfs'], $data['main_image_index']);
+
+                /** @var \App\Models\Newspaper $newspaper */
+                $newspaper = Newspaper::create($data);
+
+                $this->attachInlineMedia(
+                    $newspaper,
+                    "newspapers/{$newspaper->id}",
+                    $request->file('images', []),
+                    $request->file('pdfs', []),
+                    (int) $request->input('main_image_index', 0),
+                    $uploadedForCleanup,
+                );
+
+                return $newspaper;
+            });
+        } catch (\Throwable $e) {
+            foreach ($uploadedForCleanup as [$d, $p]) {
+                try {
+                    Storage::disk($d)->delete($p);
+                } catch (\Throwable $ignore) {
+                }
+            }
+            throw $e;
+        }
 
         return redirect()->route('admin.newspapers.edit', $newspaper)
-            ->with('success', 'Newspaper created. Upload images below.');
+            ->with('success', 'Newspaper created.');
     }
 
     public function edit(Newspaper $newspaper)

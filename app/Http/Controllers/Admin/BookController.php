@@ -4,6 +4,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HandlesInlineMediaUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Book;
@@ -11,7 +12,6 @@ use App\Models\BookCover;
 use App\Models\BookSeries;
 use App\Models\BookTopic;
 use App\Models\Location;
-use App\Models\MediaFile;
 use App\Models\Origin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,6 +24,8 @@ use Illuminate\Validation\ValidationException;
 
 class BookController extends Controller
 {
+    use HandlesInlineMediaUploads;
+
     public function __construct()
     {
         $this->authorizeResource(Book::class, 'book');
@@ -255,11 +257,10 @@ class BookController extends Controller
             ]);
         }
 
-        $disk = 'b2';
         $uploadedForCleanup = [];
 
         try {
-            $book = DB::transaction(function () use ($validated, $request, $authorNames, $disk, &$uploadedForCleanup) {
+            $book = DB::transaction(function () use ($validated, $request, $authorNames, &$uploadedForCleanup) {
                 $data = $validated;
                 unset($data['images'], $data['pdfs'], $data['authors'], $data['main_image_index'], $data['after_save']);
 
@@ -268,71 +269,14 @@ class BookController extends Controller
 
                 $this->syncAuthorsByNames($book, $authorNames);
 
-                $folderBase = "books/{$book->id}";
-
-                // Images
-                $imageUploads = $request->file('images', []);
-                $mainIndex = (int) $request->input('main_image_index', 0);
-
-                if (count($imageUploads) > 0) {
-                    $mainIndex = max(0, min($mainIndex, count($imageUploads) - 1));
-                    $nextSort = 0;
-
-                    foreach ($imageUploads as $i => $uploaded) {
-                        $filename = (string) \Illuminate\Support\Str::uuid().'.'.$uploaded->extension();
-                        $path = $uploaded->storeAs($folderBase, $filename, $disk);
-                        $uploadedForCleanup[] = [$disk, $path];
-
-                        $book->media()->create([
-                            'disk' => $disk,
-                            'path' => $path,
-                            'mime_type' => $uploaded->getMimeType(),
-                            'size' => $uploaded->getSize(),
-                            'original_name' => $uploaded->getClientOriginalName(),
-                            'collection' => 'images',
-                            'is_main' => ($i === $mainIndex),
-                            'sort_order' => $nextSort++,
-                        ]);
-                    }
-
-                    // Safety: force EXACTLY 1 main image
-                    $imagesQuery = MediaFile::where('attachable_type', Book::class)
-                        ->where('attachable_id', $book->id)
-                        ->where('collection', 'images');
-
-                    $mainCount = (int) (clone $imagesQuery)->where('is_main', 1)->count();
-
-                    if ($mainCount === 0) {
-                        $first = (clone $imagesQuery)->orderBy('sort_order')->orderBy('id')->first();
-                        (clone $imagesQuery)->update(['is_main' => 0]);
-                        if ($first) {
-                            $first->update(['is_main' => 1]);
-                        }
-                    } elseif ($mainCount > 1) {
-                        // Keep only the newest main; update the rest by ID exclusion
-                        $keepId = (clone $imagesQuery)->where('is_main', 1)->orderBy('id', 'desc')->value('id');
-                        (clone $imagesQuery)->where('is_main', 1)->where('id', '!=', $keepId)->update(['is_main' => 0]);
-                    }
-                }
-
-                // PDFs
-                $pdfUploads = $request->file('pdfs', []);
-                foreach ($pdfUploads as $uploaded) {
-                    $filename = (string) \Illuminate\Support\Str::uuid().'.'.$uploaded->extension();
-                    $path = $uploaded->storeAs($folderBase, $filename, $disk);
-                    $uploadedForCleanup[] = [$disk, $path];
-
-                    $book->media()->create([
-                        'disk' => $disk,
-                        'path' => $path,
-                        'mime_type' => $uploaded->getMimeType(),
-                        'size' => $uploaded->getSize(),
-                        'original_name' => $uploaded->getClientOriginalName(),
-                        'collection' => 'files',
-                        'is_main' => false,
-                        'sort_order' => null,
-                    ]);
-                }
+                $this->attachInlineMedia(
+                    $book,
+                    "books/{$book->id}",
+                    $request->file('images', []),
+                    $request->file('pdfs', []),
+                    (int) $request->input('main_image_index', 0),
+                    $uploadedForCleanup,
+                );
 
                 return $book;
             });

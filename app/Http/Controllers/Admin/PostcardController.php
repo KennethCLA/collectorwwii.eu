@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HandlesInlineMediaUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Currency;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 
 class PostcardController extends Controller
 {
+    use HandlesInlineMediaUploads;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -98,6 +101,11 @@ class PostcardController extends Controller
             'condition' => 'nullable|string|max:50',
             'sold_at' => 'nullable|date',
             'sold_price' => 'nullable|numeric|min:0',
+            'images' => ['nullable', 'array'],
+            'images.*' => ['file', 'mimes:jpeg,png,jpg,gif,webp', 'max:51200'],
+            'pdfs' => ['nullable', 'array'],
+            'pdfs.*' => ['file', 'mimetypes:application/pdf', 'max:51200'],
+            'main_image_index' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $validated['for_sale'] = $request->boolean('for_sale');
@@ -110,10 +118,39 @@ class PostcardController extends Controller
             $validated['selling_price'] = null;
         }
 
-        $postcard = Postcard::create($validated);
+        $uploadedForCleanup = [];
+
+        try {
+            $postcard = DB::transaction(function () use ($validated, $request, &$uploadedForCleanup) {
+                $data = $validated;
+                unset($data['images'], $data['pdfs'], $data['main_image_index']);
+
+                /** @var \App\Models\Postcard $postcard */
+                $postcard = Postcard::create($data);
+
+                $this->attachInlineMedia(
+                    $postcard,
+                    "postcards/{$postcard->id}",
+                    $request->file('images', []),
+                    $request->file('pdfs', []),
+                    (int) $request->input('main_image_index', 0),
+                    $uploadedForCleanup,
+                );
+
+                return $postcard;
+            });
+        } catch (\Throwable $e) {
+            foreach ($uploadedForCleanup as [$d, $p]) {
+                try {
+                    Storage::disk($d)->delete($p);
+                } catch (\Throwable $ignore) {
+                }
+            }
+            throw $e;
+        }
 
         return redirect()->route('admin.postcards.edit', $postcard)
-            ->with('success', 'Postcard created. Upload images below.');
+            ->with('success', 'Postcard created.');
     }
 
     public function edit(Postcard $postcard)
