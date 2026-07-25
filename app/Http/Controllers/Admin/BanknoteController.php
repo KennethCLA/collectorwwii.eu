@@ -67,11 +67,11 @@ class BanknoteController extends Controller
         $this->authorize('create', Banknote::class);
 
         $validated = $request->validate([
-            'country_id' => 'nullable|exists:countries,id',
-            'currency_id' => 'nullable|exists:currencies,id',
-            'nominal_value_id' => 'nullable|exists:nominal_values,id',
-            'series_id' => 'nullable|exists:banknote_series,id',
-            'time_period_id' => 'nullable|exists:banknote_time_periods,id',
+            'country_id' => 'required|exists:countries,id',
+            'currency_id' => 'required|exists:currencies,id',
+            'nominal_value_id' => 'required|exists:nominal_values,id',
+            'series_id' => 'required|exists:banknote_series,id',
+            'time_period_id' => 'required|exists:banknote_time_periods,id',
             'head_of_state_id' => 'nullable|exists:heads_of_state,id',
             'colour_id' => 'nullable|exists:colours,id',
             'designer_id' => 'nullable|exists:banknote_designers,id',
@@ -140,11 +140,11 @@ class BanknoteController extends Controller
         $this->authorize('update', $banknote);
 
         $validated = $request->validate([
-            'country_id' => 'nullable|exists:countries,id',
-            'currency_id' => 'nullable|exists:currencies,id',
-            'nominal_value_id' => 'nullable|exists:nominal_values,id',
-            'series_id' => 'nullable|exists:banknote_series,id',
-            'time_period_id' => 'nullable|exists:banknote_time_periods,id',
+            'country_id' => 'required|exists:countries,id',
+            'currency_id' => 'required|exists:currencies,id',
+            'nominal_value_id' => 'required|exists:nominal_values,id',
+            'series_id' => 'required|exists:banknote_series,id',
+            'time_period_id' => 'required|exists:banknote_time_periods,id',
             'head_of_state_id' => 'nullable|exists:heads_of_state,id',
             'colour_id' => 'nullable|exists:colours,id',
             'designer_id' => 'nullable|exists:banknote_designers,id',

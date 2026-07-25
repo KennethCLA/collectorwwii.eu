@@ -74,9 +74,9 @@ class CoinController extends Controller
         $this->authorize('create', Coin::class);
 
         $validated = $request->validate([
-            'country_id' => 'nullable|exists:countries,id',
-            'currency_id' => 'nullable|exists:currencies,id',
-            'nominal_value_id' => 'nullable|exists:nominal_values,id',
+            'country_id' => 'required|exists:countries,id',
+            'currency_id' => 'required|exists:currencies,id',
+            'nominal_value_id' => 'required|exists:nominal_values,id',
             'shape_id' => 'nullable|exists:coin_shapes,id',
             'material_id' => 'nullable|exists:coin_materials,id',
             'year' => 'nullable|integer|min:1800|max:'.(date('Y') + 1),
@@ -156,9 +156,9 @@ class CoinController extends Controller
         $this->authorize('update', $coin);
 
         $validated = $request->validate([
-            'country_id' => 'nullable|exists:countries,id',
-            'currency_id' => 'nullable|exists:currencies,id',
-            'nominal_value_id' => 'nullable|exists:nominal_values,id',
+            'country_id' => 'required|exists:countries,id',
+            'currency_id' => 'required|exists:currencies,id',
+            'nominal_value_id' => 'required|exists:nominal_values,id',
             'shape_id' => 'nullable|exists:coin_shapes,id',
             'material_id' => 'nullable|exists:coin_materials,id',
             'year' => 'nullable|integer|min:1800|max:'.(date('Y') + 1),
