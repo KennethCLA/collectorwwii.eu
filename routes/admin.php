@@ -18,7 +18,6 @@ use App\Http\Controllers\Admin\NewspaperController;
 use App\Http\Controllers\Admin\PostcardController;
 use App\Http\Controllers\Admin\StampController;
 use App\Http\Controllers\Admin\PdfController;
-use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -66,8 +65,6 @@ Route::resource('banknotes', BanknoteController::class)->except('show');
 Route::resource('coins', CoinController::class)->except('show');
 Route::resource('postcards', PostcardController::class)->except('show');
 Route::resource('stamps', StampController::class)->except('show');
-
-Route::resource('profile', UserController::class);
 
 Route::get('lookups/{type}', [LookupIndexController::class, 'index'])
     ->whereIn('type', [

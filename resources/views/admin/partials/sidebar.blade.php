@@ -108,12 +108,6 @@
                 ['label' => 'Blog posts', 'route' => 'admin.blog.index', 'active' => 'admin.blog.*'],
             ],
         ],
-        [
-            'title' => 'Account',
-            'items' => [
-                ['label' => 'Profile', 'route' => 'admin.profile.index', 'active' => 'admin.profile.*'],
-            ],
-        ],
     ];
 @endphp
 
