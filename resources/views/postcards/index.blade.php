@@ -145,7 +145,7 @@
                         <div class="flex items-center justify-between">
                             <nav class="flex items-center pl-1 space-x-2 font-mono text-[11px] tracking-[0.15em] text-white/60 uppercase">
                                 <a href="{{ route('home') }}" class="pr-2">Home</a> >
-                                <span class="text-khaki/70 font-mono text-[11px] tracking-[0.1em] uppercase">Postcards</span>
+                                <h1 class="inline text-khaki/70 font-mono text-[11px] tracking-[0.1em] uppercase">Postcards</h1>
                             </nav>
                             <button @click="filtersOpen = true"
                                     class="lg:hidden inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-sm text-white hover:bg-white/20">

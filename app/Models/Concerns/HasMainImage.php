@@ -11,10 +11,22 @@ trait HasMainImage
      */
     public function mainImageFile(): ?MediaFile
     {
-        // Gebruik loaded relations als ze al geladen zijn (show pagina)
-        if ($this->relationLoaded('mainImage') || $this->relationLoaded('images')) {
-            return $this->getRelation('mainImage')
-                ?? ($this->getRelation('images')?->first());
+        // Gebruik loaded relations als ze al geladen zijn (show pagina),
+        // maar check elke relatie apart — beide kunnen onafhankelijk
+        // wel/niet eager-loaded zijn.
+        if ($this->relationLoaded('mainImage')) {
+            $main = $this->getRelation('mainImage');
+            if ($main) {
+                return $main;
+            }
+        }
+
+        if ($this->relationLoaded('images')) {
+            return $this->getRelation('images')->first();
+        }
+
+        if ($this->relationLoaded('mainImage')) {
+            return null;
         }
 
         // Fallback wanneer niet eager loaded (bvb. ergens anders)

@@ -259,7 +259,7 @@
                         <div class="flex items-center justify-between">
                             <nav class="flex items-center pl-1 space-x-2 font-mono text-[11px] tracking-[0.15em] text-white/60 uppercase">
                                 <a href="{{ route('home') }}" class="pr-2">Home</a> >
-                                <span class="text-khaki/70 font-mono text-[11px] tracking-[0.1em] uppercase">Books</span>
+                                <h1 class="inline text-khaki/70 font-mono text-[11px] tracking-[0.1em] uppercase">Books</h1>
                             </nav>
                             @if(auth()->user()?->isAdmin())
                             <a href="{{ route('admin.books.create') }}"
