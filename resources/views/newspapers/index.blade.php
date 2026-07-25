@@ -172,7 +172,7 @@
                             @endif
                         </p>
                         <div class="flex-1 flex justify-center items-center h-80">
-                            <img src="{{ $newspaper->image_url ?? asset('images/error-image-not-found.png') }}"
+                            <img src="{{ $newspaper->thumbnail_url ?? asset('images/error-image-not-found.png') }}"
                                 alt="{{ $newspaper->title }}"
                                 loading="lazy" decoding="async"
                                 class="w-full h-48 object-contain">

@@ -246,7 +246,7 @@
                             <span class="block text-xs text-white/60/90">{{ $coin->material?->name ?? '—' }}</span>
                         </p>
                         <div class="flex-1 flex justify-center items-center h-80">
-                            <img src="{{ $coin->image_url ?? asset('images/error-image-not-found.png') }}"
+                            <img src="{{ $coin->thumbnail_url ?? asset('images/error-image-not-found.png') }}"
                                 alt="{{ $coin->card_title }}" loading="lazy" decoding="async" class="w-full h-48 object-contain">
                         </div>
                     </a>

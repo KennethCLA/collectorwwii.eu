@@ -13,6 +13,7 @@ class MediaFile extends Model
     protected $fillable = [
         'disk',
         'path',
+        'thumb_path',
         'mime_type',
         'size',
         'original_name',
@@ -40,9 +41,25 @@ class MediaFile extends Model
         return Storage::disk($this->disk)->url($path);
     }
 
+    public function thumbUrl(): string
+    {
+        if (! $this->thumb_path) {
+            return $this->url();
+        }
+
+        $path = ltrim((string) $this->thumb_path, '/');
+
+        return Storage::disk($this->disk)->url($path);
+    }
+
     public function getUrlAttribute(): string
     {
         return $this->url();
+    }
+
+    public function getThumbUrlAttribute(): string
+    {
+        return $this->thumbUrl();
     }
 
     public function isPdf(): bool

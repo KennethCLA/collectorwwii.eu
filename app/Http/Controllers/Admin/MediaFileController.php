@@ -228,19 +228,27 @@ class MediaFileController extends Controller
             $folder = "{$cfg['folder']}/{$attachable->id}";
             $makeMain = ($collection === 'images') && (! $hasMainImage && $i === 0);
 
+            $thumbPath = null;
+
             // Convert images to WebP for smaller file size and faster loads
             if ($collection === 'images' && in_array($uploaded->getMimeType(), [
                 'image/jpeg', 'image/png', 'image/gif', 'image/webp',
                 'image/heic', 'image/heif',
             ])) {
                 $filename = (string) Str::uuid().'.webp';
-                $webpData = Image::decode($uploaded->getRealPath())
-                    ->encode(new WebpEncoder(quality: 85))
-                    ->toString();
+                $img = Image::decode($uploaded->getRealPath());
+                $webpData = $img->encode(new WebpEncoder(quality: 85))->toString();
                 $path = "{$folder}/{$filename}";
                 Storage::disk($disk)->put($path, $webpData);
                 $mimeType = 'image/webp';
                 $size = strlen($webpData);
+
+                if ($img->width() > 400) {
+                    $thumbFilename = (string) Str::uuid().'-thumb.webp';
+                    $thumbData = $img->scaleDown(width: 400)->encode(new WebpEncoder(quality: 75))->toString();
+                    $thumbPath = "{$folder}/{$thumbFilename}";
+                    Storage::disk($disk)->put($thumbPath, $thumbData);
+                }
             } else {
                 $ext = strtolower($uploaded->extension() ?: 'bin');
                 $filename = (string) Str::uuid().'.'.$ext;
@@ -250,11 +258,15 @@ class MediaFileController extends Controller
             }
 
             $uploadedPaths[] = [$disk, $path];
+            if ($thumbPath) {
+                $uploadedPaths[] = [$disk, $thumbPath];
+            }
 
             try {
                 $attachable->media()->create([
                     'disk'          => $disk,
                     'path'          => $path,
+                    'thumb_path'    => $thumbPath,
                     'mime_type'     => $mimeType,
                     'size'          => $size,
                     'original_name' => $uploaded->getClientOriginalName(),
@@ -264,11 +276,12 @@ class MediaFileController extends Controller
                 ]);
             } catch (\Throwable $e) {
                 try {
-                    Storage::disk($disk)->delete($path);
+                    Storage::disk($disk)->delete(array_filter([$path, $thumbPath]));
                 } catch (\Throwable $deleteErr) {
                     Log::warning('Media upload cleanup failed', [
                         'disk' => $disk,
                         'path' => $path,
+                        'thumb_path' => $thumbPath,
                         'error' => $deleteErr->getMessage(),
                     ]);
                 }
@@ -301,6 +314,7 @@ class MediaFileController extends Controller
         $collection = $file->collection;
 
         $filePath = $file->path;
+        $thumbPath = $file->thumb_path;
         $fileDisk = $file->disk;
 
         DB::transaction(function () use ($file, $cfg, $attachable, $wasMain, $collection) {
@@ -328,11 +342,12 @@ class MediaFileController extends Controller
 
         // Delete from storage after successful DB transaction (best effort)
         if ($filePath) {
-            $deleted = Storage::disk($fileDisk)->delete($filePath);
+            $deleted = Storage::disk($fileDisk)->delete(array_filter([$filePath, $thumbPath]));
 
             Log::info('Media delete attempt', [
                 'disk' => $fileDisk,
                 'path' => $filePath,
+                'thumb_path' => $thumbPath,
                 'deleted_return' => $deleted,
                 'media_id' => $file->id,
                 'attachable_type' => $file->attachable_type,

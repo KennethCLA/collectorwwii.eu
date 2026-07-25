@@ -4,6 +4,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasMainImage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasMainImage, SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -95,21 +96,4 @@ class Item extends Model
             ->where('is_main', 1);
     }
 
-    public function mainImageFile(): ?MediaFile
-    {
-        // Gebruik loaded relations als ze al geladen zijn (show pagina)
-        if ($this->relationLoaded('mainImage') || $this->relationLoaded('images')) {
-            return $this->getRelation('mainImage')
-                ?? ($this->getRelation('images')?->first());
-        }
-
-        // Fallback wanneer niet eager loaded (bvb. ergens anders)
-        return $this->mainImage()->first() ?? $this->images()->first();
-    }
-
-    public function getImageUrlAttribute(): string
-    {
-        return $this->mainImageFile()?->url()
-            ?? asset('images/error-image-not-found.png');
-    }
 }

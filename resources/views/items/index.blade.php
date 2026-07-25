@@ -557,7 +557,7 @@
 
                         <div class="flex-1 flex justify-center items-center h-80">
                             <img
-                                src="{{ $item->image_url ?? asset('images/error-image-not-found.png') }}"
+                                src="{{ $item->thumbnail_url ?? asset('images/error-image-not-found.png') }}"
                                 alt="{{ $item->title }}"
                                 loading="lazy" decoding="async"
                                 class="w-full h-48 object-contain">

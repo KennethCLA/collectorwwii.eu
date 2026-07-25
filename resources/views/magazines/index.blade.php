@@ -180,7 +180,7 @@
                             <span class="block text-xs text-white/60/90">{{ $magazine->issue_year ?? '—' }}</span>
                         </p>
                         <div class="flex-1 flex justify-center items-center h-80">
-                            <img src="{{ $magazine->image_url ?? asset('images/error-image-not-found.png') }}"
+                            <img src="{{ $magazine->thumbnail_url ?? asset('images/error-image-not-found.png') }}"
                                 alt="{{ $magazine->title }}"
                                 loading="lazy" decoding="async"
                                 class="w-full h-48 object-contain">

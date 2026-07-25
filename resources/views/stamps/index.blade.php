@@ -234,7 +234,7 @@
                             <span class="block text-xs text-white/60/90">{{ $stamp->stampType?->name ?? '—' }}</span>
                         </p>
                         <div class="flex-1 flex justify-center items-center h-80">
-                            <img src="{{ $stamp->image_url ?? asset('images/error-image-not-found.png') }}"
+                            <img src="{{ $stamp->thumbnail_url ?? asset('images/error-image-not-found.png') }}"
                                 alt="{{ $stamp->card_title }}" loading="lazy" decoding="async" class="w-full h-48 object-contain">
                         </div>
                     </a>

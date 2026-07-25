@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasMainImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Newspaper extends Model
 {
-    use SoftDeletes;
+    use HasMainImage, SoftDeletes;
 
     protected $fillable = [
         'series_id',
@@ -72,19 +73,4 @@ class Newspaper extends Model
             ->where('is_main', 1);
     }
 
-    public function mainImageFile(): ?MediaFile
-    {
-        if ($this->relationLoaded('mainImage') || $this->relationLoaded('images')) {
-            return $this->getRelation('mainImage')
-                ?? ($this->getRelation('images')?->first());
-        }
-
-        return $this->mainImage()->first() ?? $this->images()->first();
-    }
-
-    public function getImageUrlAttribute(): string
-    {
-        return $this->mainImageFile()?->url()
-            ?? asset('images/error-image-not-found.png');
-    }
 }

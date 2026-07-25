@@ -250,7 +250,7 @@
                             <span class="block text-xs text-white/60/90">{{ $banknote->currency?->name ?? '—' }}</span>
                         </p>
                         <div class="flex-1 flex justify-center items-center h-80">
-                            <img src="{{ $banknote->image_url ?? asset('images/error-image-not-found.png') }}"
+                            <img src="{{ $banknote->thumbnail_url ?? asset('images/error-image-not-found.png') }}"
                                 alt="{{ $banknote->card_title }}"
                                 loading="lazy" decoding="async"
                                 class="w-full h-48 object-contain">
