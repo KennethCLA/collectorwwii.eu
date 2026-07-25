@@ -8,9 +8,6 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import Alpine from "alpinejs";
 import collapse from "@alpinejs/collapse";
 
-import Choices from "choices.js";
-import "choices.js/public/assets/styles/choices.min.css";
-
 import "../css/app.css";
 import "../css/components.css";
 import "../css/home-bg.css";
@@ -109,11 +106,20 @@ Fancybox.bind("[data-fancybox]", {
     });
 })();
 
-// Init Choices only where we ask for it
+// Init Choices only where we ask for it — loaded on demand so public
+// pages (which never render .js-select) don't pay for the admin-only library.
 window.__choicesInstances = window.__choicesInstances || [];
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("select.js-select").forEach((el) => {
+document.addEventListener("DOMContentLoaded", async () => {
+    const selects = document.querySelectorAll("select.js-select");
+    if (selects.length === 0) return;
+
+    const [{ default: Choices }] = await Promise.all([
+        import("choices.js"),
+        import("choices.js/public/assets/styles/choices.min.css"),
+    ]);
+
+    selects.forEach((el) => {
         if (el.dataset.enhanced) return;
         el.dataset.enhanced = "1";
         const instance = new Choices(el, {
