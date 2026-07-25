@@ -1,6 +1,10 @@
 {{-- resources/views/postcards/show.blade.php --}}
 
-<x-layout :title="$postcard->card_title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'">
+@php
+$metaDescription = "WWII-era postcard — {$postcard->card_title} — part of the CollectorWWII collection.";
+@endphp
+<x-layout :title="$postcard->card_title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
+    :metaDescription="$metaDescription" :ogImage="$postcard->image_url">
     @php
     $images = $postcard->images;
     $main = $postcard->mainImageFile();

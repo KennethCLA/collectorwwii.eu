@@ -1,6 +1,10 @@
 {{-- resources/views/coins/show.blade.php --}}
 
-<x-layout :title="$coin->card_title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'">
+@php
+$metaDescription = "WWII-era coin — {$coin->card_title} — part of the CollectorWWII collection.";
+@endphp
+<x-layout :title="$coin->card_title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
+    :metaDescription="$metaDescription" :ogImage="$coin->image_url">
     @php
     $images = $coin->images;
     $main = $coin->mainImageFile();

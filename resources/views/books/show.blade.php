@@ -1,6 +1,12 @@
 {{-- resources/views/books/show.blade.php --}}
 
-<x-layout :title="$book->title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'">
+@php
+$metaDescription = $book->description
+    ? \Illuminate\Support\Str::limit(strip_tags($book->description), 155)
+    : "WWII book — {$book->title} — part of the CollectorWWII collection.";
+@endphp
+<x-layout :title="$book->title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
+    :metaDescription="$metaDescription" :ogImage="$book->image_url">
     @php
     $images = $book->images()->get();
     $main = $images->first();

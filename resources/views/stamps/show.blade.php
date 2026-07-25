@@ -1,6 +1,10 @@
 {{-- resources/views/stamps/show.blade.php --}}
 
-<x-layout :title="$stamp->card_title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'">
+@php
+$metaDescription = "WWII-era stamp — {$stamp->card_title} — part of the CollectorWWII collection.";
+@endphp
+<x-layout :title="$stamp->card_title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
+    :metaDescription="$metaDescription" :ogImage="$stamp->image_url">
     @php
     $images = $stamp->images;
     $main = $stamp->mainImageFile();

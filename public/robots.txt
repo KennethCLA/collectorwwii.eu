@@ -1,2 +1,6 @@
 User-agent: *
-Disallow:
+Disallow: /admin
+Disallow: /login
+Disallow: /password/
+
+Sitemap: https://collectorwwii.eu/sitemap.xml

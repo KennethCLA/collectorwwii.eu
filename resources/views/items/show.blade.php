@@ -1,6 +1,12 @@
 {{-- resources/views/items/show.blade.php --}}
 
-<x-layout :title="$item->title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'">
+@php
+$metaDescription = $item->description
+    ? \Illuminate\Support\Str::limit(strip_tags($item->description), 155)
+    : "WWII item — {$item->title} — part of the CollectorWWII collection.";
+@endphp
+<x-layout :title="$item->title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
+    :metaDescription="$metaDescription" :ogImage="$item->image_url">
     @php
     $images = $item->images; // collection (al geladen)
     $main = $item->mainImageFile(); // gebruikt loaded relations (na stap 2A)

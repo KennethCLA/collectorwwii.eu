@@ -1,6 +1,12 @@
 {{-- resources/views/newspapers/show.blade.php --}}
 
-<x-layout :title="$newspaper->title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'">
+@php
+$metaDescription = $newspaper->description
+    ? \Illuminate\Support\Str::limit(strip_tags($newspaper->description), 155)
+    : "WWII newspaper — {$newspaper->title} — part of the CollectorWWII collection.";
+@endphp
+<x-layout :title="$newspaper->title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
+    :metaDescription="$metaDescription" :ogImage="$newspaper->image_url">
     @php
     $images = $newspaper->images;
     $main = $newspaper->mainImageFile();

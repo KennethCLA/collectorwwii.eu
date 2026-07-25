@@ -13,6 +13,7 @@ request()->routeIs('admin.*');
 $isHome = request()->routeIs('home');
 
 $useAdminHeader = $useAdminHeader ?? $autoAdmin;
+$canonical = url()->current();
 @endphp
 
 <!doctype html>
@@ -24,12 +25,13 @@ $useAdminHeader = $useAdminHeader ?? $autoAdmin;
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="{{ $metaDescription ?? 'CollectorWWII – A curated catalogue of WWII books, items, banknotes, coins, magazines, newspapers, postcards and stamps.' }}">
     <title>{{ $title }}</title>
+    <link rel="canonical" href="{{ $canonical }}">
 
     {{-- Open Graph --}}
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:description" content="{{ $metaDescription ?? 'CollectorWWII – A curated catalogue of WWII books, items, banknotes, coins, magazines, newspapers, postcards and stamps.' }}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:url" content="{{ $canonical }}">
     <meta property="og:image" content="{{ $ogImage ?? asset('images/wwii-collector-logo.png') }}">
     <meta property="og:site_name" content="CollectorWWII">
 

@@ -1,5 +1,5 @@
 {{-- resources/views/magazines/index.blade.php --}}
-<x-layout :mainClass="'w-full px-0 py-0'">
+<x-layout title="Magazines — CollectorWWII" :mainClass="'w-full px-0 py-0'">
     <div class="w-full">
         <div x-data="{ filtersOpen: false }" class="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-4 items-start">
 

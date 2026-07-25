@@ -1,6 +1,10 @@
 {{-- resources/views/banknotes/show.blade.php --}}
 
-<x-layout :title="$banknote->card_title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'">
+@php
+$metaDescription = "WWII-era banknote — {$banknote->card_title} — part of the CollectorWWII collection.";
+@endphp
+<x-layout :title="$banknote->card_title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
+    :metaDescription="$metaDescription" :ogImage="$banknote->image_url">
     @php
     $images = $banknote->images;
     $main = $banknote->mainImageFile();
