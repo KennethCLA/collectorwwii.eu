@@ -92,6 +92,7 @@ $useAdminHeader = $useAdminHeader ?? $autoAdmin;
                 {{-- Search --}}
                 <form method="GET" action="{{ route('search.index') }}" class="flex gap-2">
                     <input type="search" name="q" value="{{ request('q') }}"
+                        aria-label="Search"
                         placeholder="Search the collection…"
                         class="flex-1 rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-white">
                     <button type="submit"

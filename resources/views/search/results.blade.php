@@ -19,6 +19,7 @@
                 name="q"
                 value="{{ $q }}"
                 autofocus
+                aria-label="Search"
                 placeholder="Search title, author, country, year…"
                 class="flex-1 rounded-md border border-black/30 bg-black/25 px-4 py-2.5 text-white placeholder:text-white/40 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-white/20">
             <button type="submit"
@@ -93,7 +94,7 @@
         @if(mb_strlen($q) >= 2 && $total === 0)
         <div class="py-16 text-center space-y-3">
             <div class="font-stencil text-4xl text-white/10 tracking-[0.3em] uppercase">Nichts gefunden</div>
-            <p class="text-sm text-white/50">Try a different keyword, or browse a section directly.</p>
+            <p class="text-sm text-white/70">Try a different keyword, or browse a section directly.</p>
         </div>
         @endif
 
@@ -101,7 +102,7 @@
         @if(mb_strlen($q) < 2 && $q === '')
         <div class="py-16 text-center">
             <div class="font-stencil text-4xl text-white/10 tracking-[0.3em] uppercase">Suchen</div>
-            <p class="mt-3 text-sm text-white/50">Enter at least 2 characters to search across the collection.</p>
+            <p class="mt-3 text-sm text-white/70">Enter at least 2 characters to search across the collection.</p>
         </div>
         @endif
 

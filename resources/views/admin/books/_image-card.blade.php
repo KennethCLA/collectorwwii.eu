@@ -19,7 +19,7 @@ $url = $img->url();
         <div class="w-32 h-44 bg-black/10 flex items-center justify-center overflow-hidden">
             <img
                 src="{{ $url }}"
-                alt="image"
+                alt="{{ isset($loop) ? 'Image '.$loop->iteration : ($img->original_name ?? 'Uploaded image') }}"
                 class="w-full h-full object-contain block"
                 loading="lazy">
         </div>

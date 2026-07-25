@@ -65,42 +65,42 @@
                         <dl>
                             @if($item->condition)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Condition</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Condition</dt>
                                 <dd class="text-sm text-white/90">{{ $item->condition }}</dd>
                             </div>
                             @endif
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Category</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Category</dt>
                                 <dd class="text-sm text-white/90">{{ $item->category?->name ?? '—' }}</dd>
                             </div>
 
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Nationality</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Nationality</dt>
                                 <dd class="text-sm text-white/90">{{ $item->nationality?->name ?? '—' }}</dd>
                             </div>
 
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Organization</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Organization</dt>
                                 <dd class="text-sm text-white/90">{{ $item->organization?->name ?? '—' }}</dd>
                             </div>
 
                             @if($item->for_sale)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">For sale</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">For sale</dt>
                                 <dd class="text-sm text-white/90"><span class="inline-block bg-khaki/20 text-khaki px-2 py-0.5 rounded text-xs font-mono">Ja</span></dd>
                             </div>
                             @endif
 
                             @if($item->selling_price !== null && $item->for_sale)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Selling price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Selling price</dt>
                                 <dd class="text-sm text-white/90">{{ number_format($item->selling_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif
 
                             @if($item->current_price !== null)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Current price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Current price</dt>
                                 <dd class="text-sm text-white/90">{{ number_format($item->current_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif
@@ -120,47 +120,47 @@
                     <div class="px-6 py-4">
                         <dl>
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Origin</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Origin</dt>
                                 <dd class="text-sm text-white/90">{{ $item->origin?->name ?? '—' }}</dd>
                             </div>
 
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchase date</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchase date</dt>
                                 <dd class="text-sm text-white/90">
                                     {{ $item->purchase_date ? $item->purchase_date->format('d/m/Y') : '—' }}
                                 </dd>
                             </div>
 
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchase price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchase price</dt>
                                 <dd class="text-sm text-white/90">
                                     {{ $item->purchase_price !== null ? number_format($item->purchase_price, 2, ',', '.') : '—' }}
                                 </dd>
                             </div>
 
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchase location</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchase location</dt>
                                 <dd class="text-sm text-white/90">{{ $item->purchase_location ?: '—' }}</dd>
                             </div>
 
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Storage location</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Storage location</dt>
                                 <dd class="text-sm text-white/90">{{ $item->storage_location ?: '—' }}</dd>
                             </div>
 
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Notes</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Notes</dt>
                                 <dd class="text-sm text-white/90 whitespace-pre-line">{{ $item->notes ?: '—' }}</dd>
                             </div>
                             @if($item->sold_at)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Sold on</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Sold on</dt>
                                 <dd class="text-sm text-white/90">{{ $item->sold_at->format('d/m/Y') }}</dd>
                             </div>
                             @endif
                             @if($item->sold_price !== null)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Sold price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Sold price</dt>
                                 <dd class="text-sm text-white/90">€ {{ number_format($item->sold_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif

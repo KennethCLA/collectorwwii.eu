@@ -1,5 +1,5 @@
    {{-- resources/views/components/nav-bar.blade.php --}}
-   <div class="transition-shadow" x-data>
+   <div class="transition-shadow" x-data="{ menuOpen: false }" @toggle-mobile-menu.window="menuOpen = !menuOpen">
        {{-- BAR 1 --}}
        <div class="bg-sage-600/95 backdrop-blur-sm">
            <div class="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
@@ -28,6 +28,7 @@
                                type="search"
                                name="q"
                                value="{{ request('q') }}"
+                               aria-label="Search"
                                placeholder="Search…"
                                class="w-40 lg:w-52 rounded-md border border-white/10 bg-white/10 px-3 py-1.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-white/30 focus:w-56 lg:focus:w-64 transition-all">
                        </div>
@@ -56,7 +57,8 @@
                    <button type="button"
                        @click="$dispatch('toggle-mobile-menu')"
                        class="md:hidden inline-flex items-center justify-center rounded-md bg-black/20 p-2 text-white/80 hover:bg-black/30 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/30"
-                       aria-controls="mobile-menu">
+                       aria-controls="mobile-menu"
+                       :aria-expanded="menuOpen.toString()">
                        <span class="sr-only">Open main menu</span>
                        <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />

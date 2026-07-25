@@ -69,69 +69,69 @@
                         <dl>
                             @if($book->condition)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Condition</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Condition</dt>
                                 <dd class="text-sm text-white/90">{{ $book->condition }}</dd>
                             </div>
                             @endif
                             @if($book->authors->count())
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Author(s)</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Author(s)</dt>
                                 <dd class="text-sm text-white/90">{{ $book->authors->pluck('name')->implode(', ') }}</dd>
                             </div>
                             @endif
 
                             @if($book->isbn)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">ISBN</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">ISBN</dt>
                                 <dd class="text-sm text-white/90">{{ $book->isbn }}</dd>
                             </div>
                             @endif
 
                             @if($book->topic)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Topic</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Topic</dt>
                                 <dd class="text-sm text-white/90">{{ $book->topic->name }}</dd>
                             </div>
                             @endif
 
                             @if($book->publisher_name)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Publisher</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Publisher</dt>
                                 <dd class="text-sm text-white/90">{{ $book->publisher_name }}</dd>
                             </div>
                             @endif
 
                             @if($book->copyright_year)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Year</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Year</dt>
                                 <dd class="text-sm text-white/90">{{ $book->copyright_year }}</dd>
                             </div>
                             @endif
 
                             @if($book->translator)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Translator</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Translator</dt>
                                 <dd class="text-sm text-white/90">{{ $book->translator }}</dd>
                             </div>
                             @endif
 
                             @if($book->issue_number)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Issue Number</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Issue Number</dt>
                                 <dd class="text-sm text-white/90">{{ $book->issue_number }}</dd>
                             </div>
                             @endif
 
                             @if($book->issue_year)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Issue Year</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Issue Year</dt>
                                 <dd class="text-sm text-white/90">{{ $book->issue_year }}</dd>
                             </div>
                             @endif
 
                             @if($book->series)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Series</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Series</dt>
                                 <dd class="text-sm text-white/90">
                                     {{ $book->series->name }}
                                     @if($book->series_number)
@@ -143,63 +143,63 @@
 
                             @if($book->cover)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Cover</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Cover</dt>
                                 <dd class="text-sm text-white/90">{{ $book->cover->name }}</dd>
                             </div>
                             @endif
 
                             @if($book->pages)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Pages</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Pages</dt>
                                 <dd class="text-sm text-white/90">{{ $book->pages }}</dd>
                             </div>
                             @endif
 
                             @if($book->title_first_edition)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Title (First Edition)</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Title (First Edition)</dt>
                                 <dd class="text-sm text-white/90">{{ $book->title_first_edition }}</dd>
                             </div>
                             @endif
 
                             @if($book->subtitle_first_edition)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Subtitle (First Ed.)</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Subtitle (First Ed.)</dt>
                                 <dd class="text-sm text-white/90">{{ $book->subtitle_first_edition }}</dd>
                             </div>
                             @endif
 
                             @if($book->publisher_first_issue)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Publisher (First Ed.)</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Publisher (First Ed.)</dt>
                                 <dd class="text-sm text-white/90">{{ $book->publisher_first_issue }}</dd>
                             </div>
                             @endif
 
                             @if($book->copyright_year_first_issue)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Copyright (First Ed.)</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Copyright (First Ed.)</dt>
                                 <dd class="text-sm text-white/90">{{ $book->copyright_year_first_issue }}</dd>
                             </div>
                             @endif
 
                             @if($book->for_sale)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">For sale</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">For sale</dt>
                                 <dd class="text-sm text-white/90"><span class="inline-block bg-khaki/20 text-khaki px-2 py-0.5 rounded text-xs font-mono">Ja</span></dd>
                             </div>
                             @endif
 
                             @if($book->selling_price !== null && $book->for_sale)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Selling price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Selling price</dt>
                                 <dd class="text-sm text-white/90">€ {{ number_format($book->selling_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif
 
                             @if(!empty($book->description))
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Description</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Description</dt>
                                 <dd class="text-sm text-white/90 whitespace-pre-line">{{ $book->description }}</dd>
                             </div>
                             @endif
@@ -220,61 +220,61 @@
                         <dl>
                             @if($book->purchase_date)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchase date</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchase date</dt>
                                 <dd class="text-sm text-white/90">{{ $book->purchase_date->format('d/m/Y') }}</dd>
                             </div>
                             @endif
 
                             @if($book->purchase_price !== null)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchase price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchase price</dt>
                                 <dd class="text-sm text-white/90">{{ number_format($book->purchase_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif
 
                             @if($book->origin)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchase origin</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchase origin</dt>
                                 <dd class="text-sm text-white/90">{{ $book->origin->name }}</dd>
                             </div>
                             @endif
 
                             @if($book->weight)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Weight (grams)</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Weight (grams)</dt>
                                 <dd class="text-sm text-white/90">{{ $book->weight }}</dd>
                             </div>
                             @endif
 
                             @if($book->width || $book->height || $book->thickness)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Dimensions (W×H×T)</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Dimensions (W×H×T)</dt>
                                 <dd class="text-sm text-white/90">{{ $book->width ?: '—' }} x {{ $book->height ?: '—' }} x {{ $book->thickness ?: '—' }}</dd>
                             </div>
                             @endif
 
                             @if($book->location)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Location</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Location</dt>
                                 <dd class="text-sm text-white/90">{{ $book->location->name }}</dd>
                             </div>
                             @endif
 
                             @if($book->notes)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Notes</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Notes</dt>
                                 <dd class="text-sm text-white/90 whitespace-pre-line">{{ $book->notes }}</dd>
                             </div>
                             @endif
                             @if($book->sold_at)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Sold on</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Sold on</dt>
                                 <dd class="text-sm text-white/90">{{ $book->sold_at->format('d/m/Y') }}</dd>
                             </div>
                             @endif
                             @if($book->sold_price !== null)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Sold price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Sold price</dt>
                                 <dd class="text-sm text-white/90">€ {{ number_format($book->sold_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif

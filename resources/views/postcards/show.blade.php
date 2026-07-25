@@ -62,32 +62,32 @@
                         <dl>
                             @if($postcard->condition)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Condition</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Condition</dt>
                                 <dd class="text-sm text-white/90">{{ $postcard->condition }}</dd>
                             </div>
                             @endif
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Country</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Country</dt>
                                 <dd class="text-sm text-white/90">{{ $postcard->country?->name ?? '—' }}</dd>
                             </div>
                             @if($postcard->year)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Year</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Year</dt>
                                 <dd class="text-sm text-white/90">{{ $postcard->year }}</dd>
                             </div>
                             @endif
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Type</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Type</dt>
                                 <dd class="text-sm text-white/90">{{ $postcard->postcardType?->name ?? '—' }}</dd>
                             </div>
                             @if($postcard->occasion)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Occasion</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Occasion</dt>
                                 <dd class="text-sm text-white/90">{{ $postcard->occasion }}</dd>
                             </div>
                             @endif
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Stamp status</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Stamp status</dt>
                                 <dd class="text-sm text-white/90">
                                     @php $stampStatuses = []; if($postcard->unstamped) $stampStatuses[] = 'Unstamped'; if($postcard->stamped) $stampStatuses[] = 'Stamped'; if($postcard->special_stamp) $stampStatuses[] = 'Special stamp'; @endphp
                                     {{ count($stampStatuses) ? implode(', ', $stampStatuses) : '—' }}
@@ -95,13 +95,13 @@
                             </div>
                             @if($postcard->for_sale)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">For sale</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">For sale</dt>
                                 <dd class="text-sm text-white/90"><span class="inline-block bg-khaki/20 text-khaki px-2 py-0.5 rounded text-xs font-mono">Ja</span></dd>
                             </div>
                             @endif
                             @if($postcard->selling_price !== null && $postcard->for_sale)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Selling price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Selling price</dt>
                                 <dd class="text-sm text-white/90">€ {{ number_format($postcard->selling_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif
@@ -120,40 +120,40 @@
                     <div class="px-6 py-4">
                         <dl>
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchase date</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchase date</dt>
                                 <dd class="text-sm text-white/90">{{ $postcard->purchase_date ? $postcard->purchase_date->format('d/m/Y') : '—' }}</dd>
                             </div>
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchasing price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchasing price</dt>
                                 <dd class="text-sm text-white/90">{{ $postcard->purchasing_price !== null ? '€ ' . number_format($postcard->purchasing_price, 2, ',', '.') : '—' }}</dd>
                             </div>
                             @if($postcard->current_value !== null)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Current value</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Current value</dt>
                                 <dd class="text-sm text-white/90">€ {{ number_format($postcard->current_value, 2, ',', '.') }}</dd>
                             </div>
                             @endif
                             @if($postcard->location)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Location</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Location</dt>
                                 <dd class="text-sm text-white/90">{{ $postcard->location->name }}</dd>
                             </div>
                             @endif
                             @if(!empty($postcard->personal_remarks))
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Personal remarks</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Personal remarks</dt>
                                 <dd class="text-sm text-white/90 whitespace-pre-line">{{ $postcard->personal_remarks }}</dd>
                             </div>
                             @endif
                             @if($postcard->sold_at)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Sold on</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Sold on</dt>
                                 <dd class="text-sm text-white/90">{{ $postcard->sold_at->format('d/m/Y') }}</dd>
                             </div>
                             @endif
                             @if($postcard->sold_price !== null)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Sold price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Sold price</dt>
                                 <dd class="text-sm text-white/90">€ {{ number_format($postcard->sold_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif

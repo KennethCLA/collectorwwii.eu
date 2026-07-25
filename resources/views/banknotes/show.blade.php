@@ -61,55 +61,55 @@
                         <dl>
                             @if($banknote->condition)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Condition</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Condition</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->condition }}</dd>
                             </div>
                             @endif
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Country</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Country</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->country?->name ?? '—' }}</dd>
                             </div>
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Currency</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Currency</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->currency?->name ?? '—' }}</dd>
                             </div>
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Nominal value</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Nominal value</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->nominalValue?->name ?? '—' }}</dd>
                             </div>
                             @if($banknote->series)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Series</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Series</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->series->name }}</dd>
                             </div>
                             @endif
                             @if($banknote->timePeriod)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Time period</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Time period</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->timePeriod->name }}</dd>
                             </div>
                             @endif
                             @if($banknote->year)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Year</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Year</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->year }}</dd>
                             </div>
                             @endif
                             @if($banknote->variation)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Variation</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Variation</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->variation }}</dd>
                             </div>
                             @endif
                             @if($banknote->for_sale)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">For sale</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">For sale</dt>
                                 <dd class="text-sm text-white/90"><span class="inline-block bg-khaki/20 text-khaki px-2 py-0.5 rounded text-xs font-mono">Ja</span></dd>
                             </div>
                             @endif
                             @if($banknote->selling_price !== null && $banknote->for_sale)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Selling price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Selling price</dt>
                                 <dd class="text-sm text-white/90">€ {{ number_format($banknote->selling_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif
@@ -128,34 +128,34 @@
                     <div class="px-6 py-4">
                         <dl>
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchase date</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchase date</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->purchase_date ? $banknote->purchase_date->format('d/m/Y') : '—' }}</dd>
                             </div>
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchasing price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchasing price</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->purchasing_price !== null ? '€ ' . number_format($banknote->purchasing_price, 2, ',', '.') : '—' }}</dd>
                             </div>
                             @if($banknote->location)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Location</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Location</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->location->name }}</dd>
                             </div>
                             @endif
                             @if(!empty($banknote->personal_remarks))
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Personal remarks</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Personal remarks</dt>
                                 <dd class="text-sm text-white/90 whitespace-pre-line">{{ $banknote->personal_remarks }}</dd>
                             </div>
                             @endif
                             @if($banknote->sold_at)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Sold on</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Sold on</dt>
                                 <dd class="text-sm text-white/90">{{ $banknote->sold_at->format('d/m/Y') }}</dd>
                             </div>
                             @endif
                             @if($banknote->sold_price !== null)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Sold price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Sold price</dt>
                                 <dd class="text-sm text-white/90">€ {{ number_format($banknote->sold_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif

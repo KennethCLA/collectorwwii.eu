@@ -64,48 +64,48 @@
                         <dl>
                             @if($magazine->condition)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Condition</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Condition</dt>
                                 <dd class="text-sm text-white/90">{{ $magazine->condition }}</dd>
                             </div>
                             @endif
                             @if(!empty($magazine->publisher))
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Publisher</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Publisher</dt>
                                 <dd class="text-sm text-white/90">{{ $magazine->publisher }}</dd>
                             </div>
                             @endif
 
                             @if($magazine->issue_number !== null)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Issue number</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Issue number</dt>
                                 <dd class="text-sm text-white/90">{{ $magazine->issue_number }}</dd>
                             </div>
                             @endif
 
                             @if($magazine->issue_year !== null)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Year</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Year</dt>
                                 <dd class="text-sm text-white/90">{{ $magazine->issue_year }}</dd>
                             </div>
                             @endif
 
                             @if(!empty($magazine->description))
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Description</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Description</dt>
                                 <dd class="text-sm text-white/90 whitespace-pre-line">{{ $magazine->description }}</dd>
                             </div>
                             @endif
 
                             @if($magazine->for_sale)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">For sale</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">For sale</dt>
                                 <dd class="text-sm text-white/90"><span class="inline-block bg-khaki/20 text-khaki px-2 py-0.5 rounded text-xs font-mono">Ja</span></dd>
                             </div>
                             @endif
 
                             @if($magazine->selling_price !== null && $magazine->for_sale)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Selling price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Selling price</dt>
                                 <dd class="text-sm text-white/90">€ {{ number_format($magazine->selling_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif
@@ -124,28 +124,28 @@
                     <div class="px-6 py-4">
                         <dl>
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchase date</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchase date</dt>
                                 <dd class="text-sm text-white/90">{{ $magazine->purchase_date ? $magazine->purchase_date->format('d/m/Y') : '—' }}</dd>
                             </div>
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Purchase price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Purchase price</dt>
                                 <dd class="text-sm text-white/90">{{ $magazine->purchase_price !== null ? '€ ' . number_format($magazine->purchase_price, 2, ',', '.') : '—' }}</dd>
                             </div>
                             @if(!empty($magazine->notes))
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Notes</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Notes</dt>
                                 <dd class="text-sm text-white/90 whitespace-pre-line">{{ $magazine->notes }}</dd>
                             </div>
                             @endif
                             @if($magazine->sold_at)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Sold on</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Sold on</dt>
                                 <dd class="text-sm text-white/90">{{ $magazine->sold_at->format('d/m/Y') }}</dd>
                             </div>
                             @endif
                             @if($magazine->sold_price !== null)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
-                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/50 w-36 shrink-0">Sold price</dt>
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Sold price</dt>
                                 <dd class="text-sm text-white/90">€ {{ number_format($magazine->sold_price, 2, ',', '.') }}</dd>
                             </div>
                             @endif
