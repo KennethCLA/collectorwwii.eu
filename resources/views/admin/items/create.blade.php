@@ -87,7 +87,7 @@
                                     @endforeach
                                 </select>
                                 <button type="button"
-                                    class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                    class="self-stretch w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add data-type="item-category" data-select="#category_id"
                                     title="Add category">+</button>
                             </div>
@@ -117,7 +117,7 @@
                                     @endforeach
                                 </select>
                                 <button type="button"
-                                    class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                    class="self-stretch w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add data-type="item-organization" data-select="#organization_id"
                                     title="Add organization">+</button>
                             </div>
@@ -186,7 +186,7 @@
                                     @endforeach
                                 </select>
                                 <button type="button"
-                                    class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                    class="self-stretch w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add data-type="origin" data-select="#origin_id"
                                     title="Add origin">+</button>
                             </div>
