@@ -67,7 +67,7 @@
                                 <label for="isbn" class="text-sm font-medium text-white/80">
                                     ISBN
                                 </label>
-                                <span class="text-xs text-white/50">Lookup fills fields (Open Library)</span>
+                                <span class="text-xs text-white/50">Lookup fills fields (Open Library / Google Books)</span>
                             </div>
 
                             <div class="flex items-end gap-4">

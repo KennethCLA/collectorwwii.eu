@@ -176,45 +176,9 @@ class BookController extends Controller
         $bookData = [];
 
         if ($isbn !== '') {
-            try {
-                $response = Http::timeout(5)->get('https://openlibrary.org/api/books', [
-                    'bibkeys' => "ISBN:{$isbn}",
-                    'jscmd' => 'data',
-                    'format' => 'json',
-                ]);
+            $bookData = $this->lookupIsbnOpenLibrary($isbn) ?? $this->lookupIsbnGoogleBooks($isbn) ?? [];
 
-                Log::info('Open Library API response', [
-                    'isbn' => $isbn,
-                    'status' => $response->status(),
-                ]);
-
-                if ($response->successful()) {
-                    $info = data_get($response->json(), "ISBN:{$isbn}");
-
-                    if (is_array($info)) {
-                        $publishDate = data_get($info, 'publish_date');
-                        $year = $publishDate && preg_match('/\d{4}/', (string) $publishDate, $m) ? (int) $m[0] : null;
-
-                        $authors = collect(data_get($info, 'authors', []))->pluck('name')->filter();
-                        $publishers = collect(data_get($info, 'publishers', []))->pluck('name')->filter();
-
-                        $bookData = [
-                            'isbn' => $isbn,
-                            'title' => data_get($info, 'title'),
-                            'subtitle' => data_get($info, 'subtitle'),
-                            'authors' => $authors->isNotEmpty() ? $authors->implode(', ') : null,
-                            'publisher_name' => $publishers->first(),
-                            'copyright_year' => $year,
-                            'pages' => data_get($info, 'number_of_pages'),
-                            'description' => null,
-                        ];
-                    } else {
-                        $isbnLookupFailed = true;
-                    }
-                } else {
-                    $isbnLookupFailed = true;
-                }
-            } catch (\Illuminate\Http\Client\ConnectionException) {
+            if (empty($bookData)) {
                 $isbnLookupFailed = true;
             }
         }
@@ -229,6 +193,105 @@ class BookController extends Controller
             'bookData' => $bookData,
             'isbnLookupFailed' => $isbnLookupFailed,
         ]);
+    }
+
+    /**
+     * Free, keyless, but weak coverage for small/non-English presses.
+     */
+    private function lookupIsbnOpenLibrary(string $isbn): ?array
+    {
+        try {
+            $response = Http::timeout(5)->get('https://openlibrary.org/api/books', [
+                'bibkeys' => "ISBN:{$isbn}",
+                'jscmd' => 'data',
+                'format' => 'json',
+            ]);
+
+            Log::info('Open Library API response', ['isbn' => $isbn, 'status' => $response->status()]);
+
+            if (! $response->successful()) {
+                return null;
+            }
+
+            $info = data_get($response->json(), "ISBN:{$isbn}");
+
+            if (! is_array($info)) {
+                return null;
+            }
+
+            $publishDate = data_get($info, 'publish_date');
+            $year = $publishDate && preg_match('/\d{4}/', (string) $publishDate, $m) ? (int) $m[0] : null;
+
+            $authors = collect(data_get($info, 'authors', []))->pluck('name')->filter();
+            $publishers = collect(data_get($info, 'publishers', []))->pluck('name')->filter();
+
+            return [
+                'isbn' => $isbn,
+                'title' => data_get($info, 'title'),
+                'subtitle' => data_get($info, 'subtitle'),
+                'authors' => $authors->isNotEmpty() ? $authors->implode(', ') : null,
+                'publisher_name' => $publishers->first(),
+                'copyright_year' => $year,
+                'pages' => data_get($info, 'number_of_pages'),
+                'description' => null,
+            ];
+        } catch (\Illuminate\Http\Client\ConnectionException) {
+            return null;
+        }
+    }
+
+    /**
+     * Broader coverage for European/small-press titles, but requires
+     * GOOGLE_BOOKS_API_KEY (anonymous requests are globally quota-exhausted).
+     */
+    private function lookupIsbnGoogleBooks(string $isbn): ?array
+    {
+        $key = config('services.google_books.key');
+
+        if (! $key) {
+            return null;
+        }
+
+        try {
+            $response = Http::timeout(5)->get('https://www.googleapis.com/books/v1/volumes', [
+                'q' => "isbn:{$isbn}",
+                'key' => $key,
+            ]);
+
+            Log::info('Google Books API response', ['isbn' => $isbn, 'status' => $response->status()]);
+
+            if (! $response->successful()) {
+                return null;
+            }
+
+            $data = $response->json();
+
+            if ((int) data_get($data, 'totalItems', 0) < 1) {
+                return null;
+            }
+
+            $info = data_get($data, 'items.0.volumeInfo');
+
+            if (! is_array($info)) {
+                return null;
+            }
+
+            $publishedDate = data_get($info, 'publishedDate');
+            $authors = data_get($info, 'authors');
+
+            return [
+                'isbn' => $isbn,
+                'title' => data_get($info, 'title'),
+                'subtitle' => data_get($info, 'subtitle'),
+                'authors' => $authors ? implode(', ', (array) $authors) : null,
+                'publisher_name' => data_get($info, 'publisher'),
+                'copyright_year' => $publishedDate ? (int) substr((string) $publishedDate, 0, 4) : null,
+                'pages' => data_get($info, 'pageCount'),
+                'description' => data_get($info, 'description'),
+            ];
+        } catch (\Illuminate\Http\Client\ConnectionException) {
+            return null;
+        }
     }
 
     public function store(Request $request)
