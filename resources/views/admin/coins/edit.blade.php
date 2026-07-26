@@ -57,7 +57,7 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="country" data-select="#country_id"
+                                data-lookup-add data-type="countries" data-select="#country_id"
                                 title="Add country">+</button>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="currency" data-select="#currency_id"
+                                data-lookup-add data-type="currencies" data-select="#currency_id"
                                 title="Add currency">+</button>
                             </div>
                         </div>
@@ -89,29 +89,41 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="nominal-value" data-select="#nominal_value_id"
+                                data-lookup-add data-type="nominal-values" data-select="#nominal_value_id"
                                 title="Add nominal value">+</button>
                             </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="shape_id" class="text-sm font-medium text-white/80">Shape</label>
-                            <select id="shape_id" name="shape_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="shape_id" name="shape_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($shapes as $s)
                                 <option value="{{ $s->id }}" @selected((string)$val('shape_id') === (string)$s->id)>{{ $s->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-shapes" data-select="#shape_id"
+                                title="Add shape">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="material_id" class="text-sm font-medium text-white/80">Material</label>
-                            <select id="material_id" name="material_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="material_id" name="material_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($materials as $m)
                                 <option value="{{ $m->id }}" @selected((string)$val('material_id') === (string)$m->id)>{{ $m->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-materials" data-select="#material_id"
+                                title="Add material">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -123,102 +135,162 @@
 
                         <div class="space-y-2">
                             <label for="occasion_id" class="text-sm font-medium text-white/80">Occasion</label>
-                            <select id="occasion_id" name="occasion_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="occasion_id" name="occasion_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($occasions as $o)
                                 <option value="{{ $o->id }}" @selected((string)$val('occasion_id') === (string)$o->id)>{{ $o->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-occasions" data-select="#occasion_id"
+                                title="Add occasion">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="head_of_state_id" class="text-sm font-medium text-white/80">Head of state</label>
-                            <select id="head_of_state_id" name="head_of_state_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="head_of_state_id" name="head_of_state_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($headsOfState as $item)
                                 <option value="{{ $item->id }}" @selected((string)$val('head_of_state_id') === (string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="heads-of-state" data-select="#head_of_state_id"
+                                title="Add head of state">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="strike_mark_id" class="text-sm font-medium text-white/80">Strike mark</label>
-                            <select id="strike_mark_id" name="strike_mark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="strike_mark_id" name="strike_mark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($strikeMarks as $item)
                                 <option value="{{ $item->id }}" @selected((string)$val('strike_mark_id') === (string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-strike-marks" data-select="#strike_mark_id"
+                                title="Add strike mark">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="designer_id" class="text-sm font-medium text-white/80">Designer</label>
-                            <select id="designer_id" name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="designer_id" name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($designers as $item)
                                 <option value="{{ $item->id }}" @selected((string)$val('designer_id') === (string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-designers" data-select="#designer_id"
+                                title="Add designer">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="front_image_id" class="text-sm font-medium text-white/80">Front image</label>
-                            <select id="front_image_id" name="front_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="front_image_id" name="front_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($frontImages as $item)
                                 <option value="{{ $item->id }}" @selected((string)$val('front_image_id') === (string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-front-images" data-select="#front_image_id"
+                                title="Add front image">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="front_text_id" class="text-sm font-medium text-white/80">Front text</label>
-                            <select id="front_text_id" name="front_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="front_text_id" name="front_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($frontTexts as $item)
                                 <option value="{{ $item->id }}" @selected((string)$val('front_text_id') === (string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-front-texts" data-select="#front_text_id"
+                                title="Add front text">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="reverse_image_id" class="text-sm font-medium text-white/80">Reverse image</label>
-                            <select id="reverse_image_id" name="reverse_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="reverse_image_id" name="reverse_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($reverseImages as $item)
                                 <option value="{{ $item->id }}" @selected((string)$val('reverse_image_id') === (string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-reverse-images" data-select="#reverse_image_id"
+                                title="Add reverse image">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="reverse_text_id" class="text-sm font-medium text-white/80">Reverse text</label>
-                            <select id="reverse_text_id" name="reverse_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="reverse_text_id" name="reverse_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($reverseTexts as $item)
                                 <option value="{{ $item->id }}" @selected((string)$val('reverse_text_id') === (string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-reverse-texts" data-select="#reverse_text_id"
+                                title="Add reverse text">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="rim_id" class="text-sm font-medium text-white/80">Rim</label>
-                            <select id="rim_id" name="rim_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="rim_id" name="rim_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($rims as $item)
                                 <option value="{{ $item->id }}" @selected((string)$val('rim_id') === (string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-rims" data-select="#rim_id"
+                                title="Add rim">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="rim_text_id" class="text-sm font-medium text-white/80">Rim text</label>
-                            <select id="rim_text_id" name="rim_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="rim_text_id" name="rim_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($rimTexts as $item)
                                 <option value="{{ $item->id }}" @selected((string)$val('rim_text_id') === (string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="coin-rim-texts" data-select="#rim_text_id"
+                                title="Add rim text">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -324,7 +396,7 @@
                                 </select>
                                 <button type="button"
                                     class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                    data-lookup-add data-type="location" data-select="#location_id"
+                                    data-lookup-add data-type="locations" data-select="#location_id"
                                     title="Add location">+</button>
                             </div>
                         </div>

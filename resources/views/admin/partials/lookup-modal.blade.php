@@ -1,7 +1,7 @@
 {{-- resources/views/admin/partials/lookup-modal.blade.php --}}
 {{-- Reusable inline-add modal for tree and flat lookup selects.
      Usage: place @include('admin.partials.lookup-modal') just before @endsection.
-     Trigger: <button data-lookup-add data-type="topic" data-select="#topic_id">
+     Trigger: <button data-lookup-add data-type="book-topics" data-select="#topic_id">
      Tree types show a parent selector; flat types show only a name field. --}}
 
 <dialog id="lookupModal" class="rounded-xl p-0 backdrop:bg-black/60">
@@ -43,8 +43,8 @@
         const errEl     = document.getElementById('lookupError');
         const saveBtn   = document.getElementById('lookupSaveBtn');
 
-        // Single source of truth — pulled from LookupController::TREE_TYPES
-        const TREE_TYPES = @json(\App\Http\Controllers\Admin\Ajax\LookupController::TREE_TYPES);
+        // Single source of truth — pulled from LookupIndexController::types()
+        const TREE_TYPES = @json(\App\Http\Controllers\Admin\Ajax\LookupController::treeTypes());
 
         const parentsUrl = (type) =>
             `{{ route('admin.lookups.ajax.parents', ['type' => '___']) }}`.replace('___', type);

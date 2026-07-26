@@ -4,124 +4,180 @@
 
 namespace App\Http\Controllers\Admin\Ajax;
 
+use App\Http\Controllers\Admin\LookupIndexController;
 use App\Http\Controllers\Controller;
-use App\Models\BanknoteSeries;
-use App\Models\BookCover;
-use App\Models\BookSeries;
-use App\Models\BookTopic;
-use App\Models\Country;
-use App\Models\Currency;
-use App\Models\ItemCategory;
-use App\Models\ItemNationality;
-use App\Models\ItemOrganization;
-use App\Models\Location;
-use App\Models\MagazineSeries;
-use App\Models\NewspaperSeries;
-use App\Models\NominalValue;
-use App\Models\Origin;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 
+/**
+ * Powers the inline "+" add-lookup modal used across every create/edit form.
+ * Reads its type -> table/tree config from LookupIndexController::types()
+ * (the same map that drives /admin/lookups/{type}) instead of keeping a
+ * second, separately-maintained list — every type with a lookup management
+ * page automatically gets inline-add support too, so it can't silently drift
+ * out of sync the way the previous hardcoded MODEL_MAP repeatedly did.
+ */
 class LookupController extends Controller
 {
-    private const MODEL_MAP = [
-        'topic'              => BookTopic::class,
-        'series'             => BookSeries::class,
-        'cover'              => BookCover::class,
-        'banknote-series'    => BanknoteSeries::class,
-        'location'           => Location::class,
-        'origin'             => Origin::class,
-        'item-category'      => ItemCategory::class,
-        'item-organization'  => ItemOrganization::class,
-        'magazine-series'    => MagazineSeries::class,
-        'newspaper-series'   => NewspaperSeries::class,
-        'country'            => Country::class,
-        'currency'           => Currency::class,
-        'nominal-value'      => NominalValue::class,
-        'item-nationality'   => ItemNationality::class,
-    ];
-
     // Public so the Blade partial can reference it via @json() to avoid duplication
-    public const TREE_TYPES = ['topic', 'location', 'origin', 'item-category', 'item-organization', 'magazine-series', 'newspaper-series'];
+    public static function treeTypes(): array
+    {
+        return collect(LookupIndexController::types())
+            ->filter(fn (array $config) => $config['tree'] ?? false)
+            ->keys()
+            ->values()
+            ->all();
+    }
 
     public function parents(string $type): JsonResponse
     {
-        abort_unless(in_array($type, self::TREE_TYPES), 404);
+        $config = $this->configOrAbort($type);
+        abort_unless($config['tree'] ?? false, 404);
 
-        $modelClass = self::MODEL_MAP[$type];
-        $rows = $modelClass::flatTree();
+        $table = $config['table'];
 
-        return response()->json($rows->values());
+        $rows = DB::table($table)
+            ->select(['id', 'name', 'parent_id'])
+            ->when(Schema::hasColumn($table, 'deleted_at'), fn ($q) => $q->whereNull('deleted_at'))
+            ->orderBy('name')
+            ->get();
+
+        return response()->json($this->flattenTree($rows, null, 0)->values());
     }
 
     public function store(Request $request, string $type): JsonResponse
     {
-        abort_unless(isset(self::MODEL_MAP[$type]), 404);
+        $config = $this->configOrAbort($type);
+        $table  = $config['table'];
+        $isTree = $config['tree'] ?? false;
 
-        $isTree = in_array($type, self::TREE_TYPES);
+        // nominal_values.name is a decimal column (face values like 5.00),
+        // unlike every other lookup table's varchar name — validate
+        // accordingly so a bad value 422s with a clear message instead of
+        // 500ing on the underlying DB type constraint.
+        $nameRules = in_array(Schema::getColumnType($table, 'name'), ['decimal', 'float', 'integer'], true)
+            ? ['required', 'numeric']
+            : ['required', 'string', 'max:255'];
 
         $data = $request->validate([
-            'name'      => ['required', 'string', 'max:255'],
-            'parent_id' => $isTree ? $this->parentIdRules($type) : ['prohibited'],
+            'name'      => $nameRules,
+            'parent_id' => $isTree ? $this->parentIdRules($table) : ['prohibited'],
         ]);
 
         $name     = trim($data['name']);
-        $parentId = $isTree ? ($data['parent_id'] ?? null) : null;
-
-        $modelClass = self::MODEL_MAP[$type];
-
-        $attrs = ['name' => $name];
+        $attrs    = ['name' => $name];
         if ($isTree) {
-            $attrs['parent_id'] = $parentId;
+            $attrs['parent_id'] = $data['parent_id'] ?? null;
         }
 
-        try {
-            $row = $modelClass::firstOrCreate($attrs);
-        } catch (UniqueConstraintViolationException) {
-            $row = $modelClass::where($attrs)->firstOrFail();
+        $id = $this->findMatchingId($table, $attrs);
+
+        if ($id === null) {
+            $payload = $attrs;
+            if (Schema::hasColumn($table, 'created_at')) {
+                $payload['created_at'] = now();
+            }
+            if (Schema::hasColumn($table, 'updated_at')) {
+                $payload['updated_at'] = now();
+            }
+
+            try {
+                $id = DB::table($table)->insertGetId($payload);
+            } catch (UniqueConstraintViolationException|QueryException) {
+                $id = $this->findMatchingId($table, $attrs);
+                abort_if($id === null, 500);
+            }
         }
 
         return response()->json([
-            'id'   => $row->id,
-            'name' => $this->displayName($modelClass, $row),
+            'id'   => $id,
+            'name' => $this->displayName($table, $id),
         ]);
     }
 
-    private function displayName(string $modelClass, object $row): string
+    private function findMatchingId(string $table, array $attrs): ?int
     {
-        $depth   = 0;
-        $current = $modelClass::find($row->id); // Eloquent model so relations work
-        $visited = [$row->id];
+        $row = DB::table($table)->where($attrs)
+            ->when(Schema::hasColumn($table, 'deleted_at'), fn ($q) => $q->whereNull('deleted_at'))
+            ->first();
 
-        while ($current && $current->parent_id) {
-            if (in_array($current->parent_id, $visited)) {
-                break; // Cycle guard
-            }
-            $visited[] = $current->parent_id;
-            $current   = $current->parent; // Uses eager-loaded BelongsTo — no extra query if already loaded
-            $depth++;
+        return $row?->id;
+    }
+
+    private function displayName(string $table, int $id): string
+    {
+        if (! Schema::hasColumn($table, 'parent_id')) {
+            return DB::table($table)->where('id', $id)->value('name');
         }
 
-        return str_repeat('— ', $depth) . $row->name;
+        $depth     = 0;
+        $currentId = $id;
+        $visited   = [];
+        $name      = null;
+
+        while ($currentId !== null) {
+            if (isset($visited[$currentId])) {
+                break; // cycle guard
+            }
+            $visited[$currentId] = true;
+
+            $row = DB::table($table)->select('id', 'name', 'parent_id')->where('id', $currentId)->first();
+            if (! $row) {
+                break;
+            }
+            if ($name === null) {
+                $name = $row->name;
+            } else {
+                $depth++;
+            }
+            $currentId = $row->parent_id;
+        }
+
+        return str_repeat('— ', $depth).$name;
     }
 
     /**
-     * Validation rules for parent_id.
-     * Excludes soft-deleted parents for models that use SoftDeletes.
+     * Validation rules for parent_id. Excludes soft-deleted parents for
+     * tables that use soft deletes.
      */
-    private function parentIdRules(string $type): array
+    private function parentIdRules(string $table): array
     {
-        $modelClass = self::MODEL_MAP[$type];
-        $table      = (new $modelClass)->getTable();
-
         $existsRule = Rule::exists($table, 'id');
 
-        if (in_array(\Illuminate\Database\Eloquent\SoftDeletes::class, class_uses_recursive($modelClass))) {
+        if (Schema::hasColumn($table, 'deleted_at')) {
             $existsRule->whereNull('deleted_at');
         }
 
         return ['nullable', 'integer', 'min:1', $existsRule];
+    }
+
+    private function configOrAbort(string $type): array
+    {
+        $config = LookupIndexController::types()[$type] ?? null;
+        abort_unless($config !== null, 404);
+        abort_unless(Schema::hasTable($config['table']), 404);
+
+        return $config;
+    }
+
+    /**
+     * @param  Collection<int, object>  $rows
+     */
+    private function flattenTree(Collection $rows, ?int $parentId, int $depth): Collection
+    {
+        return $rows->where('parent_id', $parentId)->flatMap(function ($row) use ($rows, $depth) {
+            $item = (object) [
+                'id'   => $row->id,
+                'name' => str_repeat('— ', $depth).$row->name,
+            ];
+
+            return collect([$item])->concat($this->flattenTree($rows, $row->id, $depth + 1));
+        });
     }
 }

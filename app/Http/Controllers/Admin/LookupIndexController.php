@@ -296,7 +296,22 @@ class LookupIndexController extends Controller
 
     private function config(string $type): array
     {
-        $map = [
+        $map = static::types();
+
+        abort_unless(isset($map[$type]), 404);
+
+        return $map[$type];
+    }
+
+    /**
+     * The full type -> {label, description, table, tree?, references} map.
+     * Public/static so other admin surfaces (e.g. the inline "+" add-lookup
+     * modal, Admin\Ajax\LookupController) can reuse it instead of keeping a
+     * second, easily-out-of-sync list of the same lookup types.
+     */
+    public static function types(): array
+    {
+        return [
             'book-topics' => [
                 'label' => 'Book Topics',
                 'description' => 'Options used in book topic fields.',
@@ -631,9 +646,5 @@ class LookupIndexController extends Controller
                 ],
             ],
         ];
-
-        abort_unless(isset($map[$type]), 404);
-
-        return $map[$type];
     }
 }

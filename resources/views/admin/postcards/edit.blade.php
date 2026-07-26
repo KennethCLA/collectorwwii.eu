@@ -48,7 +48,7 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="country" data-select="#country_id"
+                                data-lookup-add data-type="countries" data-select="#country_id"
                                 title="Add country">+</button>
                             </div>
                         </div>
@@ -61,12 +61,18 @@
 
                         <div class="space-y-2">
                             <label for="postcard_type_id" class="text-sm font-medium text-white/80">Postcard type</label>
-                            <select id="postcard_type_id" name="postcard_type_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="postcard_type_id" name="postcard_type_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($postcardTypes as $t)
                                 <option value="{{ $t->id }}" @selected((string)$val('postcard_type_id') === (string)$t->id)>{{ $t->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="postcard-types" data-select="#postcard_type_id"
+                                title="Add postcard type">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -86,7 +92,7 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="currency" data-select="#currency_id"
+                                data-lookup-add data-type="currencies" data-select="#currency_id"
                                 title="Add currency">+</button>
                             </div>
                         </div>
@@ -102,7 +108,7 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="nominal-value" data-select="#nominal_value_id"
+                                data-lookup-add data-type="nominal-values" data-select="#nominal_value_id"
                                 title="Add nominal value">+</button>
                             </div>
                         </div>
@@ -121,32 +127,50 @@
 
                         <div class="space-y-2">
                             <label for="valuation_image_id" class="text-sm font-medium text-white/80">Valuation image</label>
-                            <select id="valuation_image_id" name="valuation_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="valuation_image_id" name="valuation_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($valuationImages as $vi)
                                 <option value="{{ $vi->id }}" @selected((string)$val('valuation_image_id') === (string)$vi->id)>{{ $vi->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="postcard-valuation-images" data-select="#valuation_image_id"
+                                title="Add valuation image">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="colour_id" class="text-sm font-medium text-white/80">Colour</label>
-                            <select id="colour_id" name="colour_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="colour_id" name="colour_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($colours as $col)
                                 <option value="{{ $col->id }}" @selected((string)$val('colour_id') === (string)$col->id)>{{ $col->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="colours" data-select="#colour_id"
+                                title="Add colour">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="print_type_id" class="text-sm font-medium text-white/80">Print type</label>
-                            <select id="print_type_id" name="print_type_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="print_type_id" name="print_type_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($printTypes as $pt)
                                 <option value="{{ $pt->id }}" @selected((string)$val('print_type_id') === (string)$pt->id)>{{ $pt->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="print-types" data-select="#print_type_id"
+                                title="Add print type">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2 lg:col-span-2">
@@ -271,7 +295,7 @@
                                 </select>
                                 <button type="button"
                                     class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                    data-lookup-add data-type="location" data-select="#location_id"
+                                    data-lookup-add data-type="locations" data-select="#location_id"
                                     title="Add location">+</button>
                             </div>
                         </div>

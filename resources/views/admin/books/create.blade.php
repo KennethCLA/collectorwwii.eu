@@ -179,7 +179,7 @@
                                 <button type="button"
                                     class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add
-                                    data-type="topic"
+                                    data-type="book-topics"
                                     data-select="#topic_id"
                                     title="Add topic">+</button>
                             </div>
@@ -201,7 +201,7 @@
                                 <button type="button"
                                     class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add
-                                    data-type="series"
+                                    data-type="book-series"
                                     data-select="#series_id"
                                     title="Add series">+</button>
                             </div>
@@ -233,7 +233,7 @@
                                 <button type="button"
                                     class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add
-                                    data-type="cover"
+                                    data-type="book-covers"
                                     data-select="#cover_id"
                                     title="Add cover">+</button>
                             </div>
@@ -385,7 +385,7 @@
                                 <button type="button"
                                     class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add
-                                    data-type="origin"
+                                    data-type="origins"
                                     data-select="#origin_id"
                                     title="Add origin">+</button>
                             </div>
@@ -407,7 +407,7 @@
                                 <button type="button"
                                     class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add
-                                    data-type="location"
+                                    data-type="locations"
                                     data-select="#location_id"
                                     title="Add location">+</button>
                             </div>

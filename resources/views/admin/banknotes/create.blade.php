@@ -52,7 +52,7 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="country" data-select="#country_id"
+                                data-lookup-add data-type="countries" data-select="#country_id"
                                 title="Add country">+</button>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="currency" data-select="#currency_id"
+                                data-lookup-add data-type="currencies" data-select="#currency_id"
                                 title="Add currency">+</button>
                             </div>
                         </div>
@@ -86,7 +86,7 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="nominal-value" data-select="#nominal_value_id"
+                                data-lookup-add data-type="nominal-values" data-select="#nominal_value_id"
                                 title="Add nominal value">+</button>
                             </div>
                         </div>
@@ -110,13 +110,19 @@
 
                         <div class="space-y-2">
                             <label for="time_period_id" class="text-sm font-medium text-white/80">Time period</label>
-                            <select id="time_period_id" name="time_period_id"
+                            <div class="flex items-center gap-2">
+                                <select id="time_period_id" name="time_period_id"
                                 class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($timePeriods as $tp)
                                 <option value="{{ $tp->id }}" @selected($val('time_period_id') == $tp->id)>{{ $tp->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="banknote-time-periods" data-select="#time_period_id"
+                                title="Add time period">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -134,42 +140,66 @@
 
                         <div class="space-y-2">
                             <label for="head_of_state_id" class="text-sm font-medium text-white/80">Head of state</label>
-                            <select id="head_of_state_id" name="head_of_state_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="head_of_state_id" name="head_of_state_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($headsOfState as $h)
                                 <option value="{{ $h->id }}" @selected($val('head_of_state_id') == $h->id)>{{ $h->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="heads-of-state" data-select="#head_of_state_id"
+                                title="Add head of state">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="colour_id" class="text-sm font-medium text-white/80">Colour</label>
-                            <select id="colour_id" name="colour_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="colour_id" name="colour_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($colours as $col)
                                 <option value="{{ $col->id }}" @selected($val('colour_id') == $col->id)>{{ $col->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="colours" data-select="#colour_id"
+                                title="Add colour">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="designer_id" class="text-sm font-medium text-white/80">Designer</label>
-                            <select id="designer_id" name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="designer_id" name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($designers as $d)
                                 <option value="{{ $d->id }}" @selected($val('designer_id') == $d->id)>{{ $d->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="banknote-designers" data-select="#designer_id"
+                                title="Add designer">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="watermark_id" class="text-sm font-medium text-white/80">Watermark</label>
-                            <select id="watermark_id" name="watermark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="watermark_id" name="watermark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($watermarks as $w)
                                 <option value="{{ $w->id }}" @selected($val('watermark_id') == $w->id)>{{ $w->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="banknote-watermarks" data-select="#watermark_id"
+                                title="Add watermark">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -289,7 +319,7 @@
                                 </select>
                                 <button type="button"
                                     class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                    data-lookup-add data-type="location" data-select="#location_id"
+                                    data-lookup-add data-type="locations" data-select="#location_id"
                                     title="Add location">+</button>
                             </div>
                         </div>

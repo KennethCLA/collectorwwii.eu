@@ -47,7 +47,7 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="country" data-select="#country_id"
+                                data-lookup-add data-type="countries" data-select="#country_id"
                                 title="Add country">+</button>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="currency" data-select="#currency_id"
+                                data-lookup-add data-type="currencies" data-select="#currency_id"
                                 title="Add currency">+</button>
                             </div>
                         </div>
@@ -79,19 +79,25 @@
                             </select>
                             <button type="button"
                                 class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                data-lookup-add data-type="nominal-value" data-select="#nominal_value_id"
+                                data-lookup-add data-type="nominal-values" data-select="#nominal_value_id"
                                 title="Add nominal value">+</button>
                             </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="type_id" class="text-sm font-medium text-white/80">Type</label>
-                            <select id="type_id" name="type_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="type_id" name="type_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($stampTypes as $t)
                                 <option value="{{ $t->id }}" @selected($val('type_id') == $t->id)>{{ $t->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="stamp-types" data-select="#type_id"
+                                title="Add type">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -127,72 +133,114 @@
 
                         <div class="space-y-2">
                             <label for="designer_id" class="text-sm font-medium text-white/80">Designer</label>
-                            <select id="designer_id" name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="designer_id" name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($designers as $d)
                                 <option value="{{ $d->id }}" @selected($val('designer_id') == $d->id)>{{ $d->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="stamp-designers" data-select="#designer_id"
+                                title="Add designer">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="colour_id" class="text-sm font-medium text-white/80">Colour</label>
-                            <select id="colour_id" name="colour_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="colour_id" name="colour_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($colours as $c)
                                 <option value="{{ $c->id }}" @selected($val('colour_id') == $c->id)>{{ $c->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="colours" data-select="#colour_id"
+                                title="Add colour">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="print_type_id" class="text-sm font-medium text-white/80">Print type</label>
-                            <select id="print_type_id" name="print_type_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="print_type_id" name="print_type_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($printTypes as $pt)
                                 <option value="{{ $pt->id }}" @selected($val('print_type_id') == $pt->id)>{{ $pt->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="print-types" data-select="#print_type_id"
+                                title="Add print type">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="watermark_id" class="text-sm font-medium text-white/80">Watermark</label>
-                            <select id="watermark_id" name="watermark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="watermark_id" name="watermark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($watermarks as $w)
                                 <option value="{{ $w->id }}" @selected($val('watermark_id') == $w->id)>{{ $w->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="stamp-watermarks" data-select="#watermark_id"
+                                title="Add watermark">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="gum_id" class="text-sm font-medium text-white/80">Gum</label>
-                            <select id="gum_id" name="gum_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="gum_id" name="gum_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($gums as $g)
                                 <option value="{{ $g->id }}" @selected($val('gum_id') == $g->id)>{{ $g->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="stamp-gums" data-select="#gum_id"
+                                title="Add gum">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="perforation_id" class="text-sm font-medium text-white/80">Perforation type</label>
-                            <select id="perforation_id" name="perforation_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="perforation_id" name="perforation_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($perforations as $p)
                                 <option value="{{ $p->id }}" @selected($val('perforation_id') == $p->id)>{{ $p->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="stamp-perforations" data-select="#perforation_id"
+                                title="Add perforation">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="printing_house_id" class="text-sm font-medium text-white/80">Printing house</label>
-                            <select id="printing_house_id" name="printing_house_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                            <div class="flex items-center gap-2">
+                                <select id="printing_house_id" name="printing_house_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($printingHouses as $ph)
                                 <option value="{{ $ph->id }}" @selected($val('printing_house_id') == $ph->id)>{{ $ph->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="stamp-printing-houses" data-select="#printing_house_id"
+                                title="Add printing house">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -327,7 +375,7 @@
                                 </select>
                                 <button type="button"
                                     class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
-                                    data-lookup-add data-type="location" data-select="#location_id"
+                                    data-lookup-add data-type="locations" data-select="#location_id"
                                     title="Add location">+</button>
                             </div>
                         </div>
