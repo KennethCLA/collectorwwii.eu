@@ -17,6 +17,37 @@
             font-size: 18px;
             padding: 4px 8px;
         }
+
+        .maplibregl-ctrl-group {
+            background: #2d3b2f !important;
+            border: 1px solid rgba(194,178,128,0.3) !important;
+            box-shadow: none !important;
+        }
+        .maplibregl-ctrl-group button {
+            background: transparent !important;
+        }
+        .maplibregl-ctrl-group button + button {
+            border-top: 1px solid rgba(194,178,128,0.2) !important;
+        }
+        .maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon,
+        .maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon,
+        .maplibregl-ctrl-compass .maplibregl-ctrl-icon {
+            filter: invert(85%) sepia(8%) saturate(400%) hue-rotate(10deg) brightness(95%);
+        }
+        .maplibregl-ctrl-group button:hover {
+            background: rgba(194,178,128,0.15) !important;
+        }
+
+        .maplibregl-ctrl-attrib {
+            background: rgba(45,59,47,0.85) !important;
+            color: #c2b280 !important;
+        }
+        .maplibregl-ctrl-attrib a {
+            color: #c2b280 !important;
+        }
+        .maplibregl-ctrl-attrib-button {
+            filter: invert(85%) sepia(8%) saturate(400%) hue-rotate(10deg) brightness(95%);
+        }
     </style>
 
     <div class="mx-auto w-full max-w-7xl space-y-4 pt-6">
@@ -84,9 +115,13 @@
             center: [4.3517, 50.8503],
             zoom: 4,
             minZoom: 2,
+            attributionControl: false,
         });
 
         map.addControl(new maplibregl.NavigationControl(), 'top-right');
+        // MapTiler/OSM attribution must stay per their free-tier terms —
+        // collapsed to a small icon instead of the full text banner.
+        map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
 
         const byId = {};
         locations.forEach((loc) => { byId[loc.id] = loc; });
