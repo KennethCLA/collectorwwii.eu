@@ -1,43 +1,22 @@
 <x-layout :mainClass="'w-full px-4 py-6 sm:px-6 lg:px-8'">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
 
     <style>
-        .wwii-marker {
-            width: 22px;
-            height: 22px;
-            border-radius: 50% 50% 50% 0;
-            transform: rotate(-45deg);
-            background: #c2b280;
-            border: 2px solid #2d3b2f;
-            box-shadow: 0 1px 4px rgba(0,0,0,.5);
-        }
-        .wwii-marker::after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #2d3b2f;
-        }
-        .marker-cluster-wwii {
-            background: rgba(194,178,128,0.35);
-        }
-        .marker-cluster-wwii div {
-            background: #4a564f;
-            color: #f3f0e6;
-            font-weight: 700;
-            border: 2px solid #c2b280;
-        }
-        .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+        .maplibregl-popup-content {
             background: #2d3b2f;
             color: #f3f0e6;
+            border-radius: 10px;
+            padding: 12px;
         }
-        .leaflet-popup-content-wrapper { border-radius: 10px; }
+        .maplibregl-popup-tip {
+            border-top-color: #2d3b2f !important;
+            border-bottom-color: #2d3b2f !important;
+        }
+        .maplibregl-popup-close-button {
+            color: #f3f0e6;
+            font-size: 18px;
+            padding: 4px 8px;
+        }
     </style>
 
     <div class="mx-auto w-full max-w-7xl space-y-4 pt-6">
@@ -49,13 +28,13 @@
 
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
             <div class="relative rounded-2xl bg-black/20 p-3 ring-1 ring-black/30 sm:p-4">
+                @if($maptilerKey)
                 <div id="visit-map" class="h-[45vh] min-h-[360px] w-full rounded-xl lg:h-[65vh]"></div>
-                <div class="pointer-events-none absolute inset-3 sm:inset-4 rounded-xl"
-                     style="background-image:
-                         repeating-linear-gradient(0deg, rgba(194,178,128,0.06) 0px, transparent 1px, transparent 60px, rgba(194,178,128,0.06) 60px),
-                         repeating-linear-gradient(90deg, rgba(194,178,128,0.06) 0px, transparent 1px, transparent 60px, rgba(194,178,128,0.06) 60px);
-                     background-size: 60px 60px;">
+                @else
+                <div class="flex h-[45vh] min-h-[360px] w-full items-center justify-center rounded-xl bg-black/30 text-center text-sm text-white/60 lg:h-[65vh]">
+                    Map unavailable — MAPTILER_API_KEY not configured.
                 </div>
+                @endif
             </div>
 
             <aside x-data="{ open: window.innerWidth >= 1024 }" class="rounded-2xl bg-black/20 p-4 ring-1 ring-black/30">
@@ -94,40 +73,32 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-
+    @if($maptilerKey)
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
     <script>
         const locations = @json($locations);
-        const map = L.map('visit-map', {
-            zoomControl: true,
+
+        const map = new maplibregl.Map({
+            container: 'visit-map',
+            style: 'https://api.maptiler.com/maps/dataviz-dark/style.json?key={{ $maptilerKey }}',
+            center: [4.3517, 50.8503],
+            zoom: 4,
             minZoom: 2,
-        }).setView([50.8503, 4.3517], 4);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        const wwiiIcon = L.divIcon({
-            className: '',
-            html: '<div class="wwii-marker" style="position:relative"></div>',
-            iconSize: [22, 22],
-            iconAnchor: [11, 20],
-            popupAnchor: [0, -20],
         });
 
-        const clusterGroup = L.markerClusterGroup({
-            iconCreateFunction: function (cluster) {
-                return L.divIcon({
-                    html: '<div>' + cluster.getChildCount() + '</div>',
-                    className: 'marker-cluster-wwii marker-cluster',
-                    iconSize: [40, 40],
-                });
-            },
-        });
-        map.addLayer(clusterGroup);
+        map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+        const byId = {};
+        locations.forEach((loc) => { byId[loc.id] = loc; });
+
+        const geojson = {
+            type: 'FeatureCollection',
+            features: locations.map((loc) => ({
+                type: 'Feature',
+                properties: { id: loc.id },
+                geometry: { type: 'Point', coordinates: [loc.lng, loc.lat] },
+            })),
+        };
 
         const popupHtml = (loc) => {
             const desc = (loc.description || '').replace(/\n/g, '<br>');
@@ -142,7 +113,7 @@
             ).join('');
 
             return `
-                <div class="space-y-2" style="min-width: 250px; max-width: 300px;">
+                <div class="space-y-2" style="min-width: 220px; max-width: 280px;">
                     <div>
                         <div style="font-weight:700; font-size:14px;">${loc.name}</div>
                         <div style="font-size:12px; color:#c2b280;">${loc.coordinates}</div>
@@ -153,49 +124,112 @@
                 </div>`;
         };
 
-        const markers = {};
-        const bounds = [];
+        let activePopup = null;
 
-        locations.forEach((loc) => {
-            const marker = L.marker([loc.lat, loc.lng], { icon: wwiiIcon });
-            marker.bindPopup(popupHtml(loc));
-            markers[loc.id] = marker;
-            clusterGroup.addLayer(marker);
-            bounds.push([loc.lat, loc.lng]);
-        });
+        const openPopupFor = (loc) => {
+            if (activePopup) activePopup.remove();
+            activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '300px' })
+                .setLngLat([loc.lng, loc.lat])
+                .setHTML(popupHtml(loc))
+                .addTo(map);
 
-        if (bounds.length > 0) {
-            map.fitBounds(bounds, {
-                padding: [40, 40]
-            });
-        }
-
-        map.on('popupopen', function(e) {
-            const popupEl = e.popup.getElement();
-            if (!popupEl) return;
-            popupEl.querySelectorAll('[data-fancybox]').forEach(function(el) {
-                el.addEventListener('click', function(ev) {
+            activePopup.getElement()?.querySelectorAll('[data-fancybox]').forEach((el) => {
+                el.addEventListener('click', (ev) => {
                     ev.preventDefault();
                     ev.stopPropagation();
                     const gallery = el.dataset.fancybox;
-                    const anchors = Array.from(popupEl.querySelectorAll('[data-fancybox="' + gallery + '"]'));
-                    const items = anchors.map(function(a) { return { src: a.href, type: 'image' }; });
+                    const anchors = Array.from(activePopup.getElement().querySelectorAll('[data-fancybox="' + gallery + '"]'));
+                    const items = anchors.map((a) => ({ src: a.href, type: 'image' }));
                     const idx = anchors.indexOf(el);
                     window.Fancybox.show(items, { startIndex: Math.max(0, idx) });
                 });
             });
+        };
+
+        map.on('load', () => {
+            map.addSource('locations', {
+                type: 'geojson',
+                data: geojson,
+                cluster: true,
+                clusterMaxZoom: 13,
+                clusterRadius: 50,
+            });
+
+            map.addLayer({
+                id: 'clusters',
+                type: 'circle',
+                source: 'locations',
+                filter: ['has', 'point_count'],
+                paint: {
+                    'circle-color': 'rgba(194,178,128,0.85)',
+                    'circle-stroke-color': '#2d3b2f',
+                    'circle-stroke-width': 2,
+                    'circle-radius': ['step', ['get', 'point_count'], 16, 5, 20, 15, 26],
+                },
+            });
+
+            map.addLayer({
+                id: 'cluster-count',
+                type: 'symbol',
+                source: 'locations',
+                filter: ['has', 'point_count'],
+                layout: {
+                    'text-field': '{point_count_abbreviated}',
+                    'text-size': 12,
+                    'text-font': ['Noto Sans Bold'],
+                },
+                paint: { 'text-color': '#2d3b2f' },
+            });
+
+            map.addLayer({
+                id: 'unclustered-point',
+                type: 'circle',
+                source: 'locations',
+                filter: ['!', ['has', 'point_count']],
+                paint: {
+                    'circle-color': '#c2b280',
+                    'circle-stroke-color': '#2d3b2f',
+                    'circle-stroke-width': 2,
+                    'circle-radius': 8,
+                },
+            });
+
+            map.on('click', 'clusters', (e) => {
+                const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+                const clusterId = features[0].properties.cluster_id;
+                map.getSource('locations').getClusterExpansionZoom(clusterId, (err, zoom) => {
+                    if (err) return;
+                    map.easeTo({ center: features[0].geometry.coordinates, zoom });
+                });
+            });
+
+            map.on('click', 'unclustered-point', (e) => {
+                const loc = byId[e.features[0].properties.id];
+                if (loc) openPopupFor(loc);
+            });
+
+            ['clusters', 'unclustered-point'].forEach((layer) => {
+                map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
+                map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
+            });
+
+            const bounds = locations.map((loc) => [loc.lng, loc.lat]);
+            if (bounds.length > 0) {
+                const b = bounds.reduce((acc, c) => acc.extend(c), new maplibregl.LngLatBounds(bounds[0], bounds[0]));
+                map.fitBounds(b, { padding: 60, maxZoom: 12 });
+            }
         });
 
         window.focusMarker = (id) => {
-            const marker = markers[id];
-            if (!marker) return;
-            clusterGroup.zoomToShowLayer(marker, function () {
-                marker.openPopup();
-            });
+            const loc = byId[id];
+            if (!loc) return;
+            map.flyTo({ center: [loc.lng, loc.lat], zoom: 12 });
+            map.once('moveend', () => openPopupFor(loc));
         };
+    </script>
+    @endif
 
-        // Search: filters the sidebar list; matching markers get their own
-        // cluster group so results are visually distinguishable on the map.
+    <script>
         const searchInput = document.getElementById('location-search');
         const listButtons = Array.from(document.querySelectorAll('#location-list [data-location-name]'));
         const emptyMsg = document.getElementById('location-empty');

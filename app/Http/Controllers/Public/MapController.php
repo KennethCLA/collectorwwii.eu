@@ -30,6 +30,7 @@ class MapController extends Controller
 
         return view('map.index', [
             'locations' => $locations,
+            'maptilerKey' => config('services.maptiler.key'),
         ]);
     }
 }
