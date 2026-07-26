@@ -83,6 +83,62 @@ class ItemCrudTest extends TestCase
         $response->assertSessionHasErrors('title');
     }
 
+    public function test_store_validates_sold_price_requires_sold_at(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $response = $this->post(route('admin.items.store'), [
+            'title' => 'Iron Cross',
+            'sold_price' => 50,
+        ]);
+
+        $response->assertSessionHasErrors('sold_at');
+    }
+
+    public function test_store_validates_sold_at_not_in_future(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $response = $this->post(route('admin.items.store'), [
+            'title' => 'Iron Cross',
+            'sold_at' => now()->addDay()->toDateString(),
+        ]);
+
+        $response->assertSessionHasErrors('sold_at');
+    }
+
+    public function test_store_validates_purchase_date_not_in_future(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $response = $this->post(route('admin.items.store'), [
+            'title' => 'Iron Cross',
+            'purchase_date' => now()->addDay()->toDateString(),
+        ]);
+
+        $response->assertSessionHasErrors('purchase_date');
+    }
+
+    public function test_store_marking_sold_clears_for_sale_and_selling_price(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $response = $this->post(route('admin.items.store'), [
+            'title' => 'Iron Cross',
+            'for_sale' => '1',
+            'selling_price' => 100,
+            'sold_at' => now()->toDateString(),
+            'sold_price' => 80,
+        ]);
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('items', [
+            'title' => 'Iron Cross',
+            'for_sale' => false,
+            'selling_price' => null,
+        ]);
+    }
+
     public function test_store_accepts_inline_image_upload(): void
     {
         $this->actingAs($this->makeAdminUser());

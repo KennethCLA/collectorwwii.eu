@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Concerns\HandlesInlineMediaUploads;
+use App\Http\Controllers\Admin\Concerns\NormalizesForSaleFields;
 use App\Http\Controllers\Controller;
 use App\Models\Magazine;
 use App\Models\MagazineSeries;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class MagazineController extends Controller
 {
     use HandlesInlineMediaUploads;
+    use NormalizesForSaleFields;
 
     public function __construct()
     {
@@ -60,14 +63,14 @@ class MagazineController extends Controller
             'issue_number' => 'nullable|integer|min:1',
             'issue_year' => 'nullable|integer|min:1800|max:'.(date('Y') + 1),
             'description' => 'nullable|string',
-            'purchase_date' => 'nullable|date',
+            'purchase_date' => ['nullable', 'date', 'before_or_equal:today'],
             'purchase_price' => 'nullable|numeric|min:0',
             'for_sale' => 'nullable|boolean',
             'selling_price' => 'nullable|numeric|min:0',
             'notes' => 'nullable|string',
             'condition' => 'nullable|string|max:50',
-            'sold_at' => 'nullable|date',
-            'sold_price' => 'nullable|numeric|min:0',
+            'sold_at' => ['nullable', 'date', 'before_or_equal:today', Rule::requiredIf(fn () => $request->filled('sold_price'))],
+            'sold_price' => ['nullable', 'numeric', 'min:0'],
             'images' => ['nullable', 'array'],
             'images.*' => ['file', 'mimes:jpeg,png,jpg,gif,webp', 'max:51200'],
             'pdfs' => ['nullable', 'array'],
@@ -75,11 +78,7 @@ class MagazineController extends Controller
             'main_image_index' => ['nullable', 'integer', 'min:0'],
         ]);
 
-        $validated['for_sale'] = $request->boolean('for_sale');
-        if (! empty($validated['sold_at'])) {
-            $validated['for_sale'] = false;
-            $validated['selling_price'] = null;
-        }
+        $validated = $this->normalizeForSaleFields($validated, $request);
 
         $uploadedForCleanup = [];
 
@@ -140,21 +139,17 @@ class MagazineController extends Controller
             'issue_number' => 'nullable|integer|min:1',
             'issue_year' => 'nullable|integer|min:1800|max:'.(date('Y') + 1),
             'description' => 'nullable|string',
-            'purchase_date' => 'nullable|date',
+            'purchase_date' => ['nullable', 'date', 'before_or_equal:today'],
             'purchase_price' => 'nullable|numeric|min:0',
             'for_sale' => 'nullable|boolean',
             'selling_price' => 'nullable|numeric|min:0',
             'notes' => 'nullable|string',
             'condition' => 'nullable|string|max:50',
-            'sold_at' => 'nullable|date',
-            'sold_price' => 'nullable|numeric|min:0',
+            'sold_at' => ['nullable', 'date', 'before_or_equal:today', Rule::requiredIf(fn () => $request->filled('sold_price'))],
+            'sold_price' => ['nullable', 'numeric', 'min:0'],
         ]);
 
-        $validated['for_sale'] = $request->boolean('for_sale');
-        if (! empty($validated['sold_at'])) {
-            $validated['for_sale'] = false;
-            $validated['selling_price'] = null;
-        }
+        $validated = $this->normalizeForSaleFields($validated, $request);
 
         $magazine->update($validated);
 

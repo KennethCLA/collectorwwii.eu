@@ -5,6 +5,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Concerns\HandlesInlineMediaUploads;
+use App\Http\Controllers\Admin\Concerns\NormalizesForSaleFields;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Book;
@@ -25,6 +26,7 @@ use Illuminate\Validation\ValidationException;
 class BookController extends Controller
 {
     use HandlesInlineMediaUploads;
+    use NormalizesForSaleFields;
 
     public function __construct()
     {
@@ -127,7 +129,7 @@ class BookController extends Controller
             'publisher_first_issue' => ['nullable', 'string', 'max:255'],
 
             'purchase_price' => ['nullable', 'numeric', 'min:0'],
-            'purchase_date' => ['nullable', 'date'],
+            'purchase_date' => ['nullable', 'date', 'before_or_equal:today'],
             'origin_id' => ['nullable', 'exists:origins,id'],
             'notes' => ['nullable', 'string'],
             'location_id' => ['nullable', 'exists:locations,id'],
@@ -141,7 +143,7 @@ class BookController extends Controller
             'thickness' => ['nullable', 'integer', 'min:0'],
 
             'condition' => ['nullable', 'string', 'max:50'],
-            'sold_at' => ['nullable', 'date'],
+            'sold_at' => ['nullable', 'date', 'before_or_equal:today', Rule::requiredIf(fn () => $request->filled('sold_price'))],
             'sold_price' => ['nullable', 'numeric', 'min:0'],
 
             'authors' => ['required', 'string', 'max:500'],
@@ -162,15 +164,7 @@ class BookController extends Controller
         $isbn = $isbn !== '' ? preg_replace('/[\s-]+/', '', $isbn) : null;
         $validated['isbn'] = $isbn;
 
-        $validated['for_sale'] = (bool) $request->boolean('for_sale');
-        if (! $validated['for_sale']) {
-            $validated['selling_price'] = null;
-        }
-
-        if (! empty($validated['sold_at'])) {
-            $validated['for_sale'] = false;
-            $validated['selling_price'] = null;
-        }
+        $validated = $this->normalizeForSaleFields($validated, $request);
 
         return $validated;
     }

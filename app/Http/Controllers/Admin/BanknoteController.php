@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Concerns\HandlesInlineMediaUploads;
+use App\Http\Controllers\Admin\Concerns\NormalizesForSaleFields;
 use App\Http\Controllers\Controller;
 use App\Models\Banknote;
 use App\Models\BanknoteSeries;
@@ -14,10 +15,12 @@ use App\Models\NominalValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class BanknoteController extends Controller
 {
     use HandlesInlineMediaUploads;
+    use NormalizesForSaleFields;
 
     public function __construct()
     {
@@ -94,15 +97,15 @@ class BanknoteController extends Controller
             'print_run' => 'nullable|integer|min:0',
             'for_sale' => 'nullable|boolean',
             'selling_price' => 'nullable|numeric|min:0',
-            'purchase_date' => 'nullable|date',
+            'purchase_date' => ['nullable', 'date', 'before_or_equal:today'],
             'purchasing_price' => 'nullable|numeric|min:0',
             'current_value' => 'nullable|numeric|min:0',
             'location_id' => 'nullable|exists:locations,id',
             'location_detail' => 'nullable|string|max:255',
             'personal_remarks' => 'nullable|string',
             'condition' => 'nullable|string|max:50',
-            'sold_at' => 'nullable|date',
-            'sold_price' => 'nullable|numeric|min:0',
+            'sold_at' => ['nullable', 'date', 'before_or_equal:today', Rule::requiredIf(fn () => $request->filled('sold_price'))],
+            'sold_price' => ['nullable', 'numeric', 'min:0'],
             'images' => ['nullable', 'array'],
             'images.*' => ['file', 'mimes:jpeg,png,jpg,gif,webp', 'max:51200'],
             'pdfs' => ['nullable', 'array'],
@@ -110,11 +113,7 @@ class BanknoteController extends Controller
             'main_image_index' => ['nullable', 'integer', 'min:0'],
         ]);
 
-        $validated['for_sale'] = $request->boolean('for_sale');
-        if (! empty($validated['sold_at'])) {
-            $validated['for_sale'] = false;
-            $validated['selling_price'] = null;
-        }
+        $validated = $this->normalizeForSaleFields($validated, $request);
 
         $uploadedForCleanup = [];
 
@@ -201,22 +200,18 @@ class BanknoteController extends Controller
             'print_run' => 'nullable|integer|min:0',
             'for_sale' => 'nullable|boolean',
             'selling_price' => 'nullable|numeric|min:0',
-            'purchase_date' => 'nullable|date',
+            'purchase_date' => ['nullable', 'date', 'before_or_equal:today'],
             'purchasing_price' => 'nullable|numeric|min:0',
             'current_value' => 'nullable|numeric|min:0',
             'location_id' => 'nullable|exists:locations,id',
             'location_detail' => 'nullable|string|max:255',
             'personal_remarks' => 'nullable|string',
             'condition' => 'nullable|string|max:50',
-            'sold_at' => 'nullable|date',
-            'sold_price' => 'nullable|numeric|min:0',
+            'sold_at' => ['nullable', 'date', 'before_or_equal:today', Rule::requiredIf(fn () => $request->filled('sold_price'))],
+            'sold_price' => ['nullable', 'numeric', 'min:0'],
         ]);
 
-        $validated['for_sale'] = $request->boolean('for_sale');
-        if (! empty($validated['sold_at'])) {
-            $validated['for_sale'] = false;
-            $validated['selling_price'] = null;
-        }
+        $validated = $this->normalizeForSaleFields($validated, $request);
 
         $banknote->update($validated);
 
