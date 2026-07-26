@@ -1,7 +1,8 @@
 {{-- resources/views/admin/items/index.blade.php --}}
 
-<x-layout>
-    @section('admin-content')
+@extends('layouts.admin')
+
+@section('admin-content')
     <div class="w-full">
         <div class="mb-6 flex items-center justify-between gap-4">
             <h1 class="text-2xl font-semibold text-white">Items</h1>
@@ -33,7 +34,7 @@
                     class="rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                     <option value="">All</option>
                     @foreach($categories as $c)
-                    <option value="{{ $c->id }}" @selected(request('category') == $c->id)>{{ $c->name }}</option>
+                    <option value="{{ $c->id }}" @selected((string)request('category')===(string)$c->id)>{{ $c->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -43,7 +44,7 @@
                     class="rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                     <option value="">All</option>
                     @foreach($nationalities as $n)
-                    <option value="{{ $n->id }}" @selected(request('nationality') == $n->id)>{{ $n->name }}</option>
+                    <option value="{{ $n->id }}" @selected((string)request('nationality')===(string)$n->id)>{{ $n->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -53,7 +54,7 @@
                     class="rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                     <option value="">All</option>
                     @foreach($origins as $o)
-                    <option value="{{ $o->id }}" @selected(request('origin') == $o->id)>{{ $o->name }}</option>
+                    <option value="{{ $o->id }}" @selected((string)request('origin')===(string)$o->id)>{{ $o->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -63,15 +64,24 @@
                     class="rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                     <option value="">All</option>
                     @foreach($organizations as $org)
-                    <option value="{{ $org->id }}" @selected(request('organization') == $org->id)>{{ $org->name }}</option>
+                    <option value="{{ $org->id }}" @selected((string)request('organization')===(string)$org->id)>{{ $org->name }}</option>
                     @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs text-white/60 mb-1">For Sale</label>
+                <select name="for_sale"
+                    class="rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                    <option value="">All</option>
+                    <option value="1" @selected(request('for_sale') === '1')>For sale</option>
+                    <option value="0" @selected(request('for_sale') === '0')>Not for sale</option>
                 </select>
             </div>
             <button type="submit"
                 class="rounded-md bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15">
                 Filter
             </button>
-            @if(request()->hasAny(['search','category','nationality','origin','organization']))
+            @if(request()->hasAny(['search','category','nationality','origin','organization','for_sale']))
             <a href="{{ route('admin.items.index') }}"
                 class="rounded-md bg-white/5 px-4 py-2 text-sm text-white/60 hover:text-white">
                 Clear
@@ -176,4 +186,3 @@
         </div>
     </div>
     @endsection
-</x-layout>

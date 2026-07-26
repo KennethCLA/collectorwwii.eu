@@ -1,7 +1,8 @@
 {{-- resources/views/admin/stamps/index.blade.php --}}
 
-<x-layout>
-    @section('admin-content')
+@extends('layouts.admin')
+
+@section('admin-content')
     <div class="w-full">
         <div class="mb-6 flex items-center justify-between gap-4">
             <h1 class="text-2xl font-semibold text-white">Stamps</h1>
@@ -15,11 +16,17 @@
 
         <form method="GET" action="{{ route('admin.stamps.index') }}" class="mb-4 flex flex-wrap gap-3 items-end">
             <div>
+                <label class="block text-xs text-white/60 mb-1">Search</label>
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Michel/Yvert no...."
+                    class="rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 w-56" />
+            </div>
+            <div>
                 <label class="block text-xs text-white/60 mb-1">Country</label>
                 <select name="country_id" class="rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                     <option value="">All</option>
                     @foreach($countries as $c)
-                    <option value="{{ $c->id }}" @selected(request('country_id') == $c->id)>{{ $c->name }}</option>
+                    <option value="{{ $c->id }}" @selected((string)request('country_id')===(string)$c->id)>{{ $c->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -28,7 +35,7 @@
                 <select name="type_id" class="rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                     <option value="">All</option>
                     @foreach($stampTypes as $t)
-                    <option value="{{ $t->id }}" @selected(request('type_id') == $t->id)>{{ $t->name }}</option>
+                    <option value="{{ $t->id }}" @selected((string)request('type_id')===(string)$t->id)>{{ $t->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -41,7 +48,7 @@
                 </select>
             </div>
             <button type="submit" class="rounded-md bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15">Filter</button>
-            @if(request()->hasAny(['country_id','type_id','for_sale']))
+            @if(request()->hasAny(['search','country_id','type_id','for_sale']))
             <a href="{{ route('admin.stamps.index') }}" class="rounded-md bg-white/5 px-4 py-2 text-sm text-white/60 hover:text-white">Clear</a>
             @endif
         </form>
@@ -134,4 +141,3 @@
         <div class="mt-4 text-white">{{ $stamps->appends(request()->query())->links('pagination::tailwind') }}</div>
     </div>
     @endsection
-</x-layout>

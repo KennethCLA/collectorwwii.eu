@@ -1,7 +1,8 @@
 {{-- resources/views/admin/newspapers/index.blade.php --}}
 
-<x-layout>
-    @section('admin-content')
+@extends('layouts.admin')
+
+@section('admin-content')
     <div class="w-full">
         <div class="mb-6 flex items-center justify-between gap-4">
             <h1 class="text-2xl font-semibold text-white">Newspapers</h1>
@@ -130,4 +131,3 @@
         </div>
     </div>
     @endsection
-</x-layout>
