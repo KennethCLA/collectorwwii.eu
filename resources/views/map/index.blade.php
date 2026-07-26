@@ -2,29 +2,6 @@
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
 
     <style>
-        .maplibregl-popup {
-            max-width: min(260px, 78vw) !important;
-        }
-        .maplibregl-popup-content {
-            background: #2d3b2f;
-            color: #f3f0e6;
-            border-radius: 10px;
-            padding: 12px;
-            max-height: 50vh;
-            overflow-y: auto;
-        }
-        .maplibregl-popup-tip {
-            border-top-color: #2d3b2f !important;
-            border-bottom-color: #2d3b2f !important;
-        }
-        .maplibregl-popup-close-button {
-            color: #f3f0e6;
-            font-size: 18px;
-            padding: 4px 8px;
-            position: sticky;
-            top: 0;
-        }
-
         .maplibregl-ctrl-group {
             background: #2d3b2f !important;
             border: 1px solid rgba(194,178,128,0.3) !important;
@@ -130,6 +107,26 @@
                 </div>
             </aside>
         </div>
+
+        {{-- Detail panel: shown below the map on marker/list click, instead of
+             a floating popup anchored to the pin — popups fighting for space
+             on narrow mobile viewports made long descriptions/photos
+             unreadable. This is the same "tap a pin, see a panel" pattern
+             most map UIs (Google Maps, Airbnb, etc.) use on mobile. --}}
+        <div id="location-panel" class="hidden rounded-2xl bg-black/20 p-4 ring-1 ring-black/30 sm:p-6">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <h2 id="panel-name" class="font-stencil text-lg font-bold text-white"></h2>
+                    <p id="panel-coords" class="mt-0.5 font-mono text-xs text-khaki/70"></p>
+                </div>
+                <button type="button" onclick="closePanel()"
+                    class="shrink-0 rounded-md bg-white/10 px-3 py-1.5 text-sm text-white hover:bg-white/20">
+                    Close ✕
+                </button>
+            </div>
+            <div id="panel-description" class="mt-4 max-h-[40vh] overflow-y-auto whitespace-pre-line text-sm leading-relaxed text-white/85"></div>
+            <div id="panel-images" class="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6"></div>
+        </div>
     </div>
 
     @if($maptilerKey)
@@ -192,50 +189,29 @@
             })),
         };
 
-        const popupHtml = (loc) => {
-            const desc = (loc.description || '').replace(/\n/g, '<br>');
-            const imageThumbs = (loc.images || []).slice(0, 4).map((url, idx) =>
-                `<a href="${url}" data-fancybox="map-${loc.id}" class="block overflow-hidden rounded-md ring-1 ring-white/20">
-                    <img src="${url}" alt="${loc.name} photo ${idx + 1}" class="h-16 w-24 object-cover" />
+        const panel = document.getElementById('location-panel');
+        const panelName = document.getElementById('panel-name');
+        const panelCoords = document.getElementById('panel-coords');
+        const panelDescription = document.getElementById('panel-description');
+        const panelImages = document.getElementById('panel-images');
+
+        window.closePanel = () => {
+            panel.classList.add('hidden');
+        };
+
+        const openPanelFor = (loc) => {
+            panelName.textContent = loc.name;
+            panelCoords.textContent = loc.coordinates;
+            panelDescription.textContent = loc.description || '';
+
+            panelImages.innerHTML = (loc.images || []).map((url, idx) => `
+                <a href="${url}" data-fancybox="map-${loc.id}" class="block overflow-hidden rounded-md ring-1 ring-white/20">
+                    <img src="${url}" alt="${loc.name} photo ${idx + 1}" class="h-20 w-full object-cover sm:h-24" loading="lazy" />
                 </a>`
             ).join('');
 
-            const hiddenLinks = (loc.images || []).slice(4).map((url) =>
-                `<a href="${url}" data-fancybox="map-${loc.id}" class="hidden">Photo</a>`
-            ).join('');
-
-            return `
-                <div class="space-y-2" style="width: 100%; padding-right: 18px;">
-                    <div>
-                        <div style="font-weight:700; font-size:14px;">${loc.name}</div>
-                        <div style="font-size:12px; color:#c2b280;">${loc.coordinates}</div>
-                    </div>
-                    ${desc ? `<div style="font-size:13px; line-height:1.4;">${desc}</div>` : ''}
-                    ${(loc.images || []).length ? `<div class="grid grid-cols-2 gap-1">${imageThumbs}</div>` : ''}
-                    ${hiddenLinks}
-                </div>`;
-        };
-
-        let activePopup = null;
-
-        const openPopupFor = (loc) => {
-            if (activePopup) activePopup.remove();
-            activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: 'min(260px, 78vw)' })
-                .setLngLat([loc.lng, loc.lat])
-                .setHTML(popupHtml(loc))
-                .addTo(map);
-
-            activePopup.getElement()?.querySelectorAll('[data-fancybox]').forEach((el) => {
-                el.addEventListener('click', (ev) => {
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                    const gallery = el.dataset.fancybox;
-                    const anchors = Array.from(activePopup.getElement().querySelectorAll('[data-fancybox="' + gallery + '"]'));
-                    const items = anchors.map((a) => ({ src: a.href, type: 'image' }));
-                    const idx = anchors.indexOf(el);
-                    window.Fancybox.show(items, { startIndex: Math.max(0, idx) });
-                });
-            });
+            panel.classList.remove('hidden');
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         };
 
         map.on('load', () => {
@@ -297,7 +273,7 @@
 
             map.on('click', 'unclustered-point', (e) => {
                 const loc = byId[e.features[0].properties.id];
-                if (loc) openPopupFor(loc);
+                if (loc) openPanelFor(loc);
             });
 
             ['clusters', 'unclustered-point'].forEach((layer) => {
@@ -316,7 +292,7 @@
             const loc = byId[id];
             if (!loc) return;
             map.flyTo({ center: [loc.lng, loc.lat], zoom: 12 });
-            map.once('moveend', () => openPopupFor(loc));
+            openPanelFor(loc);
         };
     </script>
     @endif
