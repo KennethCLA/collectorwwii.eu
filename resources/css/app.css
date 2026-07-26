@@ -432,6 +432,18 @@ img[src*="error-image-not-found"] {
     color: #1a1a1a !important;
 }
 
+/* ─── Choices.js single-select: the library adds its own
+   padding-bottom on top of our select's padding, making the
+   enhanced control taller than a plain input/button beside it.
+   Normalize it to match so inline "+" add buttons line up ─── */
+.choices[data-type*="select-one"] .choices__inner {
+    min-height: 2.5rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
 /* ─── Same issue for plain native <select> (browser-rendered popup is
    white bg by default; app text is white, so options were invisible) ─── */
 select option {

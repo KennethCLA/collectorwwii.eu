@@ -177,7 +177,7 @@
                                 </select>
 
                                 <button type="button"
-                                    class="self-stretch w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                    class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add
                                     data-type="topic"
                                     data-select="#topic_id"
@@ -199,7 +199,7 @@
                                 </select>
 
                                 <button type="button"
-                                    class="self-stretch w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                    class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add
                                     data-type="series"
                                     data-select="#series_id"
@@ -231,7 +231,7 @@
                                 </select>
 
                                 <button type="button"
-                                    class="self-stretch w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                    class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add
                                     data-type="cover"
                                     data-select="#cover_id"
@@ -383,7 +383,7 @@
                                 </select>
 
                                 <button type="button"
-                                    class="self-stretch w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                    class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add
                                     data-type="origin"
                                     data-select="#origin_id"
@@ -405,7 +405,7 @@
                                 </select>
 
                                 <button type="button"
-                                    class="self-stretch w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                    class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
                                     data-lookup-add
                                     data-type="location"
                                     data-select="#location_id"
