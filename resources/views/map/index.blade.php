@@ -41,12 +41,25 @@
         .maplibregl-ctrl-attrib {
             background: rgba(45,59,47,0.85) !important;
             color: #c2b280 !important;
+            padding: 2px !important;
         }
         .maplibregl-ctrl-attrib a {
             color: #c2b280 !important;
         }
         .maplibregl-ctrl-attrib-button {
             filter: invert(85%) sepia(8%) saturate(400%) hue-rotate(10deg) brightness(95%);
+        }
+        /* Force the collapsed state regardless of MapLibre's own width-based
+           toggle class — required MapTiler/OSM credit stays reachable via
+           the icon, just not shown as a permanent text banner. */
+        .maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-inner {
+            display: none !important;
+        }
+        .maplibregl-ctrl-attrib.maplibregl-compact-show .maplibregl-ctrl-attrib-inner,
+        .maplibregl-ctrl-attrib:hover .maplibregl-ctrl-attrib-inner,
+        .maplibregl-ctrl-attrib:focus-within .maplibregl-ctrl-attrib-inner {
+            display: inline !important;
+            padding: 0 4px;
         }
     </style>
 
