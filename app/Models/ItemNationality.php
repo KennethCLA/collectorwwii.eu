@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItemNationality extends Model
 {
-    //
+    protected $fillable = ['name'];
 }

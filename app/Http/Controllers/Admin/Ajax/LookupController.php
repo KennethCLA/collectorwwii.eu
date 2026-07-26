@@ -9,11 +9,15 @@ use App\Models\BanknoteSeries;
 use App\Models\BookCover;
 use App\Models\BookSeries;
 use App\Models\BookTopic;
+use App\Models\Country;
+use App\Models\Currency;
 use App\Models\ItemCategory;
+use App\Models\ItemNationality;
 use App\Models\ItemOrganization;
 use App\Models\Location;
 use App\Models\MagazineSeries;
 use App\Models\NewspaperSeries;
+use App\Models\NominalValue;
 use App\Models\Origin;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
@@ -33,6 +37,10 @@ class LookupController extends Controller
         'item-organization'  => ItemOrganization::class,
         'magazine-series'    => MagazineSeries::class,
         'newspaper-series'   => NewspaperSeries::class,
+        'country'            => Country::class,
+        'currency'           => Currency::class,
+        'nominal-value'      => NominalValue::class,
+        'item-nationality'   => ItemNationality::class,
     ];
 
     // Public so the Blade partial can reference it via @json() to avoid duplication

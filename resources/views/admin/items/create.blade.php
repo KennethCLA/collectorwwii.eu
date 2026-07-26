@@ -96,13 +96,19 @@
                         {{-- Nationality --}}
                         <div class="space-y-2">
                             <label for="nationality_id" class="text-sm font-medium text-white/80">Nationality</label>
-                            <select id="nationality_id" name="nationality_id"
-                                class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
-                                <option value="">—</option>
-                                @foreach($nationalities as $n)
-                                <option value="{{ $n->id }}" @selected((string)$val('nationality_id')===(string)$n->id)>{{ $n->name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="flex items-center gap-2">
+                                <select id="nationality_id" name="nationality_id"
+                                    class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                                    <option value="">—</option>
+                                    @foreach($nationalities as $n)
+                                    <option value="{{ $n->id }}" @selected((string)$val('nationality_id')===(string)$n->id)>{{ $n->name }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="button"
+                                    class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                    data-lookup-add data-type="item-nationality" data-select="#nationality_id"
+                                    title="Add nationality">+</button>
+                            </div>
                         </div>
 
                         {{-- Organization --}}

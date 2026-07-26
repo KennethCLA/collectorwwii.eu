@@ -42,35 +42,53 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label for="country_id" class="text-sm font-medium text-white/80">Country</label>
-                            <select id="country_id" name="country_id"
+                            <div class="flex items-center gap-2">
+                                <select id="country_id" name="country_id"
                                 class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($countries as $c)
                                 <option value="{{ $c->id }}" @selected($val('country_id') == $c->id)>{{ $c->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="country" data-select="#country_id"
+                                title="Add country">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="currency_id" class="text-sm font-medium text-white/80">Currency</label>
-                            <select id="currency_id" name="currency_id"
+                            <div class="flex items-center gap-2">
+                                <select id="currency_id" name="currency_id"
                                 class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($currencies as $c)
                                 <option value="{{ $c->id }}" @selected($val('currency_id') == $c->id)>{{ $c->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="currency" data-select="#currency_id"
+                                title="Add currency">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
                             <label for="nominal_value_id" class="text-sm font-medium text-white/80">Nominal value</label>
-                            <select id="nominal_value_id" name="nominal_value_id"
+                            <div class="flex items-center gap-2">
+                                <select id="nominal_value_id" name="nominal_value_id"
                                 class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($nominalValues as $nv)
                                 <option value="{{ $nv->id }}" @selected($val('nominal_value_id') == $nv->id)>{{ $nv->name }}</option>
                                 @endforeach
                             </select>
+                            <button type="button"
+                                class="h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                                data-lookup-add data-type="nominal-value" data-select="#nominal_value_id"
+                                title="Add nominal value">+</button>
+                            </div>
                         </div>
 
                         <div class="space-y-2">
