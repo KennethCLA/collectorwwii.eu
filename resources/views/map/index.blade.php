@@ -38,28 +38,36 @@
             background: rgba(194,178,128,0.15) !important;
         }
 
-        .maplibregl-ctrl-attrib {
-            background: rgba(45,59,47,0.85) !important;
-            color: #c2b280 !important;
-            padding: 2px !important;
+        .compact-attrib {
+            position: relative;
+            background: #2d3b2f !important;
+            border: 1px solid rgba(194,178,128,0.3) !important;
         }
-        .maplibregl-ctrl-attrib a {
-            color: #c2b280 !important;
+        .compact-attrib button {
+            width: 24px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            color: #c2b280;
+            cursor: pointer;
         }
-        .maplibregl-ctrl-attrib-button {
-            filter: invert(85%) sepia(8%) saturate(400%) hue-rotate(10deg) brightness(95%);
+        .compact-attrib button:hover {
+            background: rgba(194,178,128,0.15);
         }
-        /* Force the collapsed state regardless of MapLibre's own width-based
-           toggle class — required MapTiler/OSM credit stays reachable via
-           the icon, just not shown as a permanent text banner. */
-        .maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-inner {
-            display: none !important;
+        .compact-attrib-panel {
+            position: absolute;
+            bottom: 28px;
+            right: 0;
+            white-space: nowrap;
+            background: rgba(45,59,47,0.95);
+            border: 1px solid rgba(194,178,128,0.3);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: #c2b280;
         }
-        .maplibregl-ctrl-attrib.maplibregl-compact-show .maplibregl-ctrl-attrib-inner,
-        .maplibregl-ctrl-attrib:hover .maplibregl-ctrl-attrib-inner,
-        .maplibregl-ctrl-attrib:focus-within .maplibregl-ctrl-attrib-inner {
-            display: inline !important;
-            padding: 0 4px;
+        .compact-attrib-panel a {
+            color: #c2b280;
         }
     </style>
 
@@ -132,9 +140,38 @@
         });
 
         map.addControl(new maplibregl.NavigationControl(), 'top-right');
-        // MapTiler/OSM attribution must stay per their free-tier terms —
-        // collapsed to a small icon instead of the full text banner.
-        map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
+
+        // MapTiler/OSM attribution must stay reachable per their free-tier
+        // terms. Custom control instead of maplibregl.AttributionControl's
+        // own compact mode, whose show/hide toggle wasn't collapsing
+        // reliably — this is a plain button + popover we fully control.
+        class CompactAttribution {
+            onAdd() {
+                this._container = document.createElement('div');
+                this._container.className = 'maplibregl-ctrl maplibregl-ctrl-group compact-attrib';
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.setAttribute('aria-label', 'Map attribution');
+                btn.textContent = 'i';
+                btn.style.cssText = 'width:24px;height:24px;font-style:italic;font-weight:700;';
+
+                const panel = document.createElement('div');
+                panel.className = 'compact-attrib-panel';
+                panel.innerHTML = '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>';
+                panel.hidden = true;
+
+                btn.addEventListener('click', () => { panel.hidden = !panel.hidden; });
+
+                this._container.appendChild(btn);
+                this._container.appendChild(panel);
+                return this._container;
+            }
+            onRemove() {
+                this._container.remove();
+            }
+        }
+        map.addControl(new CompactAttribution(), 'bottom-right');
 
         const byId = {};
         locations.forEach((loc) => { byId[loc.id] = loc; });
