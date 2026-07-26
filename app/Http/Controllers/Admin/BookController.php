@@ -177,39 +177,39 @@ class BookController extends Controller
 
         if ($isbn !== '') {
             try {
-                $response = Http::timeout(5)->get('https://www.googleapis.com/books/v1/volumes', [
-                    'q' => "isbn:{$isbn}",
+                $response = Http::timeout(5)->get('https://openlibrary.org/api/books', [
+                    'bibkeys' => "ISBN:{$isbn}",
+                    'jscmd' => 'data',
+                    'format' => 'json',
                 ]);
 
-                Log::info('Google Books API response', [
+                Log::info('Open Library API response', [
                     'isbn' => $isbn,
                     'status' => $response->status(),
                 ]);
 
                 if ($response->successful()) {
-                    $data = $response->json();
+                    $info = data_get($response->json(), "ISBN:{$isbn}");
 
-                    if ((int) data_get($data, 'totalItems', 0) < 1) {
-                        $isbnLookupFailed = true;
+                    if (is_array($info)) {
+                        $publishDate = data_get($info, 'publish_date');
+                        $year = $publishDate && preg_match('/\d{4}/', (string) $publishDate, $m) ? (int) $m[0] : null;
+
+                        $authors = collect(data_get($info, 'authors', []))->pluck('name')->filter();
+                        $publishers = collect(data_get($info, 'publishers', []))->pluck('name')->filter();
+
+                        $bookData = [
+                            'isbn' => $isbn,
+                            'title' => data_get($info, 'title'),
+                            'subtitle' => data_get($info, 'subtitle'),
+                            'authors' => $authors->isNotEmpty() ? $authors->implode(', ') : null,
+                            'publisher_name' => $publishers->first(),
+                            'copyright_year' => $year,
+                            'pages' => data_get($info, 'number_of_pages'),
+                            'description' => null,
+                        ];
                     } else {
-                        $info = data_get($data, 'items.0.volumeInfo');
-
-                        if (is_array($info)) {
-                            $publishedDate = data_get($info, 'publishedDate');
-
-                            $bookData = [
-                                'isbn' => $isbn,
-                                'title' => data_get($info, 'title'),
-                                'subtitle' => data_get($info, 'subtitle'),
-                                'authors' => ($a = data_get($info, 'authors')) ? implode(', ', (array) $a) : null,
-                                'publisher_name' => data_get($info, 'publisher'),
-                                'copyright_year' => $publishedDate ? (int) substr((string) $publishedDate, 0, 4) : null,
-                                'pages' => data_get($info, 'pageCount'),
-                                'description' => data_get($info, 'description'),
-                            ];
-                        } else {
-                            $isbnLookupFailed = true;
-                        }
+                        $isbnLookupFailed = true;
                     }
                 } else {
                     $isbnLookupFailed = true;
