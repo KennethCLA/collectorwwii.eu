@@ -1,6 +1,12 @@
 <?php
 
-class AdminCreateBookTest
+namespace Tests\Feature\Books;
+
+use App\Models\Book;
+use App\Models\User;
+use Tests\TestCase;
+
+class AdminCreateBookTest extends TestCase
 {
     public function test_admin_can_access_create_books_page()
     {
@@ -22,7 +28,7 @@ class AdminCreateBookTest
 
     public function test_book_without_images_can_be_viewed()
     {
-        $book = Book::factory()->create();
+        $book = Book::create(['title' => 'Book Without Images']);
 
         $this->get(route('books.show', $book))
             ->assertStatus(200);
@@ -30,7 +36,9 @@ class AdminCreateBookTest
 
     public function test_books_index_loads()
     {
-        Book::factory()->count(5)->create();
+        for ($i = 0; $i < 5; $i++) {
+            Book::create(['title' => "Book {$i}"]);
+        }
 
         $this->get(route('books.index'))
             ->assertStatus(200);

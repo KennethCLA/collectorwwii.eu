@@ -260,7 +260,7 @@
 
                     <div class="mt-6 space-y-2">
                         <label for="condition" class="text-sm font-medium text-white/80">Condition</label>
-                        <select id="condition" name="condition" class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                        <select id="condition" name="condition" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                             <option value="">— Not graded —</option>
                             @foreach(['Mint','Extremely Fine','Very Fine','Fine','Very Good','Good','Poor'] as $grade)
                             <option value="{{ $grade }}" @selected(old('condition', $coin->condition ?? '') === $grade)>{{ $grade }}</option>
