@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\CoinController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ItemController;
+use App\Http\Controllers\Admin\LocationContentsController;
 use App\Http\Controllers\Admin\LookupIndexController;
 use App\Http\Controllers\Admin\MagazineController;
 use App\Http\Controllers\Admin\MapLocationController;
@@ -130,6 +131,11 @@ Route::delete('lookups/{type}/{id}', [LookupIndexController::class, 'destroy'])
         'stamp-perforations', 'stamp-printing-houses',
     ])
     ->name('lookups.destroy');
+
+Route::get('lookups/locations/labels', [LocationContentsController::class, 'labels'])
+    ->name('lookups.locations.labels');
+Route::get('lookups/locations/{location}/contents', [LocationContentsController::class, 'show'])
+    ->name('lookups.locations.contents');
 
 Route::get('lookups/ajax/{type}/parents', [LookupController::class, 'parents'])
     ->name('lookups.ajax.parents');

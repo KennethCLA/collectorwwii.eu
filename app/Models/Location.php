@@ -15,9 +15,29 @@ class Location extends Model
 
     protected $fillable = ['name', 'parent_id'];
 
-    public function books()
+    public function books(): HasMany
     {
-        return $this->hasMany(\App\Models\Book::class);
+        return $this->hasMany(Book::class);
+    }
+
+    public function banknotes(): HasMany
+    {
+        return $this->hasMany(Banknote::class);
+    }
+
+    public function coins(): HasMany
+    {
+        return $this->hasMany(Coin::class);
+    }
+
+    public function postcards(): HasMany
+    {
+        return $this->hasMany(Postcard::class);
+    }
+
+    public function stamps(): HasMany
+    {
+        return $this->hasMany(Stamp::class);
     }
 
     public function parent(): BelongsTo

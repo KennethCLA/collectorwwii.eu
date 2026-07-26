@@ -7,6 +7,12 @@
             <h1 class="text-2xl font-semibold text-white">{{ $label }}</h1>
             <p class="mt-1 text-sm text-white/70">{{ $description }}</p>
         </div>
+        @if($type === 'locations')
+        <a href="{{ route('admin.lookups.locations.labels') }}"
+            class="rounded-md bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15">
+            Print QR labels
+        </a>
+        @endif
     </div>
 
     <div class="rounded-lg border border-blue-500/20 bg-blue-500/10 px-4 py-3 text-sm text-blue-100">
@@ -118,6 +124,12 @@
                                 <td class="px-4 py-3 text-xs text-white/60">{{ $createdAt }}</td>
                                 <td class="px-4 py-3 text-right">
                                     <div class="inline-flex items-center gap-2">
+                                        @if($type === 'locations')
+                                        <a href="{{ route('admin.lookups.locations.contents', $row['id']) }}"
+                                            class="rounded-md bg-white/10 px-2.5 py-1 text-xs text-white hover:bg-white/15">
+                                            Contents
+                                        </a>
+                                        @endif
                                         <button type="button"
                                             @click="openEdit({{ $row['id'] }}, {{ json_encode($row['name']) }}, {{ json_encode($row['parent_id']) }})"
                                             class="rounded-md bg-white/10 px-2.5 py-1 text-xs text-white hover:bg-white/15">
