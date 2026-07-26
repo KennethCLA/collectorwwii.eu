@@ -431,3 +431,10 @@ img[src*="error-image-not-found"] {
 .choices__list--dropdown .choices__input {
     color: #1a1a1a !important;
 }
+
+/* ─── Same issue for plain native <select> (browser-rendered popup is
+   white bg by default; app text is white, so options were invisible) ─── */
+select option {
+    color: #1a1a1a;
+    background-color: #fff;
+}
