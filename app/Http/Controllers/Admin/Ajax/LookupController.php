@@ -5,6 +5,7 @@
 namespace App\Http\Controllers\Admin\Ajax;
 
 use App\Http\Controllers\Controller;
+use App\Models\BanknoteSeries;
 use App\Models\BookCover;
 use App\Models\BookSeries;
 use App\Models\BookTopic;
@@ -25,6 +26,7 @@ class LookupController extends Controller
         'topic'              => BookTopic::class,
         'series'             => BookSeries::class,
         'cover'              => BookCover::class,
+        'banknote-series'    => BanknoteSeries::class,
         'location'           => Location::class,
         'origin'             => Origin::class,
         'item-category'      => ItemCategory::class,
