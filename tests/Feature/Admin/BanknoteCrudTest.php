@@ -70,6 +70,29 @@ class BanknoteCrudTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_index_search_filters_by_variation_and_number_jaeger(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $required = [
+            'country_id' => Country::create(['name' => 'Testland'])->id,
+            'nominal_value_id' => NominalValue::create(['name' => '5.00'])->id,
+            'currency_id' => Currency::create(['name' => 'Testmark'])->id,
+            'time_period_id' => BanknoteTimePeriod::create(['name' => 'Test Period'])->id,
+            'series_id' => BanknoteSeries::create(['name' => 'Test Series'])->id,
+        ];
+
+        $match = Banknote::create($required + ['variation' => 'Red Seal Variant']);
+        Banknote::create($required + ['number_jaeger' => 'J-99']);
+        Banknote::create($required + ['variation' => 'Unrelated']);
+
+        $response = $this->get(route('admin.banknotes.index', ['search' => 'Red Seal']));
+        $response->assertOk();
+        $results = $response->viewData('banknotes');
+        $this->assertSame(1, $results->total());
+        $this->assertSame($match->id, $results->first()->id);
+    }
+
     public function test_create_form_loads_with_200(): void
     {
         $this->actingAs($this->makeAdminUser());
@@ -133,7 +156,7 @@ class BanknoteCrudTest extends TestCase
         $this->assertDatabaseHas('banknotes', ['id' => $banknote->id, 'year' => 1944]);
     }
 
-    public function test_destroy_soft_deletes(): void
+    public function test_destroy_permanently_deletes(): void
     {
         $this->actingAs($this->makeAdminUser());
 
@@ -142,7 +165,7 @@ class BanknoteCrudTest extends TestCase
         $response = $this->delete(route('admin.banknotes.destroy', $banknote));
 
         $response->assertRedirect();
-        $this->assertSoftDeleted('banknotes', ['id' => $banknote->id]);
+        $this->assertDatabaseMissing('banknotes', ['id' => $banknote->id]);
     }
 
     public function test_non_admin_gets_403(): void

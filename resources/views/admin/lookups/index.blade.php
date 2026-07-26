@@ -244,7 +244,7 @@
                         <select name="parent_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                             <option value="">— Root level —</option>
                             @foreach($tree_rows as $tr)
-                            <option value="{{ $tr['id'] }}" @selected(old('parent_id') == $tr['id'])>
+                            <option value="{{ $tr['id'] }}" @selected((string)old('parent_id')===(string)$tr['id'])>
                                 {{ str_repeat('— ', $tr['depth']) }}{{ $tr['name'] }}
                             </option>
                             @endforeach

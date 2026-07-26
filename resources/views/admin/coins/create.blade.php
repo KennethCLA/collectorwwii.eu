@@ -44,7 +44,7 @@
                                 <select id="country_id" name="country_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($countries as $c)
-                                <option value="{{ $c->id }}" @selected($val('country_id') == $c->id)>{{ $c->name }}</option>
+                                <option value="{{ $c->id }}" @selected((string)$val('country_id')===(string)$c->id)>{{ $c->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -60,7 +60,7 @@
                                 <select id="currency_id" name="currency_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($currencies as $c)
-                                <option value="{{ $c->id }}" @selected($val('currency_id') == $c->id)>{{ $c->name }}</option>
+                                <option value="{{ $c->id }}" @selected((string)$val('currency_id')===(string)$c->id)>{{ $c->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -76,7 +76,7 @@
                                 <select id="nominal_value_id" name="nominal_value_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($nominalValues as $nv)
-                                <option value="{{ $nv->id }}" @selected($val('nominal_value_id') == $nv->id)>{{ $nv->name }}</option>
+                                <option value="{{ $nv->id }}" @selected((string)$val('nominal_value_id')===(string)$nv->id)>{{ $nv->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -92,7 +92,7 @@
                                 <select id="shape_id" name="shape_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($shapes as $s)
-                                <option value="{{ $s->id }}" @selected($val('shape_id') == $s->id)>{{ $s->name }}</option>
+                                <option value="{{ $s->id }}" @selected((string)$val('shape_id')===(string)$s->id)>{{ $s->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -108,7 +108,7 @@
                                 <select id="material_id" name="material_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($materials as $m)
-                                <option value="{{ $m->id }}" @selected($val('material_id') == $m->id)>{{ $m->name }}</option>
+                                <option value="{{ $m->id }}" @selected((string)$val('material_id')===(string)$m->id)>{{ $m->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -131,7 +131,7 @@
                                 <select id="occasion_id" name="occasion_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($occasions as $o)
-                                <option value="{{ $o->id }}" @selected($val('occasion_id') == $o->id)>{{ $o->name }}</option>
+                                <option value="{{ $o->id }}" @selected((string)$val('occasion_id')===(string)$o->id)>{{ $o->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -147,7 +147,7 @@
                                 <select id="head_of_state_id" name="head_of_state_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($headsOfState as $item)
-                                <option value="{{ $item->id }}" @selected($val('head_of_state_id') == $item->id)>{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" @selected((string)$val('head_of_state_id')===(string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -163,7 +163,7 @@
                                 <select id="strike_mark_id" name="strike_mark_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($strikeMarks as $item)
-                                <option value="{{ $item->id }}" @selected($val('strike_mark_id') == $item->id)>{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" @selected((string)$val('strike_mark_id')===(string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -179,7 +179,7 @@
                                 <select id="designer_id" name="designer_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($designers as $item)
-                                <option value="{{ $item->id }}" @selected($val('designer_id') == $item->id)>{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" @selected((string)$val('designer_id')===(string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -195,7 +195,7 @@
                                 <select id="front_image_id" name="front_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($frontImages as $item)
-                                <option value="{{ $item->id }}" @selected($val('front_image_id') == $item->id)>{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" @selected((string)$val('front_image_id')===(string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -211,7 +211,7 @@
                                 <select id="front_text_id" name="front_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($frontTexts as $item)
-                                <option value="{{ $item->id }}" @selected($val('front_text_id') == $item->id)>{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" @selected((string)$val('front_text_id')===(string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -227,7 +227,7 @@
                                 <select id="reverse_image_id" name="reverse_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($reverseImages as $item)
-                                <option value="{{ $item->id }}" @selected($val('reverse_image_id') == $item->id)>{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" @selected((string)$val('reverse_image_id')===(string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -243,7 +243,7 @@
                                 <select id="reverse_text_id" name="reverse_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($reverseTexts as $item)
-                                <option value="{{ $item->id }}" @selected($val('reverse_text_id') == $item->id)>{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" @selected((string)$val('reverse_text_id')===(string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -259,7 +259,7 @@
                                 <select id="rim_id" name="rim_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($rims as $item)
-                                <option value="{{ $item->id }}" @selected($val('rim_id') == $item->id)>{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" @selected((string)$val('rim_id')===(string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -275,7 +275,7 @@
                                 <select id="rim_text_id" name="rim_text_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($rimTexts as $item)
-                                <option value="{{ $item->id }}" @selected($val('rim_text_id') == $item->id)>{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" @selected((string)$val('rim_text_id')===(string)$item->id)>{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -376,7 +376,7 @@
                                 <select id="location_id" name="location_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                     <option value="">—</option>
                                     @foreach($locations as $loc)
-                                    <option value="{{ $loc->id }}" @selected($val('location_id') == $loc->id)>{{ $loc->name }}</option>
+                                    <option value="{{ $loc->id }}" @selected((string)$val('location_id')===(string)$loc->id)>{{ $loc->name }}</option>
                                     @endforeach
                                 </select>
                                 <button type="button"

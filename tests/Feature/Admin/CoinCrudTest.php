@@ -66,6 +66,26 @@ class CoinCrudTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_index_search_filters_by_number_jaeger(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $required = [
+            'country_id' => Country::create(['name' => 'Testland'])->id,
+            'nominal_value_id' => NominalValue::create(['name' => '5.00'])->id,
+            'currency_id' => Currency::create(['name' => 'Testmark'])->id,
+        ];
+
+        $match = Coin::create($required + ['number_jaeger' => 'JG-42']);
+        Coin::create($required + ['number_jaeger' => 'Unrelated']);
+
+        $response = $this->get(route('admin.coins.index', ['search' => 'JG-42']));
+        $response->assertOk();
+        $results = $response->viewData('coins');
+        $this->assertSame(1, $results->total());
+        $this->assertSame($match->id, $results->first()->id);
+    }
+
     public function test_create_form_loads_with_200(): void
     {
         $this->actingAs($this->makeAdminUser());
@@ -129,7 +149,7 @@ class CoinCrudTest extends TestCase
         $this->assertDatabaseHas('coins', ['id' => $coin->id, 'year' => 1944]);
     }
 
-    public function test_destroy_soft_deletes(): void
+    public function test_destroy_permanently_deletes(): void
     {
         $this->actingAs($this->makeAdminUser());
 
@@ -138,7 +158,7 @@ class CoinCrudTest extends TestCase
         $response = $this->delete(route('admin.coins.destroy', $coin));
 
         $response->assertRedirect();
-        $this->assertSoftDeleted('coins', ['id' => $coin->id]);
+        $this->assertDatabaseMissing('coins', ['id' => $coin->id]);
     }
 
     public function test_non_admin_gets_403(): void

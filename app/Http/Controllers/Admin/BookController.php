@@ -49,6 +49,10 @@ class BookController extends Controller
             $query->where('cover_id', (int) $request->cover);
         }
 
+        if ($request->filled('for_sale')) {
+            $query->where('for_sale', (bool) (int) $request->input('for_sale'));
+        }
+
         if ($request->has('search')) {
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
@@ -417,15 +421,16 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->load('media');
-        $disk = Storage::disk('b2');
 
         foreach ($book->media as $file) {
             if ($file->path) {
-                $disk->delete($file->path);
+                Storage::disk($file->disk)->delete($file->path);
             }
-            $file->delete();
         }
 
+        Storage::disk('b2')->deleteDirectory('books/'.$book->id);
+
+        $book->media()->delete();
         $book->forceDelete();
 
         return redirect()->route('admin.books.index')->with('success', 'Book deleted.');

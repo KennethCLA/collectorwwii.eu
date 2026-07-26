@@ -34,6 +34,14 @@ class CoinController extends Controller
 
         $query = Coin::query()->with(['country', 'nominalValue', 'material']);
 
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('number_jaeger', 'like', "%{$search}%")
+                    ->orWhere('special_features', 'like', "%{$search}%");
+            });
+        }
+
         if ($request->filled('country_id')) {
             $query->where('country_id', $request->integer('country_id'));
         }
@@ -253,7 +261,7 @@ class CoinController extends Controller
         Storage::disk('b2')->deleteDirectory('coins/'.$coin->id);
 
         $coin->media()->delete();
-        $coin->delete();
+        $coin->forceDelete();
 
         return redirect()->route('admin.coins.index')
             ->with('success', 'Coin deleted.');

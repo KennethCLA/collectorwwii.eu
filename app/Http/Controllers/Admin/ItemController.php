@@ -53,6 +53,10 @@ class ItemController extends Controller
             $query->where('title', 'like', "%{$search}%");
         }
 
+        if ($request->filled('for_sale')) {
+            $query->where('for_sale', (bool) (int) $request->input('for_sale'));
+        }
+
         // 4. Sorteerfunctionaliteit
         //    Voorbeeld van enkele opties: titel, aanmaakdatum, enz.
         if ($request->has('sort')) {
@@ -222,7 +226,7 @@ class ItemController extends Controller
         Storage::disk('b2')->deleteDirectory('items/'.$item->id);
 
         $item->media()->delete();
-        $item->delete();
+        $item->forceDelete();
 
         return redirect()->route('admin.items.index')->with('success', 'Item verwijderd!');
     }

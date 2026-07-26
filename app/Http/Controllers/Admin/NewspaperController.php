@@ -168,7 +168,7 @@ class NewspaperController extends Controller
         Storage::disk('b2')->deleteDirectory('newspapers/'.$newspaper->id);
 
         $newspaper->media()->delete();
-        $newspaper->delete();
+        $newspaper->forceDelete();
 
         return redirect()->route('admin.newspapers.index')
             ->with('success', 'Newspaper deleted.');

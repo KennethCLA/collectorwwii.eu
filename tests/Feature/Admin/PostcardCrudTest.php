@@ -53,6 +53,20 @@ class PostcardCrudTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_index_search_filters_by_michel_number(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $match = Postcard::create(['michel_number' => 'MC-42']);
+        Postcard::create(['michel_number' => 'Unrelated']);
+
+        $response = $this->get(route('admin.postcards.index', ['search' => 'MC-42']));
+        $response->assertOk();
+        $results = $response->viewData('postcards');
+        $this->assertSame(1, $results->total());
+        $this->assertSame($match->id, $results->first()->id);
+    }
+
     public function test_create_form_loads_with_200(): void
     {
         $this->actingAs($this->makeAdminUser());
@@ -117,7 +131,7 @@ class PostcardCrudTest extends TestCase
         $this->assertDatabaseHas('postcards', ['id' => $postcard->id, 'year' => 1945]);
     }
 
-    public function test_destroy_soft_deletes(): void
+    public function test_destroy_permanently_deletes(): void
     {
         $this->actingAs($this->makeAdminUser());
 
@@ -126,7 +140,7 @@ class PostcardCrudTest extends TestCase
         $response = $this->delete(route('admin.postcards.destroy', $postcard));
 
         $response->assertRedirect();
-        $this->assertSoftDeleted('postcards', ['id' => $postcard->id]);
+        $this->assertDatabaseMissing('postcards', ['id' => $postcard->id]);
     }
 
     public function test_non_admin_gets_403(): void

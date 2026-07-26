@@ -53,6 +53,19 @@ class ItemCrudTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_index_filters_by_for_sale(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $forSale = Item::create(['title' => 'For Sale Item', 'for_sale' => true]);
+        Item::create(['title' => 'Not For Sale Item', 'for_sale' => false]);
+
+        $response = $this->get(route('admin.items.index', ['for_sale' => 1]));
+        $response->assertOk();
+        $response->assertSee('For Sale Item');
+        $response->assertDontSee('Not For Sale Item');
+    }
+
     public function test_create_form_loads_with_200(): void
     {
         $this->actingAs($this->makeAdminUser());
@@ -171,7 +184,7 @@ class ItemCrudTest extends TestCase
         $this->assertDatabaseHas('items', ['id' => $item->id, 'title' => 'Updated Title']);
     }
 
-    public function test_destroy_soft_deletes(): void
+    public function test_destroy_permanently_deletes(): void
     {
         $this->actingAs($this->makeAdminUser());
 
@@ -180,7 +193,7 @@ class ItemCrudTest extends TestCase
         $response = $this->delete(route('admin.items.destroy', $item));
 
         $response->assertRedirect();
-        $this->assertSoftDeleted('items', ['id' => $item->id]);
+        $this->assertDatabaseMissing('items', ['id' => $item->id]);
     }
 
     public function test_non_admin_gets_403(): void

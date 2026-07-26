@@ -48,7 +48,7 @@ class BulkActionController extends Controller
         switch ($validated['action']) {
             case 'delete':
                 $count = $query->count();
-                $query->delete();
+                $query->forceDelete();
                 $label = 'deleted';
                 break;
 

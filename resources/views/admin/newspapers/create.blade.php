@@ -73,7 +73,7 @@
                                 <select id="series_id" name="series_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                     <option value="">— None —</option>
                                     @foreach($series as $s)
-                                    <option value="{{ $s->id }}" @selected(old('series_id') == $s->id)>
+                                    <option value="{{ $s->id }}" @selected((string)old('series_id')===(string)$s->id)>
                                         {{ $s->name }}
                                     </option>
                                     @endforeach

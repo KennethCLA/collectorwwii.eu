@@ -32,6 +32,14 @@ class PostcardController extends Controller
 
         $query = Postcard::query()->with(['country', 'postcardType']);
 
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('michel_number', 'like', "%{$search}%")
+                    ->orWhere('special_features', 'like', "%{$search}%");
+            });
+        }
+
         if ($request->filled('country_id')) {
             $query->where('country_id', $request->integer('country_id'));
         }
@@ -239,7 +247,7 @@ class PostcardController extends Controller
         Storage::disk('b2')->deleteDirectory('postcards/'.$postcard->id);
 
         $postcard->media()->delete();
-        $postcard->delete();
+        $postcard->forceDelete();
 
         return redirect()->route('admin.postcards.index')
             ->with('success', 'Postcard deleted.');

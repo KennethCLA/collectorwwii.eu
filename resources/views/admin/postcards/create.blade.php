@@ -37,7 +37,7 @@
                                 <select id="country_id" name="country_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($countries as $c)
-                                <option value="{{ $c->id }}" @selected($val('country_id') == $c->id)>{{ $c->name }}</option>
+                                <option value="{{ $c->id }}" @selected((string)$val('country_id')===(string)$c->id)>{{ $c->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -59,7 +59,7 @@
                                 <select id="postcard_type_id" name="postcard_type_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($postcardTypes as $t)
-                                <option value="{{ $t->id }}" @selected($val('postcard_type_id') == $t->id)>{{ $t->name }}</option>
+                                <option value="{{ $t->id }}" @selected((string)$val('postcard_type_id')===(string)$t->id)>{{ $t->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -81,7 +81,7 @@
                                 <select id="currency_id" name="currency_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($currencies as $cur)
-                                <option value="{{ $cur->id }}" @selected($val('currency_id') == $cur->id)>{{ $cur->name }}</option>
+                                <option value="{{ $cur->id }}" @selected((string)$val('currency_id')===(string)$cur->id)>{{ $cur->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -97,7 +97,7 @@
                                 <select id="nominal_value_id" name="nominal_value_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($nominalValues as $nv)
-                                <option value="{{ $nv->id }}" @selected($val('nominal_value_id') == $nv->id)>{{ $nv->name }}</option>
+                                <option value="{{ $nv->id }}" @selected((string)$val('nominal_value_id')===(string)$nv->id)>{{ $nv->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -125,7 +125,7 @@
                                 <select id="valuation_image_id" name="valuation_image_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($valuationImages as $vi)
-                                <option value="{{ $vi->id }}" @selected($val('valuation_image_id') == $vi->id)>{{ $vi->name }}</option>
+                                <option value="{{ $vi->id }}" @selected((string)$val('valuation_image_id')===(string)$vi->id)>{{ $vi->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -141,7 +141,7 @@
                                 <select id="colour_id" name="colour_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($colours as $col)
-                                <option value="{{ $col->id }}" @selected($val('colour_id') == $col->id)>{{ $col->name }}</option>
+                                <option value="{{ $col->id }}" @selected((string)$val('colour_id')===(string)$col->id)>{{ $col->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -157,7 +157,7 @@
                                 <select id="print_type_id" name="print_type_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">—</option>
                                 @foreach($printTypes as $pt)
-                                <option value="{{ $pt->id }}" @selected($val('print_type_id') == $pt->id)>{{ $pt->name }}</option>
+                                <option value="{{ $pt->id }}" @selected((string)$val('print_type_id')===(string)$pt->id)>{{ $pt->name }}</option>
                                 @endforeach
                             </select>
                             <button type="button"
@@ -280,7 +280,7 @@
                                 <select id="location_id" name="location_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                     <option value="">—</option>
                                     @foreach($locations as $loc)
-                                    <option value="{{ $loc->id }}" @selected($val('location_id') == $loc->id)>{{ $loc->name }}</option>
+                                    <option value="{{ $loc->id }}" @selected((string)$val('location_id')===(string)$loc->id)>{{ $loc->name }}</option>
                                     @endforeach
                                 </select>
                                 <button type="button"

@@ -53,6 +53,20 @@ class StampCrudTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_index_search_filters_by_michel_number(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+
+        $match = Stamp::create(['michel_number' => 'MC-42']);
+        Stamp::create(['michel_number' => 'Unrelated']);
+
+        $response = $this->get(route('admin.stamps.index', ['search' => 'MC-42']));
+        $response->assertOk();
+        $results = $response->viewData('stamps');
+        $this->assertSame(1, $results->total());
+        $this->assertSame($match->id, $results->first()->id);
+    }
+
     public function test_create_form_loads_with_200(): void
     {
         $this->actingAs($this->makeAdminUser());
@@ -117,7 +131,7 @@ class StampCrudTest extends TestCase
         $this->assertDatabaseHas('stamps', ['id' => $stamp->id, 'year' => 1945]);
     }
 
-    public function test_destroy_soft_deletes(): void
+    public function test_destroy_permanently_deletes(): void
     {
         $this->actingAs($this->makeAdminUser());
 
@@ -126,7 +140,7 @@ class StampCrudTest extends TestCase
         $response = $this->delete(route('admin.stamps.destroy', $stamp));
 
         $response->assertRedirect();
-        $this->assertSoftDeleted('stamps', ['id' => $stamp->id]);
+        $this->assertDatabaseMissing('stamps', ['id' => $stamp->id]);
     }
 
     public function test_non_admin_gets_403(): void

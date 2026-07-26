@@ -32,6 +32,15 @@ class StampController extends Controller
 
         $query = Stamp::query()->with(['country', 'nominalValue', 'stampType']);
 
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('michel_number', 'like', "%{$search}%")
+                    ->orWhere('yvert_tellier_number', 'like', "%{$search}%")
+                    ->orWhere('special_features', 'like', "%{$search}%");
+            });
+        }
+
         if ($request->filled('country_id')) {
             $query->where('country_id', $request->integer('country_id'));
         }
@@ -261,7 +270,7 @@ class StampController extends Controller
         Storage::disk('b2')->deleteDirectory('stamps/'.$stamp->id);
 
         $stamp->media()->delete();
-        $stamp->delete();
+        $stamp->forceDelete();
 
         return redirect()->route('admin.stamps.index')
             ->with('success', 'Stamp deleted.');

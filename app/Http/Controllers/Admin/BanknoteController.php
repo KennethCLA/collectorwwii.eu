@@ -33,6 +33,15 @@ class BanknoteController extends Controller
 
         $query = Banknote::query()->with(['country', 'currency', 'nominalValue']);
 
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('variation', 'like', "%{$search}%")
+                    ->orWhere('number_jaeger', 'like', "%{$search}%")
+                    ->orWhere('special_features', 'like', "%{$search}%");
+            });
+        }
+
         if ($request->filled('country_id')) {
             $query->where('country_id', $request->integer('country_id'));
         }
@@ -234,7 +243,7 @@ class BanknoteController extends Controller
         Storage::disk('b2')->deleteDirectory('banknotes/'.$banknote->id);
 
         $banknote->media()->delete();
-        $banknote->delete();
+        $banknote->forceDelete();
 
         return redirect()->route('admin.banknotes.index')
             ->with('success', 'Banknote deleted.');

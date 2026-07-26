@@ -1,4 +1,11 @@
 <!-- resources/views/books/index.blade.php -->
+{{-- This view is shared by the public book list (PublicBookController) and
+     the admin book list (Admin\BookController) — the admin route just
+     layers admin chrome on top via the layout's route-based header switch.
+     Every filter link below must resolve to whichever route rendered this
+     page, or admin users get bounced out to the public site the moment
+     they click a filter. --}}
+@php $booksIndexRoute = request()->routeIs('admin.*') ? 'admin.books.index' : 'books.index'; @endphp
 <x-layout title="Books — CollectorWWII" :mainClass="'w-full px-0 py-0'">
     <div class="w-full">
         <div x-data="{ filtersOpen: false }" class="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-4 items-start">
@@ -58,7 +65,7 @@
                         <ul class="mt-2 text-sm space-y-1">
                             @foreach ($topics->take($topicsLimit) as $topic)
                             <li class="relative after:block after:mx-3 after:border-b after:border-white/10">
-                                <a href="{{ route('books.index', array_merge(request()->query(), ['topic' => $topic->id, 'page' => 1])) }}"
+                                <a href="{{ route($booksIndexRoute, array_merge(request()->query(), ['topic' => $topic->id, 'page' => 1])) }}"
                                     class="block rounded px-2 py-1 hover:bg-white/10 hover:underline
               {{ $activeTopicId === (int)$topic->id ? 'bg-white/15 font-semibold ring-1 ring-white/30' : '' }}">
                                     {{ $topic->name }}
@@ -81,7 +88,7 @@
                         <ul x-show="topicsOpen" x-collapse class="text-sm space-y-1 mt-1">
                             @foreach ($topics->skip($topicsLimit) as $topic)
                             <li class="relative after:block after:mx-3 after:border-b after:border-white/10">
-                                <a href="{{ route('books.index', array_merge(request()->query(), ['topic' => $topic->id, 'page' => 1])) }}"
+                                <a href="{{ route($booksIndexRoute, array_merge(request()->query(), ['topic' => $topic->id, 'page' => 1])) }}"
                                     class="block rounded px-2 py-1 hover:bg-white/10 hover:underline
                        {{ $activeTopicId === (int)$topic->id ? 'bg-white/15 font-semibold ring-1 ring-white/30' : '' }}">
                                     {{ $topic->name }}
@@ -125,7 +132,7 @@
                         <ul class="mt-2 text-sm space-y-1">
                             @foreach ($series->take($seriesLimit) as $serie)
                             <li class="relative after:block after:mx-3 after:border-b after:border-white/10">
-                                <a href="{{ route('books.index', array_merge(request()->query(), ['series' => $serie->id, 'page' => 1])) }}"
+                                <a href="{{ route($booksIndexRoute, array_merge(request()->query(), ['series' => $serie->id, 'page' => 1])) }}"
                                     class="block rounded px-2 py-1 hover:bg-white/10 hover:underline
                    {{ $activeSeriesId === (int)$serie->id ? 'bg-white/15 font-semibold ring-1 ring-white/30' : '' }}">
                                     {{ $serie->name }}
@@ -143,7 +150,7 @@
                         <ul x-show="seriesOpen" x-collapse class="text-sm space-y-1 mt-1">
                             @foreach ($series->skip($seriesLimit) as $serie)
                             <li class="relative after:block after:mx-3 after:border-b after:border-white/10">
-                                <a href="{{ route('books.index', array_merge(request()->query(), ['series' => $serie->id, 'page' => 1])) }}"
+                                <a href="{{ route($booksIndexRoute, array_merge(request()->query(), ['series' => $serie->id, 'page' => 1])) }}"
                                     class="block rounded px-2 py-1 hover:bg-white/10 hover:underline
                        {{ $activeSeriesId === (int)$serie->id ? 'bg-white/15 font-semibold ring-1 ring-white/30' : '' }}">
                                     {{ $serie->name }}
@@ -187,7 +194,7 @@
                         <ul class="mt-2 text-sm space-y-1">
                             @foreach ($covers->take($coversLimit) as $cover)
                             <li class="relative after:block after:mx-3 after:border-b after:border-white/10">
-                                <a href="{{ route('books.index', array_merge(request()->query(), ['cover' => $cover->id, 'page' => 1])) }}"
+                                <a href="{{ route($booksIndexRoute, array_merge(request()->query(), ['cover' => $cover->id, 'page' => 1])) }}"
                                     class="block rounded px-2 py-1 hover:bg-white/10 hover:underline
                    {{ $activeCoverId === (int)$cover->id ? 'bg-white/15 font-semibold ring-1 ring-white/30' : '' }}">
                                     {{ $cover->name }}
@@ -205,7 +212,7 @@
                         <ul x-show="coversOpen" x-collapse class="text-sm space-y-1 mt-1">
                             @foreach ($covers->skip($coversLimit) as $cover)
                             <li class="relative after:block after:mx-3 after:border-b after:border-white/10">
-                                <a href="{{ route('books.index', array_merge(request()->query(), ['cover' => $cover->id, 'page' => 1])) }}"
+                                <a href="{{ route($booksIndexRoute, array_merge(request()->query(), ['cover' => $cover->id, 'page' => 1])) }}"
                                     class="block rounded px-2 py-1 hover:bg-white/10 hover:underline
                        {{ $activeCoverId === (int)$cover->id ? 'bg-white/15 font-semibold ring-1 ring-white/30' : '' }}">
                                     {{ $cover->name }}
@@ -224,21 +231,21 @@
                         </div>
                         <ul class="mt-2 text-sm space-y-1">
                             <li class="relative after:block after:mx-3 after:border-b after:border-white/10">
-                                <a href="{{ route('books.index', collect(request()->query())->except(['for_sale','page'])->all()) }}"
+                                <a href="{{ route($booksIndexRoute, collect(request()->query())->except(['for_sale','page'])->all()) }}"
                                     class="block rounded px-2 py-1 hover:bg-white/10 hover:underline
                                         {{ !request()->filled('for_sale') ? 'bg-white/15 font-semibold ring-1 ring-white/30' : '' }}">
                                     All
                                 </a>
                             </li>
                             <li class="relative after:block after:mx-3 after:border-b after:border-white/10">
-                                <a href="{{ route('books.index', array_merge(request()->query(), ['for_sale' => 1, 'page' => 1])) }}"
+                                <a href="{{ route($booksIndexRoute, array_merge(request()->query(), ['for_sale' => 1, 'page' => 1])) }}"
                                     class="block rounded px-2 py-1 hover:bg-white/10 hover:underline
                                         {{ $forSale === '1' ? 'bg-white/15 font-semibold ring-1 ring-white/30' : '' }}">
                                     For sale
                                 </a>
                             </li>
                             <li class="relative after:block after:mx-3 after:border-b after:border-white/10">
-                                <a href="{{ route('books.index', array_merge(request()->query(), ['for_sale' => 0, 'page' => 1])) }}"
+                                <a href="{{ route($booksIndexRoute, array_merge(request()->query(), ['for_sale' => 0, 'page' => 1])) }}"
                                     class="block rounded px-2 py-1 hover:bg-white/10 hover:underline
                                         {{ $forSale === '0' ? 'bg-white/15 font-semibold ring-1 ring-white/30' : '' }}">
                                     Not for sale
@@ -271,7 +278,7 @@
                         {{-- Right column: sort + search --}}
                         <div class="flex flex-col sm:flex-row gap-3 sm:justify-end">
                             {{-- sort --}}
-                            <form method="GET" action="{{ route('books.index') }}" class="flex">
+                            <form method="GET" action="{{ route($booksIndexRoute) }}" class="flex">
                                 @if(request()->filled('search')) <input type="hidden" name="search" value="{{ request('search') }}"> @endif
                                 @if(request()->filled('topic')) <input type="hidden" name="topic" value="{{ request('topic') }}"> @endif
                                 @if(request()->filled('series')) <input type="hidden" name="series" value="{{ request('series') }}"> @endif
@@ -292,7 +299,7 @@
                             </form>
 
                             {{-- search --}}
-                            <form method="GET" action="{{ route('books.index') }}" class="flex items-center gap-2 w-full sm:w-auto">
+                            <form method="GET" action="{{ route($booksIndexRoute) }}" class="flex items-center gap-2 w-full sm:w-auto">
                                 @if(request()->filled('sort')) <input type="hidden" name="sort" value="{{ request('sort') }}"> @endif
                                 @if(request()->filled('topic')) <input type="hidden" name="topic" value="{{ request('topic') }}"> @endif
                                 @if(request()->filled('series')) <input type="hidden" name="series" value="{{ request('series') }}"> @endif
@@ -334,8 +341,8 @@
                 || request()->filled('cover')
                 || request()->filled('for_sale');
 
-                $remove = fn($key) => route('books.index', collect($q)->except([$key, 'page'])->all());
-                $clearAll = route('books.index');
+                $remove = fn($key) => route($booksIndexRoute, collect($q)->except([$key, 'page'])->all());
+                $clearAll = route($booksIndexRoute);
 
                 // Map sort keys -> human labels
                 $sortLabels = [
@@ -447,7 +454,7 @@
                     </p>
 
                     <div class="mt-4">
-                        <a href="{{ route('books.index') }}"
+                        <a href="{{ route($booksIndexRoute) }}"
                             class="inline-block rounded-xl bg-black/30 hover:bg-black/40 ring-1 ring-khaki/30 px-4 py-2 font-stencil tracking-[0.15em] text-sm text-white uppercase transition">
                             Clear filters
                         </a>

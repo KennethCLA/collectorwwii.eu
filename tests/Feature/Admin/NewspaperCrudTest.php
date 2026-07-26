@@ -115,7 +115,7 @@ class NewspaperCrudTest extends TestCase
         $this->assertDatabaseHas('newspapers', ['id' => $newspaper->id, 'title' => 'Updated Title']);
     }
 
-    public function test_destroy_soft_deletes(): void
+    public function test_destroy_permanently_deletes(): void
     {
         $this->actingAs($this->makeAdminUser());
 
@@ -124,7 +124,7 @@ class NewspaperCrudTest extends TestCase
         $response = $this->delete(route('admin.newspapers.destroy', $newspaper));
 
         $response->assertRedirect();
-        $this->assertSoftDeleted('newspapers', ['id' => $newspaper->id]);
+        $this->assertDatabaseMissing('newspapers', ['id' => $newspaper->id]);
     }
 
     public function test_non_admin_gets_403(): void

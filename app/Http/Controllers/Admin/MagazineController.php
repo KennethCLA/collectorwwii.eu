@@ -172,7 +172,7 @@ class MagazineController extends Controller
         Storage::disk('b2')->deleteDirectory('magazines/'.$magazine->id);
 
         $magazine->media()->delete();
-        $magazine->delete();
+        $magazine->forceDelete();
 
         return redirect()->route('admin.magazines.index')
             ->with('success', 'Magazine deleted.');
