@@ -2,11 +2,16 @@
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
 
     <style>
+        .maplibregl-popup {
+            max-width: min(260px, 78vw) !important;
+        }
         .maplibregl-popup-content {
             background: #2d3b2f;
             color: #f3f0e6;
             border-radius: 10px;
             padding: 12px;
+            max-height: 50vh;
+            overflow-y: auto;
         }
         .maplibregl-popup-tip {
             border-top-color: #2d3b2f !important;
@@ -16,6 +21,8 @@
             color: #f3f0e6;
             font-size: 18px;
             padding: 4px 8px;
+            position: sticky;
+            top: 0;
         }
 
         .maplibregl-ctrl-group {
@@ -198,7 +205,7 @@
             ).join('');
 
             return `
-                <div class="space-y-2" style="min-width: 220px; max-width: 280px;">
+                <div class="space-y-2" style="width: 100%; padding-right: 18px;">
                     <div>
                         <div style="font-weight:700; font-size:14px;">${loc.name}</div>
                         <div style="font-size:12px; color:#c2b280;">${loc.coordinates}</div>
@@ -213,7 +220,7 @@
 
         const openPopupFor = (loc) => {
             if (activePopup) activePopup.remove();
-            activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '300px' })
+            activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: 'min(260px, 78vw)' })
                 .setLngLat([loc.lng, loc.lat])
                 .setHTML(popupHtml(loc))
                 .addTo(map);
