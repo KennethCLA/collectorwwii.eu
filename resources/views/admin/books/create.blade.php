@@ -61,13 +61,13 @@
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {{-- ISBN + Lookup (Google Books) --}}
+                        {{-- ISBN + Lookup (Open Library) --}}
                         <div class="lg:col-span-2 space-y-2">
                             <div class="flex items-center justify-between gap-3">
                                 <label for="isbn" class="text-sm font-medium text-white/80">
                                     ISBN
                                 </label>
-                                <span class="text-xs text-white/50">Lookup fills fields (Google Books)</span>
+                                <span class="text-xs text-white/50">Lookup fills fields (Open Library)</span>
                             </div>
 
                             <div class="flex items-end gap-4">
