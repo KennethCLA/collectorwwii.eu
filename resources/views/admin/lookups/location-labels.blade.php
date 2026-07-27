@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <h1 class="print-title hidden">CollectorWWII — Location Labels</h1>
+    <h1 class="print-title">CollectorWWII — Location Labels</h1>
 
     @if($labels->isEmpty())
     <div class="rounded-xl border border-black/20 bg-black/15 p-8 text-center text-white/60">
@@ -56,6 +56,13 @@
     }
     .label-card * {
         color-scheme: light;
+    }
+
+    /* Plain self-contained toggle instead of fighting Tailwind's `hidden`
+       utility for print visibility — that produced a specificity/!important
+       tie that didn't reliably resolve in our favor. */
+    .print-title {
+        display: none;
     }
 
     @media print {
