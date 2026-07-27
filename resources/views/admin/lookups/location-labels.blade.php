@@ -6,7 +6,8 @@
         <div>
             <h1 class="text-2xl font-semibold text-white">Location QR labels</h1>
             <p class="mt-1 text-sm text-white/70">
-                Print, cut, and stick one on each box/shelf. Scanning it opens that location's contents page.
+                Tick the ones you need (or print one individually) instead of the whole sheet — check a box, hit
+                "Print selected". Scanning a label opens that location's contents page.
             </p>
         </div>
         <div class="flex gap-2">
@@ -14,9 +15,13 @@
                 class="rounded-md bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15">
                 Back to locations
             </a>
-            <button type="button" onclick="window.print()"
+            <button type="button" id="print-selected-btn" onclick="printSelected()" disabled
+                class="rounded-md bg-white/10 px-4 py-2 text-sm font-medium text-white/40 disabled:cursor-not-allowed">
+                Print selected (<span id="selected-count">0</span>)
+            </button>
+            <button type="button" onclick="printAll()"
                 class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500">
-                Print
+                Print all
             </button>
         </div>
     </div>
@@ -28,10 +33,18 @@
         No locations yet. Add some under Locations first.
     </div>
     @else
-    <div class="label-sheet grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+    <div id="label-sheet" class="label-sheet grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         @foreach($labels as $label)
-        <div class="label-card flex flex-col items-center gap-2 rounded-xl border border-black/20 p-4 text-center"
+        <div class="label-card relative flex flex-col items-center gap-2 rounded-xl border border-black/20 p-4 text-center"
             style="background: #ffffff; color-scheme: light;">
+            <label class="print-hide absolute left-2 top-2 inline-flex cursor-pointer items-center">
+                <input type="checkbox" class="label-select h-4 w-4" onchange="onSelectionChange()">
+            </label>
+            <button type="button" onclick="printOne(this)"
+                class="print-hide absolute right-2 top-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] text-white hover:bg-black/90"
+                title="Print just this label">
+                Print
+            </button>
             <div class="qr-wrap h-32 w-32">{!! $label['svg'] !!}</div>
             <div class="text-sm font-semibold text-black">{{ $label['name'] }}</div>
         </div>
@@ -39,6 +52,51 @@
     </div>
     @endif
 </div>
+
+<script>
+    function onSelectionChange() {
+        const count = document.querySelectorAll('.label-select:checked').length;
+        const btn = document.getElementById('print-selected-btn');
+        document.getElementById('selected-count').textContent = count;
+        btn.disabled = count === 0;
+        btn.classList.toggle('text-white/40', count === 0);
+        btn.classList.toggle('text-white', count > 0);
+        btn.classList.toggle('bg-white/10', count === 0);
+        btn.classList.toggle('bg-emerald-600', count > 0);
+    }
+
+    function printAll() {
+        document.getElementById('label-sheet')?.classList.remove('print-filtered');
+        window.print();
+    }
+
+    function printSelected() {
+        const sheet = document.getElementById('label-sheet');
+        sheet.querySelectorAll('.label-card').forEach((card) => {
+            card.classList.toggle('print-hide', !card.querySelector('.label-select')?.checked);
+        });
+        sheet.classList.add('print-filtered');
+        window.print();
+        window.addEventListener('afterprint', () => {
+            sheet.classList.remove('print-filtered');
+            sheet.querySelectorAll('.label-card').forEach((card) => card.classList.remove('print-hide'));
+        }, { once: true });
+    }
+
+    function printOne(button) {
+        const sheet = document.getElementById('label-sheet');
+        const target = button.closest('.label-card');
+        sheet.querySelectorAll('.label-card').forEach((card) => {
+            card.classList.toggle('print-hide', card !== target);
+        });
+        sheet.classList.add('print-filtered');
+        window.print();
+        window.addEventListener('afterprint', () => {
+            sheet.classList.remove('print-filtered');
+            sheet.querySelectorAll('.label-card').forEach((card) => card.classList.remove('print-hide'));
+        }, { once: true });
+    }
+</script>
 
 <style>
     /* The SVG carries its own fixed width/height attributes (300px) from
@@ -66,19 +124,22 @@
     }
 
     @media print {
-        /* Chasing individual Tailwind-set properties (background,
-           box-shadow, border-color, ...) one at a time kept missing
-           whatever was actually producing the frame around the page —
-           layouts/admin.blade.php nests its own <main> inside app.
-           blade.php's outer <main id="app-main">, and something on that
-           chain (ring-1/bg-black/20/rounded-2xl div, 4 levels deep) kept
-           surviving each targeted reset. Full reset instead: wipe every
-           inherited/set property on every descendant of any <main> back
-           to browser defaults, then explicitly re-declare only what the
-           label sheet itself needs below. */
-        main * {
+        /* "main *" was too broad: layouts/admin.blade.php nests its own
+           <main> inside app.blade.php's outer <main id="app-main">, which
+           ALSO wraps <aside> (the sidebar) — so resetting every descendant
+           of any <main> was un-hiding the sidebar's own display:none rule
+           too. Scoped to .admin-content-wrapper specifically (the one
+           actual offending div, tagged with that class in
+           layouts/admin.blade.php) instead of casting a wide net. */
+        .admin-content-wrapper, .admin-content-wrapper * {
             all: unset !important;
             display: revert !important;
+        }
+        /* Same specificity as the global .print-hide rule and loaded
+           later, so without this it would win the tie and re-show the
+           on-screen header/buttons in print. */
+        .print-hide {
+            display: none !important;
         }
 
         /* The global stylesheet uses body padding for page margins, but
@@ -131,6 +192,14 @@
             display: block !important;
             width: 100% !important;
             height: 100% !important;
+        }
+        /* .label-card's own display:flex!important above ties with
+           .print-hide's display:none!important (same specificity) and
+           would win on source order — this combined selector is more
+           specific, so cards marked print-hide during a filtered
+           (selected/single) print actually stay hidden. */
+        .label-card.print-hide {
+            display: none !important;
         }
     }
 </style>

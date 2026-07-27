@@ -18,7 +18,7 @@
         </aside>
 
         <main class="order-1 min-w-0 flex-1 lg:order-2">
-            <div class="rounded-2xl bg-black/20 p-5 text-white ring-1 ring-black/30 backdrop-blur-sm lg:p-6">
+            <div class="admin-content-wrapper rounded-2xl bg-black/20 p-5 text-white ring-1 ring-black/30 backdrop-blur-sm lg:p-6">
                 @yield('admin-content')
             </div>
         </main>
