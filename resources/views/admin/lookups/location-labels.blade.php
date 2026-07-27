@@ -131,18 +131,21 @@
            too. Scoped to .admin-content-wrapper specifically (the one
            actual offending div, tagged with that class in
            layouts/admin.blade.php) instead of casting a wide net. */
-        .admin-content-wrapper, .admin-content-wrapper * {
+        /* The QR code's <rect>/<path> shapes are colored via SVG
+           presentation attributes (fill="#000000" etc), not CSS — those
+           lose to ANY CSS rule targeting the same property regardless of
+           specificity, and reverting after the fact turned out not to
+           reliably restore them (spec/browser ambiguity over whether
+           presentation attributes count as revertable). Excluding the QR
+           SVG's whole subtree from the reset selector outright instead,
+           so no rule here ever touches it in the first place. */
+        .admin-content-wrapper *:not(.qr-wrap):not(.qr-wrap *) {
             all: unset !important;
             display: revert !important;
         }
-        /* The QR code's <rect>/<path> shapes use SVG presentation
-           attributes (fill="#000000" etc), not CSS — the blanket reset
-           above still overrides those (CSS always wins over presentation
-           attributes) and wiped the QR pattern entirely. Revert rolls the
-           cascade back to below author CSS, where presentation attributes
-           take effect again, for the SVG and everything inside it. */
-        .qr-wrap svg, .qr-wrap svg * {
-            all: revert !important;
+        .admin-content-wrapper {
+            all: unset !important;
+            display: revert !important;
         }
         /* Same specificity as the global .print-hide rule and loaded
            later, so without this it would win the tie and re-show the
