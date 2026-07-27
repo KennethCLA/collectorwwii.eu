@@ -29,7 +29,7 @@
     <div class="label-sheet grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         @foreach($labels as $label)
         <div class="label-card flex flex-col items-center gap-2 rounded-xl border border-black/20 bg-white p-4 text-center">
-            <div class="h-28 w-28">{!! $label['svg'] !!}</div>
+            <div class="qr-wrap h-32 w-32">{!! $label['svg'] !!}</div>
             <div class="text-sm font-semibold text-black">{{ $label['name'] }}</div>
         </div>
         @endforeach
@@ -38,6 +38,15 @@
 </div>
 
 <style>
+    /* The SVG carries its own fixed width/height attributes (300px) from
+       the QR library — CSS width/height on the svg element itself is
+       needed to actually scale it down to the label size. */
+    .qr-wrap svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
     @media print {
         .label-sheet {
             display: grid !important;
@@ -51,6 +60,10 @@
         }
         .label-card .text-black {
             color: #000 !important;
+        }
+        .qr-wrap {
+            width: 35mm !important;
+            height: 35mm !important;
         }
     }
 </style>

@@ -9,6 +9,7 @@ use App\Models\Coin;
 use App\Models\Location;
 use App\Models\Postcard;
 use App\Models\Stamp;
+use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\SvgWriter;
 use Illuminate\Support\Collection;
@@ -26,7 +27,16 @@ class LocationContentsController extends Controller
 
         $labels = Location::flatTree()->map(function ($row) use ($writer) {
             $url = route('admin.lookups.locations.contents', $row->id);
-            $svg = $writer->write(new QrCode($url))->getString();
+            $qrCode = new QrCode(
+                data: $url,
+                errorCorrectionLevel: ErrorCorrectionLevel::High,
+                size: 300,
+                margin: 10,
+            );
+            $svg = $writer->write($qrCode)->getString();
+            // Strip the XML declaration — invalid as inline HTML content and
+            // some browsers render it as literal visible text otherwise.
+            $svg = preg_replace('/^<\?xml[^>]*\?>\s*/', '', $svg);
 
             return [
                 'name' => $row->name,
