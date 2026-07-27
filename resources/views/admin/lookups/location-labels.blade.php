@@ -66,6 +66,17 @@
     }
 
     @media print {
+        /* TEMP DIAGNOSTIC — color-codes ancestor elements so we can see
+           exactly which one is producing the frame, instead of guessing.
+           Remove once identified. */
+        body { outline: 6px solid red !important; }
+        main { outline: 6px solid orange !important; }
+        main main { outline: 6px solid blue !important; }
+        .space-y-5 { outline: 6px solid magenta !important; }
+        .label-sheet { outline: 6px solid lime !important; }
+        [class*="bg-black"] { outline: 6px dashed cyan !important; }
+        [class*="ring-"] { outline: 6px dotted yellow !important; }
+
         /* layouts/admin.blade.php nests its OWN <main> inside app.blade.php's
            outer <main id="app-main"> — the ring/bg div (rounded-2xl
            bg-black/20 ring-1) sits 4 levels deep inside that (main > div >
