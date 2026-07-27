@@ -70,31 +70,35 @@
         window.print();
     }
 
-    function printSelected() {
+    function printFiltered(isVisible) {
         const sheet = document.getElementById('label-sheet');
-        sheet.querySelectorAll('.label-card').forEach((card) => {
-            card.classList.toggle('print-hide', !card.querySelector('.label-select')?.checked);
+        const cards = Array.from(sheet.querySelectorAll('.label-card'));
+        let visibleCount = 0;
+        cards.forEach((card) => {
+            const visible = isVisible(card);
+            card.classList.toggle('print-hide', !visible);
+            if (visible) visibleCount++;
         });
+        // Don't reserve 3 full columns' width when printing just 1-2
+        // labels — a single selected label would otherwise leave most
+        // of the sheet blank.
+        sheet.style.setProperty('--print-cols', Math.max(1, Math.min(3, visibleCount)));
         sheet.classList.add('print-filtered');
         window.print();
         window.addEventListener('afterprint', () => {
             sheet.classList.remove('print-filtered');
-            sheet.querySelectorAll('.label-card').forEach((card) => card.classList.remove('print-hide'));
+            sheet.style.removeProperty('--print-cols');
+            cards.forEach((card) => card.classList.remove('print-hide'));
         }, { once: true });
     }
 
+    function printSelected() {
+        printFiltered((card) => !!card.querySelector('.label-select')?.checked);
+    }
+
     function printOne(button) {
-        const sheet = document.getElementById('label-sheet');
         const target = button.closest('.label-card');
-        sheet.querySelectorAll('.label-card').forEach((card) => {
-            card.classList.toggle('print-hide', card !== target);
-        });
-        sheet.classList.add('print-filtered');
-        window.print();
-        window.addEventListener('afterprint', () => {
-            sheet.classList.remove('print-filtered');
-            sheet.querySelectorAll('.label-card').forEach((card) => card.classList.remove('print-hide'));
-        }, { once: true });
+        printFiltered((card) => card === target);
     }
 </script>
 
@@ -184,6 +188,12 @@
             display: grid !important;
             grid-template-columns: repeat(3, 1fr) !important;
             gap: 8mm !important;
+        }
+        /* Set via JS to the actual visible-card count (capped at 3) when
+           printing a selection/single label, so 1-2 labels don't reserve
+           a full 3-column-wide sheet's worth of blank page. */
+        .label-sheet.print-filtered {
+            grid-template-columns: repeat(var(--print-cols, 3), 1fr) !important;
         }
         .label-card {
             display: flex !important;
