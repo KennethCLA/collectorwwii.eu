@@ -66,18 +66,16 @@
     }
 
     @media print {
-        /* The shared admin layout (layouts/admin.blade.php) wraps every
-           admin page's content in a div with bg-black/20 + ring-1 — the
-           global print stylesheet only resets header/footer/nav/aside and
-           body's own background, not this ancestor. With print color
-           forcing (-webkit-print-color-adjust:exact) that background/ring
-           actually renders, showing up as a frame around the whole page.
-           Force it off here instead of editing the shared layout, which
-           every other admin page also uses. */
-        main, main > div {
+        /* layouts/admin.blade.php nests its OWN <main> inside app.blade.php's
+           outer <main id="app-main"> — the ring/bg div (rounded-2xl
+           bg-black/20 ring-1) sits 4 levels deep inside that (main > div >
+           div > main > div), not 1. A shallow "main > div" selector never
+           reached it. Reset every descendant of any <main>, then
+           .label-card (more specific) re-asserts white below. */
+        main * {
             background: transparent !important;
             box-shadow: none !important;
-            border: none !important;
+            border-color: transparent !important;
         }
 
         /* The global stylesheet uses body padding for page margins, but
