@@ -66,6 +66,20 @@
     }
 
     @media print {
+        /* The shared admin layout (layouts/admin.blade.php) wraps every
+           admin page's content in a div with bg-black/20 + ring-1 — the
+           global print stylesheet only resets header/footer/nav/aside and
+           body's own background, not this ancestor. With print color
+           forcing (-webkit-print-color-adjust:exact) that background/ring
+           actually renders, showing up as a frame around the whole page.
+           Force it off here instead of editing the shared layout, which
+           every other admin page also uses. */
+        main, main > div {
+            background: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
         /* The global stylesheet uses body padding for page margins, but
            body padding only applies once at the very top/bottom of the
            whole flowed document — not at the top of every printed page.
