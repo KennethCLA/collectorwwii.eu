@@ -66,27 +66,19 @@
     }
 
     @media print {
-        /* TEMP DIAGNOSTIC — color-codes ancestor elements so we can see
-           exactly which one is producing the frame, instead of guessing.
-           Remove once identified. */
-        body { outline: 6px solid red !important; }
-        main { outline: 6px solid orange !important; }
-        main main { outline: 6px solid blue !important; }
-        .space-y-5 { outline: 6px solid magenta !important; }
-        .label-sheet { outline: 6px solid lime !important; }
-        [class*="bg-black"] { outline: 6px dashed cyan !important; }
-        [class*="ring-"] { outline: 6px dotted yellow !important; }
-
-        /* layouts/admin.blade.php nests its OWN <main> inside app.blade.php's
-           outer <main id="app-main"> — the ring/bg div (rounded-2xl
-           bg-black/20 ring-1) sits 4 levels deep inside that (main > div >
-           div > main > div), not 1. A shallow "main > div" selector never
-           reached it. Reset every descendant of any <main>, then
-           .label-card (more specific) re-asserts white below. */
+        /* Chasing individual Tailwind-set properties (background,
+           box-shadow, border-color, ...) one at a time kept missing
+           whatever was actually producing the frame around the page —
+           layouts/admin.blade.php nests its own <main> inside app.
+           blade.php's outer <main id="app-main">, and something on that
+           chain (ring-1/bg-black/20/rounded-2xl div, 4 levels deep) kept
+           surviving each targeted reset. Full reset instead: wipe every
+           inherited/set property on every descendant of any <main> back
+           to browser defaults, then explicitly re-declare only what the
+           label sheet itself needs below. */
         main * {
-            background: transparent !important;
-            box-shadow: none !important;
-            border-color: transparent !important;
+            all: unset !important;
+            display: revert !important;
         }
 
         /* The global stylesheet uses body padding for page margins, but
@@ -116,17 +108,29 @@
             gap: 8mm !important;
         }
         .label-card {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 2mm !important;
             break-inside: avoid;
             border: 1px solid #999 !important;
             background: #fff !important;
             padding: 4mm !important;
         }
         .label-card .text-black {
+            display: block !important;
             color: #000 !important;
+            font-weight: 700 !important;
         }
         .qr-wrap {
+            display: block !important;
             width: 35mm !important;
             height: 35mm !important;
+        }
+        .qr-wrap svg {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
         }
     }
 </style>
