@@ -135,6 +135,15 @@
             all: unset !important;
             display: revert !important;
         }
+        /* The QR code's <rect>/<path> shapes use SVG presentation
+           attributes (fill="#000000" etc), not CSS — the blanket reset
+           above still overrides those (CSS always wins over presentation
+           attributes) and wiped the QR pattern entirely. Revert rolls the
+           cascade back to below author CSS, where presentation attributes
+           take effect again, for the SVG and everything inside it. */
+        .qr-wrap svg, .qr-wrap svg * {
+            all: revert !important;
+        }
         /* Same specificity as the global .print-hide rule and loaded
            later, so without this it would win the tie and re-show the
            on-screen header/buttons in print. */
