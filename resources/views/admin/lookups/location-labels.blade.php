@@ -59,12 +59,22 @@
     }
 
     @media print {
-        /* Page margin + top body padding are already handled globally
-           (resources/css/app.css) — just add breathing room before the
-           first row of labels on top of that. */
+        /* The global stylesheet uses body padding for page margins, but
+           body padding only applies once at the very top/bottom of the
+           whole flowed document — not at the top of every printed page.
+           With a multi-page label sheet, page 2+ ended up with no top
+           margin at all. @page margin repeats on every page consistently,
+           so use that here instead and zero out the global body padding
+           to avoid stacking both on page 1. */
+        body {
+            padding: 0 !important;
+        }
+        @page {
+            margin: 15mm !important;
+        }
         .print-title {
             display: block !important;
-            margin-top: 6mm;
+            margin-top: 0;
             margin-bottom: 8mm;
             font-size: 14pt;
             font-weight: 700;
