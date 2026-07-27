@@ -124,22 +124,27 @@
     }
 
     @media print {
-        /* "main *" was too broad: layouts/admin.blade.php nests its own
-           <main> inside app.blade.php's outer <main id="app-main">, which
-           ALSO wraps <aside> (the sidebar) — so resetting every descendant
-           of any <main> was un-hiding the sidebar's own display:none rule
-           too. Scoped to .admin-content-wrapper specifically (the one
-           actual offending div, tagged with that class in
-           layouts/admin.blade.php) instead of casting a wide net. */
-        /* The QR code's <rect>/<path> shapes are colored via SVG
-           presentation attributes (fill="#000000" etc), not CSS — those
-           lose to ANY CSS rule targeting the same property regardless of
-           specificity, and reverting after the fact turned out not to
-           reliably restore them (spec/browser ambiguity over whether
-           presentation attributes count as revertable). Excluding the QR
-           SVG's whole subtree from the reset selector outright instead,
-           so no rule here ever touches it in the first place. */
-        .admin-content-wrapper *:not(.qr-wrap):not(.qr-wrap *) {
+        /* layouts/admin.blade.php nests its own <main> inside app.
+           blade.php's outer <main id="app-main">, which also wraps
+           <aside> — so a blanket "main *" reset was un-hiding the
+           sidebar's own print display:none too. Scoped to
+           .admin-content-wrapper (tagged on the one actual offending div
+           in layouts/admin.blade.php) instead.
+
+           The QR SVG's <rect>/<path> fill comes from presentation
+           attributes, which lose to any CSS rule regardless of
+           specificity — excluded via :not() so the reset never touches
+           that subtree at all (reverting after the fact didn't reliably
+           restore them).
+
+           :not()'s argument specificity normally gets added to the
+           selector, and three classes' worth here would out-rank
+           .print-hide (0,1,0), silently un-hiding the on-screen header
+           and breaking JS per-card print filtering. :where() always
+           contributes zero specificity, so wrapping the exclusion in it
+           keeps this selector at the original .admin-content-wrapper *
+           specificity while still skipping the QR subtree. */
+        .admin-content-wrapper *:not(:where(.qr-wrap, .qr-wrap *)) {
             all: unset !important;
             display: revert !important;
         }
