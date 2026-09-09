@@ -49,4 +49,26 @@ class BanknotePublicTest extends TestCase
 
         $response->assertNotFound();
     }
+
+    public function test_default_sort_matches_newest_and_preserves_explicit_sort_and_filters(): void
+    {
+        $older = $this->makeBanknote();
+        $older->forceFill(['created_at' => '2020-01-01', 'for_sale' => true])->save();
+        $newer = $older->replicate();
+        $newer->forceFill(['created_at' => '2024-01-01'])->save();
+        $excluded = $older->replicate();
+        $excluded->forceFill(['for_sale' => false])->save();
+
+        $params = ['for_sale' => 1];
+        $default = $this->get(route('banknotes.index', $params))->assertOk();
+        $explicit = $this->get(route('banknotes.index', $params + ['sort' => 'created_at_asc']))->assertOk();
+        $this->assertSame([$newer->id, $older->id], $default->viewData('banknotes')->pluck('id')->all());
+        $this->assertSame($explicit->viewData('banknotes')->pluck('id')->all(), $default->viewData('banknotes')->pluck('id')->all());
+        $oldest = $this->get(route('banknotes.index', $params + ['sort' => 'created_at_desc']))->assertOk();
+        $this->assertSame([$older->id, $newer->id], $oldest->viewData('banknotes')->pluck('id')->all());
+        $url = $oldest->viewData('banknotes')->url(2);
+        $this->assertStringContainsString('sort=created_at_desc', $url);
+        $this->assertStringContainsString('for_sale=1', $url);
+        $default->assertSee('value="created_at_asc" selected', false);
+    }
 }

@@ -19,7 +19,7 @@ class ForSaleController extends Controller
     {
         $type = $request->query('type', 'all');
         $q = trim((string) $request->query('q', ''));
-        $sort = $request->query('sort', 'title_asc');
+        $sort = $request->query('sort', 'created_at_desc');
 
         $searchMatches = static function (string $title, string $search): bool {
             if ($search === '') {

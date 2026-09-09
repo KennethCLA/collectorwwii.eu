@@ -165,4 +165,15 @@ class ForSaleIndexTest extends TestCase
         $this->assertArrayHasKey('image', $first);
         $this->assertArrayHasKey('url', $first);
     }
+
+    public function test_default_sort_matches_existing_newest_option(): void
+    {
+        $old = $this->makeBook(['title' => 'Alpha older']);
+        $old->forceFill(['created_at' => '2020-01-01'])->save();
+        $new = $this->makeMagazine(['title' => 'Zulu newer']);
+        $new->forceFill(['created_at' => '2024-01-01'])->save();
+        $this->get(route('for-sale.index'))->assertOk()->assertSeeInOrder(['Zulu newer', 'Alpha older']);
+        $this->get(route('for-sale.index', ['sort' => 'created_at_desc']))->assertOk()->assertSeeInOrder(['Zulu newer', 'Alpha older']);
+        $this->get(route('for-sale.index', ['sort' => 'created_at_asc']))->assertOk()->assertSeeInOrder(['Alpha older', 'Zulu newer']);
+    }
 }

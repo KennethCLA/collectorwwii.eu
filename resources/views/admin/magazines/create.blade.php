@@ -74,6 +74,12 @@
                         </div>
 
                         <div class="space-y-2">
+                            <label for="page_count" class="text-sm font-medium text-white/80">Pages</label>
+                            <input id="page_count" type="number" name="page_count" value="{{ $val('page_count') }}" min="1" max="4294967295" step="1"
+                                class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
+                        </div>
+
+                        <div class="space-y-2">
                             <label for="condition" class="text-sm font-medium text-white/80">Condition</label>
                             <select id="condition" name="condition" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                                 <option value="">— Not graded —</option>

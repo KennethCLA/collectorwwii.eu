@@ -72,11 +72,11 @@
                                 @if(request()->filled('search')) <input type="hidden" name="search" value="{{ request('search') }}"> @endif
                                 @if(request()->filled('for_sale')) <input type="hidden" name="for_sale" value="{{ request('for_sale') }}"> @endif
                                 <select name="sort" class="rounded-md border border-black/30 bg-black/25 text-white px-3 py-2 font-mono text-sm min-w-[150px] focus:outline-none focus:ring-2 focus:ring-white/20" onchange="this.form.submit()">
-                                    <option value="" disabled selected>Sort by</option>
-                                    <option value="title_asc" {{ request('sort') == 'title_asc' ? 'selected' : '' }}>Title (A-Z)</option>
-                                    <option value="title_desc" {{ request('sort') == 'title_desc' ? 'selected' : '' }}>Title (Z-A)</option>
-                                    <option value="created_at_asc" {{ request('sort') == 'created_at_asc' ? 'selected' : '' }}>Newest First</option>
-                                    <option value="created_at_desc" {{ request('sort') == 'created_at_desc' ? 'selected' : '' }}>Oldest First</option>
+                                    <option value="" disabled>Sort by</option>
+                                    <option value="title_asc" {{ request('sort', 'created_at_asc') == 'title_asc' ? 'selected' : '' }}>Title (A-Z)</option>
+                                    <option value="title_desc" {{ request('sort', 'created_at_asc') == 'title_desc' ? 'selected' : '' }}>Title (Z-A)</option>
+                                    <option value="created_at_asc" {{ request('sort', 'created_at_asc') == 'created_at_asc' ? 'selected' : '' }}>Newest First</option>
+                                    <option value="created_at_desc" {{ request('sort', 'created_at_asc') == 'created_at_desc' ? 'selected' : '' }}>Oldest First</option>
                                 </select>
                             </form>
 

@@ -81,11 +81,11 @@
                                 <select name="sort"
                                     class="rounded-md border border-black/30 bg-black/25 text-white px-3 py-2 font-mono text-sm min-w-[150px] focus:outline-none focus:ring-2 focus:ring-white/20"
                                     onchange="this.form.submit()">
-                                    <option value="" disabled selected>Sort by</option>
-                                    <option value="title_asc" {{ request('sort') == 'title_asc' ? 'selected' : '' }}>Title (A-Z)</option>
-                                    <option value="title_desc" {{ request('sort') == 'title_desc' ? 'selected' : '' }}>Title (Z-A)</option>
-                                    <option value="created_at_asc" {{ request('sort') == 'created_at_asc' ? 'selected' : '' }}>Newest First</option>
-                                    <option value="created_at_desc" {{ request('sort') == 'created_at_desc' ? 'selected' : '' }}>Oldest First</option>
+                                    <option value="" disabled>Sort by</option>
+                                    <option value="title_asc" {{ request('sort', 'created_at_asc') == 'title_asc' ? 'selected' : '' }}>Title (A-Z)</option>
+                                    <option value="title_desc" {{ request('sort', 'created_at_asc') == 'title_desc' ? 'selected' : '' }}>Title (Z-A)</option>
+                                    <option value="created_at_asc" {{ request('sort', 'created_at_asc') == 'created_at_asc' ? 'selected' : '' }}>Newest First</option>
+                                    <option value="created_at_desc" {{ request('sort', 'created_at_asc') == 'created_at_desc' ? 'selected' : '' }}>Oldest First</option>
                                 </select>
                             </form>
 
@@ -176,7 +176,9 @@
                             @endif
                         </div>
                         <p class="text-sm text-center text-white/60 border-t border-white/15 py-1 h-20 flex flex-col justify-center">
-                            <span class="block">{{ $magazine->publisher ?? '—' }}</span>
+                            @if(filled($magazine->subtitle))
+                            <span class="block">{{ $magazine->subtitle }}</span>
+                            @endif
                             <span class="block text-xs text-white/60/90">{{ $magazine->issue_year ?? '—' }}</span>
                         </p>
                         <div class="flex-1 flex justify-center items-center h-80">

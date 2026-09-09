@@ -81,12 +81,14 @@
             'title' => 'Magazines',
             'items' => [
                 ['label' => 'Create magazine', 'route' => 'admin.magazines.create', 'active' => 'admin.magazines.create'],
+                ['label' => 'Series', 'route' => 'admin.lookups.index', 'params' => ['type' => 'magazine-series'], 'active' => 'admin.lookups.*', 'active_types' => ['magazine-series']],
             ],
         ],
         [
             'title' => 'Newspapers',
             'items' => [
                 ['label' => 'Create newspaper', 'route' => 'admin.newspapers.create', 'active' => 'admin.newspapers.create'],
+                ['label' => 'Series', 'route' => 'admin.lookups.index', 'params' => ['type' => 'newspaper-series'], 'active' => 'admin.lookups.*', 'active_types' => ['newspaper-series']],
             ],
         ],
         [

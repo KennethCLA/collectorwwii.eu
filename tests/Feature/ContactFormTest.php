@@ -26,6 +26,8 @@ class ContactFormTest extends TestCase
         $roleId = \DB::table('roles')->where('name', 'admin')->value('id')
             ?? \DB::table('roles')->insertGetId(['name' => 'admin', 'created_at' => now(), 'updated_at' => now()]);
         $admin = User::factory()->create(['role_id' => $roleId]);
+        // Use this test's recipient independently of local mail configuration.
+        config(['collector.contact_notify_address' => $admin->email]);
 
         $response = $this->post(route('contact.store'), [
             'name' => 'John Doe',

@@ -49,13 +49,13 @@
                     <select name="sort"
                         class="rounded-md border border-black/30 bg-black/25 text-white px-3 py-2 font-mono text-sm min-w-[170px] focus:outline-none focus:ring-2 focus:ring-white/20"
                         onchange="this.form.submit()">
-                        <option value="" disabled {{ request()->filled('sort') ? '' : 'selected' }}>Sort by</option>
-                        <option value="title_asc" {{ request('sort') == 'title_asc' ? 'selected' : '' }}>Title (A-Z)</option>
-                        <option value="title_desc" {{ request('sort') == 'title_desc' ? 'selected' : '' }}>Title (Z-A)</option>
-                        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price (Low → High)</option>
-                        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price (High → Low)</option>
-                        <option value="created_at_desc" {{ request('sort') == 'created_at_desc' ? 'selected' : '' }}>Newest First</option>
-                        <option value="created_at_asc" {{ request('sort') == 'created_at_asc' ? 'selected' : '' }}>Oldest First</option>
+                        <option value="" disabled>Sort by</option>
+                        <option value="title_asc" {{ request('sort', 'created_at_desc') == 'title_asc' ? 'selected' : '' }}>Title (A-Z)</option>
+                        <option value="title_desc" {{ request('sort', 'created_at_desc') == 'title_desc' ? 'selected' : '' }}>Title (Z-A)</option>
+                        <option value="price_asc" {{ request('sort', 'created_at_desc') == 'price_asc' ? 'selected' : '' }}>Price (Low → High)</option>
+                        <option value="price_desc" {{ request('sort', 'created_at_desc') == 'price_desc' ? 'selected' : '' }}>Price (High → Low)</option>
+                        <option value="created_at_desc" {{ request('sort', 'created_at_desc') == 'created_at_desc' ? 'selected' : '' }}>Newest First</option>
+                        <option value="created_at_asc" {{ request('sort', 'created_at_desc') == 'created_at_asc' ? 'selected' : '' }}>Oldest First</option>
                     </select>
                 </form>
 

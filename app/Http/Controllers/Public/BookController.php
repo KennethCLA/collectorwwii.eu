@@ -72,7 +72,7 @@ class BookController extends Controller
         }
 
         // SORT (whitelist + echte author sort)
-        $sort = $request->input('sort', 'title_asc');
+        $sort = $request->input('sort', 'created_at_asc');
 
         switch ($sort) {
             case 'title_desc':

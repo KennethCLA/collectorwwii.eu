@@ -4,9 +4,14 @@
 {{-- Optional: $subtitle --}}
 
 @php
-$allImages = $images->filter(fn($img) => $img->url())->values();
+$allImages = collect($main ? [$main] : [])
+    ->concat($images)
+    ->filter(fn($img) => $img->url())
+    ->unique('id')
+    ->unique(fn($img) => $img->disk . ':' . $img->path)
+    ->values();
 $allImageUrls = $allImages->map(fn($img) => $img->url())->values()->all();
-$initialUrl = $mainUrl ?? ($allImageUrls[0] ?? null);
+$initialUrl = $allImageUrls[0] ?? null;
 $thumbCount = $allImages->count();
 @endphp
 
@@ -38,7 +43,7 @@ $thumbCount = $allImages->count();
         <a href="{{ $img->url() }}" data-fancybox="{{ $galleryId }}" class="hidden"></a>
         @endforeach
         {{-- Clicking the visible anchor opens Fancybox at the active image --}}
-        <a :href="active" data-fancybox="{{ $galleryId }}" class="block cursor-zoom-in group p-3">
+        <a :href="active" @click.prevent="$el.parentElement.querySelectorAll('[data-fancybox]')[{{ Illuminate\Support\Js::from($allImageUrls) }}.indexOf(active)]?.click()" class="block cursor-zoom-in group p-3">
             <img :src="active" alt="{{ $title }}"
                 class="w-auto max-w-full object-contain rounded group-hover:opacity-90 transition"
                 style="max-height: var(--media-img-max);" loading="lazy">

@@ -18,6 +18,7 @@ class Magazine extends Model
         'title',
         'subtitle',
         'publisher',
+        'page_count',
         'issue_number',
         'issue_year',
         'description',
@@ -32,6 +33,7 @@ class Magazine extends Model
     ];
 
     protected $casts = [
+        'page_count' => 'integer',
         'for_sale' => 'boolean',
         'purchase_date' => 'date',
         'selling_price' => 'decimal:2',

@@ -105,16 +105,23 @@ class BlogController extends Controller
         }
 
         $posts = [];
+        $legacyOccurrences = [];
 
         foreach ($raw as $row) {
             if (! is_array($row)) {
                 continue;
             }
 
+            // Legacy rows have no stored ID. Keep their links stable across reads;
+            // distinguish identical rows until the next mutation persists these IDs.
+            $fingerprint = hash('sha256', json_encode($row, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+            $occurrence = $legacyOccurrences[$fingerprint] ?? 0;
+            $legacyOccurrences[$fingerprint] = $occurrence + 1;
+
             $content = is_array($row['content'] ?? null) ? $row['content'] : [];
 
             $posts[] = [
-                'id' => (string) ($row['id'] ?? Str::ulid()),
+                'id' => (string) ($row['id'] ?? 'legacy-'.$fingerprint.'-'.$occurrence),
                 'date' => (string) ($row['date'] ?? now()->toDateString()),
                 'content' => [
                     'en' => (string) ($content['en'] ?? ''),

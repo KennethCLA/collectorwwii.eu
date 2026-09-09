@@ -68,6 +68,18 @@ $metaDescription = $magazine->description
                     </div>
                     <div class="px-6 py-4">
                         <dl>
+                            @if($magazine->series)
+                            <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Series</dt>
+                                <dd class="text-sm text-white/90">{{ $magazine->series->name }}</dd>
+                            </div>
+                            @endif
+                            @if($magazine->page_count !== null)
+                            <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
+                                <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Pages</dt>
+                                <dd class="text-sm text-white/90">{{ $magazine->page_count }}</dd>
+                            </div>
+                            @endif
                             @if($magazine->condition)
                             <div class="flex items-baseline gap-4 py-2.5 border-t border-white/8 first:border-0">
                                 <dt class="font-mono text-[11px] uppercase tracking-wider text-white/70 w-36 shrink-0">Condition</dt>

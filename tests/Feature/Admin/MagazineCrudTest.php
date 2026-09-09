@@ -71,7 +71,7 @@ class MagazineCrudTest extends TestCase
         ]);
 
         $response->assertRedirect();
-        $this->assertDatabaseHas('magazines', ['title' => 'Signal Magazine']);
+        $this->assertDatabaseHas('magazines', ['title' => 'Signal Magazine', 'page_count' => null]);
     }
 
     public function test_store_accepts_inline_image_upload(): void
@@ -137,5 +137,34 @@ class MagazineCrudTest extends TestCase
         $response = $this->get(route('admin.magazines.index'));
 
         $response->assertForbidden();
+    }
+
+    public function test_pages_and_series_persist_on_create_and_edit_and_can_be_cleared(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+        $series = \App\Models\MagazineSeries::create(['name' => 'Magazine series']);
+        $this->post(route('admin.magazines.store'), ['title' => 'Pages test', 'page_count' => 48, 'series_id' => $series->id])->assertSessionHasNoErrors()->assertRedirect();
+        $magazine = Magazine::where('title', 'Pages test')->firstOrFail();
+        $this->assertSame(48, $magazine->page_count);
+        $this->assertSame($series->id, $magazine->series_id);
+        $this->get(route('admin.magazines.edit', $magazine))->assertOk()->assertSee('name="page_count" value="48"', false)->assertSee('Magazine series');
+        $this->put(route('admin.magazines.update', $magazine), ['title' => 'Pages test', 'page_count' => 64, 'series_id' => $series->id])->assertSessionHasNoErrors()->assertRedirect();
+        $this->assertSame(64, $magazine->fresh()->page_count);
+        $this->put(route('admin.magazines.update', $magazine), ['title' => 'Pages test', 'page_count' => '', 'series_id' => ''])->assertSessionHasNoErrors()->assertRedirect();
+        $this->assertNull($magazine->fresh()->page_count);
+        $this->assertNull($magazine->fresh()->series_id);
+    }
+
+    public function test_pages_reject_invalid_values_on_create_and_update(): void
+    {
+        $this->actingAs($this->makeAdminUser());
+        $magazine = Magazine::create(['title' => 'Valid', 'page_count' => 48]);
+        foreach ([0, -1, 1.5, 'text', 4294967296] as $pages) {
+            $data = ['title' => 'Invalid', 'page_count' => $pages];
+            $this->post(route('admin.magazines.store'), $data)->assertSessionHasErrors('page_count');
+            $this->put(route('admin.magazines.update', $magazine), $data)->assertSessionHasErrors('page_count');
+        }
+        $this->assertSame(48, $magazine->fresh()->page_count);
+        $this->assertDatabaseMissing('magazines', ['title' => 'Invalid']);
     }
 }
