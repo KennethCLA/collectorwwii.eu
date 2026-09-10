@@ -423,37 +423,6 @@ img[src*="error-image-not-found"] {
     }
 }
 
-/* ─── Choices.js dropdown: package default is white bg, but app text is
-   white too — force dark text in the popup so options stay legible ─── */
-.choices__list--dropdown .choices__item,
-.choices__list[aria-expanded] .choices__item,
-.choices__list--dropdown .choices__group,
-.choices__list--dropdown .choices__input {
-    color: #1a1a1a !important;
-}
-
-/* ─── Choices.js wrapper ships with margin-bottom: 24px and no
-   margin-top. That asymmetric margin skews flex "items-center"
-   centering against a sibling with no margin (e.g. an inline "+"
-   add button) — the select's margin box grows on one side only,
-   so it centers differently than the button. Our own layout
-   (space-y-2 / grid gap) already handles spacing, so drop it. ─── */
-.choices {
-    margin-bottom: 0 !important;
-}
-
-/* ─── Choices.js single-select: the library adds its own
-   padding-bottom on top of our select's padding, making the
-   enhanced control taller than a plain input/button beside it.
-   Normalize it to match so inline "+" add buttons line up ─── */
-.choices[data-type*="select-one"] .choices__inner {
-    min-height: 2.5rem !important;
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
 /* ─── Same issue for plain native <select> (browser-rendered popup is
    white bg by default; app text is white, so options were invisible) ─── */
 select option {

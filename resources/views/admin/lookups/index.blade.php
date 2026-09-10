@@ -30,6 +30,10 @@
     </div>
     @endif
 
+    @error('parent_id')
+    <p role="alert" class="text-sm text-red-200">{{ $message }}</p>
+    @enderror
+
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_320px]">
         <div class="rounded-xl border border-black/20 bg-black/15 p-4">
             <form method="GET" action="{{ route('admin.lookups.index', ['type' => $type]) }}"
@@ -255,7 +259,7 @@
                         <label class="mb-1 block text-xs text-white/60">Parent (optional)</label>
                         <select name="parent_id" class="js-select w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                             <option value="">— Root level —</option>
-                            @foreach($tree_rows as $tr)
+                            @foreach($parent_rows as $tr)
                             <option value="{{ $tr['id'] }}" @selected((string)old('parent_id')===(string)$tr['id'])>
                                 {{ str_repeat('— ', $tr['depth']) }}{{ $tr['name'] }}
                             </option>
@@ -291,12 +295,13 @@
                     @method('PATCH')
                     @if($is_tree)
                     <div>
-                        <label class="mb-1 block text-xs text-white/60">Parent (optional)</label>
-                        <select name="parent_id" x-model="editParentId"
+                        <label for="lookup-edit-parent" class="mb-1 block text-xs text-white/60">Move under parent</label>
+                        <p id="lookup-parent-help" class="mb-2 text-xs text-white/65">Choose Root level to make this a top-level option. Its children move with it. This option and its descendants cannot be selected.</p>
+                        <select id="lookup-edit-parent" name="parent_id" x-model="editParentId" aria-describedby="lookup-parent-help"
                             class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20">
                             <option value="">— Root level —</option>
-                            @foreach($tree_rows as $tr)
-                            <option value="{{ $tr['id'] }}" :disabled="editId === {{ $tr['id'] }}">
+                            @foreach($parent_rows as $tr)
+                            <option value="{{ $tr['id'] }}" :disabled="Number(editId) === {{ $tr['id'] }} || {{ Illuminate\Support\Js::from($tr['ancestor_ids']) }}.includes(Number(editId))">
                                 {{ str_repeat('— ', $tr['depth']) }}{{ $tr['name'] }}
                             </option>
                             @endforeach

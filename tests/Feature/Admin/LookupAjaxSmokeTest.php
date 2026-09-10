@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\LookupIndexController;
 use App\Http\Middleware\IsAdmin;
 use App\Models\User;
 use Illuminate\Auth\Middleware\Authorize;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
@@ -21,6 +22,8 @@ use Tests\TestCase;
  */
 class LookupAjaxSmokeTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();

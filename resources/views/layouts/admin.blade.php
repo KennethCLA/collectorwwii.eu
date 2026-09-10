@@ -1,7 +1,7 @@
 {{-- resources/views/layouts/admin.blade.php --}}
 @extends('layouts.app', [
 'useAdminHeader' => true,
-'bodyClass' => 'bg-gradient-to-b from-[#4a564f] via-[#515d56] to-[#59655d]',
+'bodyClass' => 'admin-shell bg-gradient-to-b from-[#4a564f] via-[#515d56] to-[#59655d]',
 'mainClass' => 'w-full' // <- belangrijk: geen centering classes
     ])
 

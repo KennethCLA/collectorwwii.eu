@@ -12,10 +12,10 @@
         </div>
         <div class="p-4 space-y-3">
             <div id="lookupParentWrap" class="hidden space-y-1">
-                <label class="text-sm text-white/80">Under parent <span class="text-white/50">(optional)</span></label>
+                <label for="lookupParent" class="text-sm text-white/80">Under parent <span class="text-white/50">(optional)</span></label>
                 <select id="lookupParent"
                     class="w-full rounded-md border border-black/30 bg-white/10 px-3 py-2 text-white">
-                    <option value="">— root level</option>
+                    <option value="">— Root level —</option>
                 </select>
             </div>
             <div class="space-y-1">
@@ -65,7 +65,7 @@
             parentWrap.classList.toggle('hidden', !isTree);
 
             if (isTree) {
-                parentEl.innerHTML = '<option value="">— root level</option>';
+                parentEl.innerHTML = '<option value="">— Root level —</option>';
                 try {
                     const res = await fetch(parentsUrl(type), { headers: { 'Accept': 'application/json' } });
                     if (res.ok) {

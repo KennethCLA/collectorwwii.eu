@@ -30,6 +30,7 @@ class LookupIndexController extends Controller
             return view('admin.lookups.index', [
                 'rows' => null,
                 'tree_rows' => $treeRows,
+                'parent_rows' => $search === '' ? $treeRows : $this->buildFlatTree($config['table'], null, 0, ''),
                 'is_tree' => true,
                 'sort' => $sort,
                 'type' => $type,
@@ -168,7 +169,7 @@ class LookupIndexController extends Controller
             ->with('success', "Deleted '{$row->name}'.");
     }
 
-    private function buildFlatTree(string $table, ?int $parentId, int $depth, string $search): \Illuminate\Support\Collection
+    private function buildFlatTree(string $table, ?int $parentId, int $depth, string $search, array $ancestorIds = []): \Illuminate\Support\Collection
     {
         $query = DB::table($table)
             ->select(['id', 'name', 'parent_id', 'created_at'])
@@ -177,16 +178,17 @@ class LookupIndexController extends Controller
             ->when($search !== '' && $depth === 0, fn ($q) => $q->where('name', 'like', "%{$search}%"))
             ->orderBy('name');
 
-        return $query->get()->flatMap(function ($row) use ($table, $depth, $search) {
+        return $query->get()->flatMap(function ($row) use ($table, $depth, $search, $ancestorIds) {
             $item = [
                 'id' => $row->id,
                 'name' => $row->name,
                 'parent_id' => $row->parent_id,
                 'depth' => $depth,
+                'ancestor_ids' => $ancestorIds,
                 'created_at' => $row->created_at,
             ];
 
-            return collect([$item])->concat($this->buildFlatTree($table, $row->id, $depth + 1, ''));
+            return collect([$item])->concat($this->buildFlatTree($table, $row->id, $depth + 1, '', [...$ancestorIds, (int) $row->id]));
         });
     }
 

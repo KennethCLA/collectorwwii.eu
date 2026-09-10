@@ -177,8 +177,14 @@ class LookupDeleteProtectionTest extends TestCase
         $response = $this->get(route('admin.lookups.index', ['type' => 'origins', 'q' => 'Germ']));
 
         $response->assertStatus(200);
-        $response->assertSee('Germany');
-        $response->assertDontSee('France');
+
+        $document = new \DOMDocument;
+        @$document->loadHTML($response->getContent());
+        $table = (new \DOMXPath($document))->query('//table')->item(0);
+
+        $this->assertNotNull($table);
+        $this->assertStringContainsString('Germany', $table->textContent);
+        $this->assertStringNotContainsString('France', $table->textContent);
     }
 
     public function test_non_admin_gets_403_without_middleware_bypass(): void

@@ -16,31 +16,89 @@
   color: #4a5568;
 }
 
-/* Choices: make it match your dark UI */
-.choices {
+/* Admin selects: one palette for native controls and Choices, including dialogs.
+   The scope and specificity override utility classes and lazy-loaded package CSS. */
+.admin-shell select,
+.admin-shell select option,
+.admin-shell select optgroup,
+.admin-shell .choices__inner,
+.admin-shell .choices__list--dropdown,
+.admin-shell .choices__list[aria-expanded],
+.admin-shell .choices__input {
+  background-color: #fff;
+  color: #111;
+  color-scheme: light;
+}
+
+.admin-shell select,
+.admin-shell .choices__inner,
+.admin-shell .choices__list--dropdown,
+.admin-shell .choices__list[aria-expanded] {
+  border: 1px solid #9ca3af;
+  border-radius: 0.375rem;
+}
+
+.admin-shell .choices {
   width: 100%;
+  margin-bottom: 0;
 }
 
-.choices__inner {
-  background: rgba(255,255,255,0.10) !important;
-  border: 1px solid rgba(0,0,0,0.30) !important;
-  color: rgba(255,255,255,0.95) !important;
-  border-radius: 0.375rem !important; /* rounded-md */
-  min-height: 42px;
+.admin-shell .choices[data-type*="select-one"] .choices__inner {
+  min-height: 2.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
-.choices__list--dropdown,
-.choices__list[aria-expanded="true"] {
-  background: theme('colors.sage.900') !important;
-  border: 1px solid rgba(255,255,255,0.10) !important;
-  border-radius: 0.5rem !important;
-  z-index: 9999 !important; /* avoid header overlap */
+.admin-shell .choices__list--dropdown,
+.admin-shell .choices__list[aria-expanded] {
+  z-index: 9999;
 }
 
-.choices__list--dropdown .choices__item {
-  color: rgba(255,255,255,0.90) !important;
+.admin-shell .choices__item,
+.admin-shell .choices__heading {
+  color: #111;
 }
 
-.choices__list--dropdown .choices__item--selectable.is-highlighted {
-  background: rgba(255,255,255,0.10) !important;
+.admin-shell .choices__list--multiple .choices__item {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.admin-shell .choices__list--dropdown .choices__item--selectable.is-highlighted,
+.admin-shell .choices__list[aria-expanded] .choices__item--selectable.is-highlighted,
+.admin-shell .choices__list--multiple .choices__item.is-highlighted,
+.admin-shell select option:checked,
+.admin-shell select option:hover {
+  background-color: #e5e7eb;
+  color: #111;
+}
+
+.admin-shell .choices__placeholder,
+.admin-shell .choices__input::placeholder {
+  color: #6b7280;
+  opacity: 1;
+}
+
+.admin-shell .choices__input {
+  caret-color: #111;
+}
+
+.admin-shell select:disabled,
+.admin-shell select option:disabled,
+.admin-shell .choices.is-disabled .choices__inner,
+.admin-shell .choices.is-disabled .choices__input,
+.admin-shell .choices.is-disabled .choices__item,
+.admin-shell .choices__item--disabled {
+  color: #6b7280;
+  opacity: 1;
+}
+
+.admin-shell .choices[data-type*="select-one"]::after {
+  border-color: #111 transparent transparent;
+}
+
+.admin-shell .choices[data-type*="select-one"].is-open::after {
+  border-color: transparent transparent #111;
 }
