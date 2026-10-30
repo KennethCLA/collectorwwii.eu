@@ -1,4 +1,5 @@
-<x-layout>
+<x-layout title="WWII Collection Blog — CollectorWWII"
+    metaDescription="Read updates, research notes and stories related to the CollectorWWII collection.">
     <div class="max-w-4xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
 
         {{-- Page heading --}}

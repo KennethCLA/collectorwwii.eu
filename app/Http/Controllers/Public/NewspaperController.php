@@ -42,7 +42,7 @@ class NewspaperController extends Controller
                 break;
         }
 
-        $newspapers = $query->paginate(50)->withQueryString();
+        $newspapers = $query->paginate(204)->withQueryString();
 
         return view('newspapers.index', compact('newspapers', 'sort'));
     }

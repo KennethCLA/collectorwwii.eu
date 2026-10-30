@@ -11,9 +11,16 @@ request()->is('password/*') ||
 request()->is('admin*') ||
 request()->routeIs('admin.*');
 $isHome = request()->routeIs('home');
+$sessionlessCatalogue = request()->attributes->get('sessionless_catalogue', false);
 
 $useAdminHeader = $useAdminHeader ?? $autoAdmin;
-$canonical = url()->current();
+$canonical = $canonical ?? url()->current();
+$robots = $robots ?? null;
+$structuredData = $structuredData ?? null;
+$metaDescription = $metaDescription ?? 'CollectorWWII – A curated catalogue of WWII books, items, banknotes, coins, magazines, newspapers, postcards and stamps.';
+$hasContentOgImage = isset($ogImage) && $ogImage !== null;
+$ogImage = $ogImage ?? asset('images/wwii-collector-logo.png');
+$twitterCard = $hasContentOgImage ? 'summary_large_image' : 'summary';
 @endphp
 
 <!doctype html>
@@ -22,18 +29,32 @@ $canonical = url()->current();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="{{ $metaDescription ?? 'CollectorWWII – A curated catalogue of WWII books, items, banknotes, coins, magazines, newspapers, postcards and stamps.' }}">
+    @unless($sessionlessCatalogue)
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+    @endunless
+    <meta name="description" content="{{ $metaDescription }}">
     <title>{{ $title }}</title>
     <link rel="canonical" href="{{ $canonical }}">
+    @if($robots !== null)
+        <meta name="robots" content="{{ $robots }}">
+    @endif
+    @if($structuredData !== null)
+        <script type="application/ld+json">{!! \Illuminate\Support\Js::encode($structuredData) !!}</script>
+    @endif
 
     {{-- Open Graph --}}
     <meta property="og:title" content="{{ $title }}">
-    <meta property="og:description" content="{{ $metaDescription ?? 'CollectorWWII – A curated catalogue of WWII books, items, banknotes, coins, magazines, newspapers, postcards and stamps.' }}">
+    <meta property="og:description" content="{{ $metaDescription }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ $canonical }}">
-    <meta property="og:image" content="{{ $ogImage ?? asset('images/wwii-collector-logo.png') }}">
+    <meta property="og:image" content="{{ $ogImage }}">
     <meta property="og:site_name" content="CollectorWWII">
+
+    {{-- Twitter Cards reuse the Open Graph title, description and image values. --}}
+    <meta name="twitter:card" content="{{ $twitterCard }}">
+    <meta name="twitter:title" content="{{ $title }}">
+    <meta name="twitter:description" content="{{ $metaDescription }}">
+    <meta name="twitter:image" content="{{ $ogImage }}">
 
     @vite(['resources/css/app.css','resources/js/app.js'])
     {{-- Ensure print-only elements are hidden on screen regardless of build state --}}
@@ -69,7 +90,7 @@ $canonical = url()->current();
         @if($useAdminHeader)
         <x-admin-header />
         @else
-        <x-nav-bar />
+        <x-nav-bar :sessionless="$sessionlessCatalogue" />
         @endif
     </header>
 
@@ -148,17 +169,21 @@ $canonical = url()->current();
                 {{-- ACCOUNT --}}
                 <div class="rounded-xl bg-black/20 p-3">
                     <div class="text-xs tracking-[0.2em] text-white/70 mb-2">ACCOUNT</div>
-                    @guest
-                    <a href="{{ route('login') }}" class="block rounded-md px-3 py-2 text-sm text-gray-200 no-underline">Login</a>
+                    @if($sessionlessCatalogue)
+                        <a href="{{ route('login') }}" class="block rounded-md px-3 py-2 text-sm text-gray-200 no-underline">Login</a>
                     @else
-                    @can('viewAny', \App\Models\Book::class)
-                    <a href="{{ route('admin.dashboard') }}" class="block rounded-md px-3 py-2 text-sm text-gray-200 no-underline" @click="open=false;document.body.style.overflow=''">Dashboard</a>
-                    @endcan
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="w-full text-left rounded-md px-3 py-2 text-sm text-gray-200 bg-transparent border-0 cursor-pointer">Logout</button>
-                    </form>
-                    @endguest
+                        @guest
+                        <a href="{{ route('login') }}" class="block rounded-md px-3 py-2 text-sm text-gray-200 no-underline">Login</a>
+                        @else
+                        @can('viewAny', \App\Models\Book::class)
+                        <a href="{{ route('admin.dashboard') }}" class="block rounded-md px-3 py-2 text-sm text-gray-200 no-underline" @click="open=false;document.body.style.overflow=''">Dashboard</a>
+                        @endcan
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full text-left rounded-md px-3 py-2 text-sm text-gray-200 bg-transparent border-0 cursor-pointer">Logout</button>
+                        </form>
+                        @endguest
+                    @endif
                 </div>
 
             </div>

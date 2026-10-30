@@ -1,4 +1,6 @@
-<x-layout :mainClass="'w-full px-4 py-6 sm:px-6 lg:px-8'">
+<x-layout title="WWII Collection Map — CollectorWWII"
+    metaDescription="Explore places connected to objects and stories in the CollectorWWII collection on an interactive map."
+    :mainClass="'w-full px-4 py-6 sm:px-6 lg:px-8'">
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
 
     <style>
@@ -74,10 +76,10 @@
             </div>
 
             <aside x-data="{ open: window.innerWidth >= 1024 }" class="rounded-2xl bg-black/20 p-4 ring-1 ring-black/30">
-                <button type="button" @click="open = !open"
+                <button type="button" @click="open = !open" aria-controls="map-locations-panel" :aria-expanded="open.toString()"
                     class="flex w-full items-center justify-between lg:pointer-events-none">
-                    <h2 class="font-stencil text-[11px] uppercase tracking-[0.25em] text-khaki/70">
-                        STANDORTE <span class="text-white/40" x-text="'(' + {{ $locations->count() }} + ')'"></span>
+                    <h2 class="font-stencil text-[11px] uppercase tracking-[0.25em] text-white/95">
+                        STANDORTE <span class="text-white/95" x-text="'(' + {{ $locations->count() }} + ')'"></span>
                     </h2>
                     <svg class="h-4 w-4 text-white/60 transition-transform lg:hidden" :class="open ? 'rotate-180' : ''"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -85,9 +87,9 @@
                     </svg>
                 </button>
 
-                <div x-show="open" x-collapse class="mt-3">
-                    <input type="text" id="location-search" placeholder="Search…"
-                        class="mb-3 w-full rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20" />
+                <div id="map-locations-panel" x-show="open" x-collapse class="mt-3">
+                    <input type="text" id="location-search" aria-label="Search map locations" placeholder="Search…"
+                        class="mb-3 w-full rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40" />
 
                     <div id="location-list" class="space-y-2 max-h-[45vh] overflow-y-auto pr-1 lg:max-h-[58vh]">
                         @forelse($locations as $loc)

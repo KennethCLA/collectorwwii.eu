@@ -1,6 +1,17 @@
 <!-- resources/views/home.blade.php -->
 
-<x-layout :mainClass="'w-full p-0'" :bodyClass="'home home-' . $season . ' overflow-hidden'">
+@php
+    $structuredData = [
+        '@context' => 'https://schema.org',
+        '@type' => 'WebSite',
+        'name' => 'CollectorWWII',
+        'url' => route('home'),
+    ];
+@endphp
+
+<x-layout title="CollectorWWII — WWII Collection & Archive"
+    metaDescription="Explore a private collection of WWII books, historical items, magazines, newspapers, banknotes, coins, postcards and stamps."
+    :mainClass="'w-full p-0'" :bodyClass="'home home-' . $season . ' overflow-hidden'" :structuredData="$structuredData">
     @php
     $homeText = trim((string) ($latestBlog['content'] ?? ''));
     $excerptParagraphs = array_values(array_filter(array_map('trim', explode("\n\n", $homeText))));
@@ -65,7 +76,7 @@
                     ['fr','flag-france.png','Français'],
                     ] as [$code,$img,$label])
                     <a href="{{ route('changeLanguage', $code) }}"
-                        class="rounded-xl p-1 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+                        class="rounded-xl p-1 hover:bg-white/10"
                         aria-label="Switch to {{ $label }}">
                         <img src="{{ asset('images/'.$img) }}"
                             class="h-8 w-8 sm:h-10 sm:w-10 rounded-lg ring-1 ring-black/40 transition hover:-translate-y-0.5"

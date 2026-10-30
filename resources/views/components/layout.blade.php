@@ -6,6 +6,9 @@
 'mainClass' => null,
 'metaDescription' => null,
 'ogImage' => null,
+'canonical' => null,
+'robots' => null,
+'structuredData' => null,
 ])
 
 @extends('layouts.app', [
@@ -15,6 +18,9 @@
 'mainClass' => $mainClass,
 'metaDescription' => $metaDescription,
 'ogImage' => $ogImage,
+'canonical' => $canonical,
+'robots' => $robots,
+'structuredData' => $structuredData,
 ])
 
 @section('content')

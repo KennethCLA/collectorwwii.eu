@@ -41,7 +41,7 @@ class BanknoteController extends Controller
                 break;
         }
 
-        $banknotes = $query->paginate(50)->withQueryString();
+        $banknotes = $query->paginate(204)->withQueryString();
 
         return view('banknotes.index', compact('banknotes', 'countries', 'currencies', 'sort'));
     }

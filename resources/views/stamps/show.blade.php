@@ -2,9 +2,18 @@
 
 @php
 $metaDescription = "WWII-era stamp — {$stamp->card_title} — part of the CollectorWWII collection.";
+$structuredData = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Stamps', 'item' => route('stamps.index')],
+        ['@type' => 'ListItem', 'position' => 3, 'name' => $stamp->card_title],
+    ],
+];
 @endphp
 <x-layout :title="$stamp->card_title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
-    :metaDescription="$metaDescription" :ogImage="$stamp->image_url">
+    :metaDescription="$metaDescription" :ogImage="$stamp->image_url" :structuredData="$structuredData">
     @php
     $images = $stamp->images;
     $main = $stamp->mainImageFile();

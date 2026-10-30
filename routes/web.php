@@ -13,12 +13,15 @@ use App\Http\Controllers\Public\MagazineController as PublicMagazineController;
 use App\Http\Controllers\Public\MapController;
 use App\Http\Controllers\Public\NewspaperController as PublicNewspaperController;
 use App\Http\Controllers\Public\PostcardController as PublicPostcardController;
-use App\Http\Controllers\Public\SectionController;
 use App\Http\Controllers\Public\SearchController;
+use App\Http\Controllers\Public\SectionController;
 use App\Http\Controllers\Public\SitemapController;
 use App\Http\Controllers\Public\StampController as PublicStampController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 Route::get('/', [BlogController::class, 'index'])->name('home');
 
@@ -33,19 +36,34 @@ Route::get('/change-language/{language}', function (string $language) {
 Route::get('/blog', [BlogController::class, 'showAllPosts'])->name('blog');
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
-Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
+Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:contact')->name('contact.store');
 
 Route::get('/for-sale', [ForSaleController::class, 'index'])->name('for-sale.index');
 Route::get('/map', [MapController::class, 'index'])->name('map.index');
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 // PUBLIC: Books
-Route::get('/books', [PublicBookController::class, 'index'])->name('books.index');
-Route::get('/books/{book}', [PublicBookController::class, 'show'])->name('books.show');
+Route::middleware('existing_session')
+    ->withoutMiddleware([
+        StartSession::class,
+        ShareErrorsFromSession::class,
+        // VerifyCsrfToken queues XSRF-TOKEN on every response and requires a
+        // request session. These GET-only catalogue routes have no writes.
+        VerifyCsrfToken::class,
+    ])
+    ->group(function () {
+        Route::get('/books', [PublicBookController::class, 'index'])
+            ->middleware('catalogue_query:books')
+            ->name('books.index');
+        Route::get('/books/{book}', [PublicBookController::class, 'show'])->name('books.show');
 
-// PUBLIC: Items
-Route::get('/items', [PublicItemController::class, 'index'])->name('items.index');
-Route::get('/items/{item}', [PublicItemController::class, 'show'])->name('items.show');
+        // Public catalogue views use only query-string state. Do not expand
+        // this group without checking layout/auth/CSRF/session dependencies.
+        Route::get('/items', [PublicItemController::class, 'index'])
+            ->middleware('catalogue_query:items')
+            ->name('items.index');
+        Route::get('/items/{item}', [PublicItemController::class, 'show'])->name('items.show');
+    });
 
 // PUBLIC: Magazines
 Route::get('/magazines', [PublicMagazineController::class, 'index'])->name('magazines.index');

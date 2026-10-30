@@ -6,7 +6,9 @@ return [
 
     'driver' => env('SESSION_DRIVER', 'database'), // Gebruik database i.p.v. file
 
-    'lifetime' => 43200, // Houd de sessie 30 dagen actief (43200 minuten)
+    // Laravel's safe default is 120 minutes. Production may override this via
+    // SESSION_LIFETIME; do not use a long anonymous-session lifetime by default.
+    'lifetime' => (int) env('SESSION_LIFETIME', 120),
 
     'expire_on_close' => false, // Blijf ingelogd na sluiten browser
 

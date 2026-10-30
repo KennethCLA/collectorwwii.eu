@@ -9,15 +9,32 @@ use App\Models\ItemNationality;
 use App\Models\ItemOrganization;
 use App\Models\Origin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ItemController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = ItemCategory::orderBy('name')->get();
-        $nationalities = ItemNationality::orderBy('name')->get();
-        $origins = Origin::orderBy('name')->get();
-        $organizations = ItemOrganization::orderBy('name')->get();
+        $categories = Cache::remember(
+            'collectorwwii:item_categories:v1',
+            now()->addMinutes(10),
+            fn () => ItemCategory::orderBy('name')->get()
+        );
+        $nationalities = Cache::remember(
+            'collectorwwii:item_nationalities:v1',
+            now()->addMinutes(10),
+            fn () => ItemNationality::orderBy('name')->get()
+        );
+        $origins = Cache::remember(
+            'collectorwwii:item_origins:v1',
+            now()->addMinutes(10),
+            fn () => Origin::orderBy('name')->get()
+        );
+        $organizations = Cache::remember(
+            'collectorwwii:item_organizations:v1',
+            now()->addMinutes(10),
+            fn () => ItemOrganization::orderBy('name')->get()
+        );
 
         $itemsQuery = Item::query()
             ->with(['mainImage', 'category', 'nationality', 'origin', 'organization']);
@@ -78,7 +95,11 @@ class ItemController extends Controller
                 break;
         }
 
-        $items = $itemsQuery->paginate(504)->withQueryString();
+        $items = $itemsQuery->paginate(204)->withQueryString();
+
+        if ($items->currentPage() > 1 && $items->currentPage() > $items->lastPage()) {
+            abort(404);
+        }
 
         return view('items.index', compact(
             'items',

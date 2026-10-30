@@ -41,7 +41,7 @@ class CoinController extends Controller
                 break;
         }
 
-        $coins = $query->paginate(50)->withQueryString();
+        $coins = $query->paginate(204)->withQueryString();
 
         return view('coins.index', compact('coins', 'countries', 'materials', 'sort'));
     }
