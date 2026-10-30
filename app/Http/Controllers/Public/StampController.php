@@ -41,7 +41,7 @@ class StampController extends Controller
                 break;
         }
 
-        $stamps = $query->paginate(50)->withQueryString();
+        $stamps = $query->paginate(204)->withQueryString();
 
         return view('stamps.index', compact('stamps', 'countries', 'stampTypes', 'sort'));
     }

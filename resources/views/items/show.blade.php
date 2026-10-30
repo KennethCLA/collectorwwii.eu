@@ -4,9 +4,18 @@
 $metaDescription = $item->description
     ? \Illuminate\Support\Str::limit(strip_tags($item->description), 155)
     : "WWII item — {$item->title} — part of the CollectorWWII collection.";
+$structuredData = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Items', 'item' => route('items.index')],
+        ['@type' => 'ListItem', 'position' => 3, 'name' => $item->title],
+    ],
+];
 @endphp
 <x-layout :title="$item->title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
-    :metaDescription="$metaDescription" :ogImage="$item->image_url">
+    :metaDescription="$metaDescription" :ogImage="$item->image_url" :structuredData="$structuredData">
     @php
     $images = $item->images; // collection (al geladen)
     $main = $item->mainImageFile(); // gebruikt loaded relations (na stap 2A)
@@ -34,7 +43,7 @@ $metaDescription = $item->description
                 <span class="opacity-50">›</span>
                 <span class="text-white font-medium">{{ $item->title }}</span>
             </nav>
-            @if(auth()->user()?->isAdmin())
+            @if(! request()->attributes->get('sessionless_catalogue', false) && auth()->user()?->isAdmin())
             <a href="{{ route('admin.pdf', ['items', $item->id]) }}"
                 class="font-mono text-[10px] tracking-[0.15em] text-white/40 hover:text-white/70 uppercase transition">
                 ⬇ PDF

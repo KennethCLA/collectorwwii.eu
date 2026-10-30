@@ -1,14 +1,72 @@
 {{-- resources/views/magazines/index.blade.php --}}
-<x-layout title="Magazines — CollectorWWII" :mainClass="'w-full px-0 py-0'">
+@php
+    $title = $magazines->currentPage() > 1 ? 'Magazines — Page '.$magazines->currentPage().' — CollectorWWII' : 'Magazines — CollectorWWII';
+@endphp
+<x-layout :title="$title"
+    metaDescription="Browse WWII-era magazines and periodicals preserved in the CollectorWWII collection."
+    :mainClass="'w-full px-0 py-0'">
     <div class="w-full">
-        <div x-data="{ filtersOpen: false }" class="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-4 items-start">
+        <div x-data="{
+            filtersOpen: false,
+            isMobile: ! window.matchMedia('(min-width: 1024px)').matches,
+            init() {
+                const desktopBreakpoint = window.matchMedia('(min-width: 1024px)');
+                this.isMobile = ! desktopBreakpoint.matches;
+                desktopBreakpoint.addEventListener('change', (event) => {
+                    if (! event.matches && this.$refs.filterDrawer?.contains(document.activeElement)) {
+                        this.$refs.filterTrigger?.focus();
+                    }
+
+                    this.isMobile = ! event.matches;
+                    this.filtersOpen = false;
+                });
+            },
+            openFilters() {
+                if (! this.isMobile) return;
+                this.filtersOpen = true;
+                this.$nextTick(() => {
+                    const firstControl = this.$refs.filterDrawer.querySelector('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=&quot;-1&quot;])');
+                    firstControl?.focus();
+                });
+            },
+            closeFilters() {
+                this.filtersOpen = false;
+                this.$nextTick(() => this.$refs.filterTrigger?.focus());
+            },
+            trapDrawerFocus(event) {
+                if (! this.isMobile || ! this.filtersOpen || event.key !== 'Tab') return;
+                const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=&quot;-1&quot;])';
+                const focusable = [...this.$refs.filterDrawer.querySelectorAll(focusableSelector)]
+                    .filter((element) => ! element.closest('[inert]') && element.getClientRects().length > 0 && getComputedStyle(element).visibility !== 'hidden');
+                if (focusable.length === 0) {
+                    event.preventDefault();
+                    return;
+                }
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (event.shiftKey && (document.activeElement === first || ! this.$refs.filterDrawer.contains(document.activeElement))) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (! event.shiftKey && (document.activeElement === last || ! this.$refs.filterDrawer.contains(document.activeElement))) {
+                    event.preventDefault();
+                    first.focus();
+                }
+            }
+        }" @keydown.escape.window="if (isMobile && filtersOpen) closeFilters()" class="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-4 items-start">
 
             {{-- Mobile backdrop --}}
-            <div x-show="filtersOpen" x-transition.opacity @click="filtersOpen = false"
-                 class="fixed inset-0 bg-black/50 z-40 lg:hidden" x-cloak></div>
+            <div x-show="filtersOpen && isMobile" x-transition.opacity @click="closeFilters()"
+                 class="fixed inset-0 bg-black/50 z-40 lg:hidden" aria-hidden="true" x-cloak></div>
 
             {{-- Sidebar --}}
-            <aside :class="filtersOpen ? 'translate-x-0' : '-translate-x-full'"
+            <aside id="magazines-filter-drawer" x-ref="filterDrawer" x-cloak
+                   :class="filtersOpen ? 'translate-x-0' : '-translate-x-full'"
+                   :inert="isMobile && !filtersOpen"
+                   :aria-hidden="isMobile && !filtersOpen ? 'true' : 'false'"
+                   :role="isMobile && filtersOpen ? 'dialog' : null"
+                   :aria-modal="isMobile && filtersOpen ? 'true' : null"
+                   :aria-labelledby="isMobile && filtersOpen ? 'magazines-filter-heading' : null"
+                   @keydown="trapDrawerFocus($event)"
                    class="fixed inset-y-0 left-0 w-[280px] z-50 flex flex-col
                           lg:relative lg:w-auto lg:translate-x-0 lg:z-auto
                           lg:sticky lg:self-start lg:top-[var(--header-h,113px)] lg:h-[calc(100vh_-_var(--header-h,113px))]
@@ -16,8 +74,8 @@
                           bg-sage border-r border-black/20 text-white">
                 {{-- Mobile drawer header --}}
                 <div class="lg:hidden flex items-center justify-between px-4 py-3 border-b border-black/20">
-                    <h2 class="font-stencil text-[11px] uppercase tracking-[0.2em] text-white/60">Filters</h2>
-                    <button @click="filtersOpen = false" class="text-white/80 hover:text-white">
+                    <h2 id="magazines-filter-heading" class="font-stencil text-[11px] uppercase tracking-[0.2em] text-white/95">Filters</h2>
+                    <button type="button" aria-label="Close filters" @click="closeFilters()" class="text-white/80 hover:text-white">
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                 </div>
@@ -28,7 +86,7 @@
 
                     <div class="mt-0">
                         <div class="sticky top-0 z-10 -mx-4 px-4 py-2 bg-sage border-b border-black/20 shadow-sm">
-                            <h2 class="font-stencil text-[11px] uppercase tracking-[0.2em] text-white/60">Status</h2>
+                            <h2 class="font-stencil text-[11px] uppercase tracking-[0.2em] text-white/95">Status</h2>
                         </div>
                         <ul class="mt-2 text-sm space-y-1">
                             <li class="relative after:block after:mx-3 after:border-b after:border-white/10">
@@ -63,11 +121,11 @@
                 <div class="pt-2">
                     <div class="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4 items-center">
                         <div class="flex items-center justify-between">
-                            <nav class="flex items-center pl-1 space-x-2 font-mono text-[11px] tracking-[0.15em] text-white/60 uppercase">
-                                <a href="{{ route('home') }}" class="pr-2">Home</a> >
-                                <h1 class="inline text-khaki/70 font-mono text-[11px] tracking-[0.1em] uppercase">Magazines</h1>
+                            <nav aria-label="Breadcrumb" class="flex items-center pl-1 space-x-2 font-mono text-[11px] tracking-[0.15em] text-white/95 uppercase">
+                                <a href="{{ route('home') }}" class="pr-2">Home</a> <span aria-hidden="true">&gt;</span>
+                                <h1 aria-current="page" class="inline text-white/95 font-mono text-[11px] tracking-[0.1em] uppercase">Magazines</h1>
                             </nav>
-                            <button @click="filtersOpen = true"
+                            <button type="button" x-ref="filterTrigger" aria-controls="magazines-filter-drawer" :aria-expanded="filtersOpen.toString()" @click="openFilters()"
                                     class="lg:hidden inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-sm text-white hover:bg-white/20">
                                 <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
                                 FILTER
@@ -78,8 +136,8 @@
                             <form method="GET" action="{{ route('magazines.index') }}" class="flex">
                                 @if(request()->filled('search')) <input type="hidden" name="search" value="{{ request('search') }}"> @endif
                                 @if(request()->filled('for_sale')) <input type="hidden" name="for_sale" value="{{ request('for_sale') }}"> @endif
-                                <select name="sort"
-                                    class="rounded-md border border-black/30 bg-black/25 text-white px-3 py-2 font-mono text-sm min-w-[150px] focus:outline-none focus:ring-2 focus:ring-white/20"
+                                <select name="sort" aria-label="Sort magazines"
+                                    class="rounded-md border border-black/30 bg-black/25 text-white px-3 py-2 font-mono text-sm min-w-[150px]"
                                     onchange="this.form.submit()">
                                     <option value="" disabled>Sort by</option>
                                     <option value="title_asc" {{ request('sort', 'created_at_asc') == 'title_asc' ? 'selected' : '' }}>Title (A-Z)</option>
@@ -93,9 +151,9 @@
                                 @if(request()->filled('sort')) <input type="hidden" name="sort" value="{{ request('sort') }}"> @endif
                                 @if(request()->filled('for_sale')) <input type="hidden" name="for_sale" value="{{ request('for_sale') }}"> @endif
                                 <div class="relative w-full sm:w-[320px]">
-                                    <input type="text" name="search" placeholder="Search magazines..."
+                                    <input type="text" name="search" aria-label="Search magazines" placeholder="Search magazines..."
                                         value="{{ request('search') }}"
-                                        class="rounded-md border border-black/30 bg-black/25 text-white placeholder-white/40 font-mono text-sm px-3 py-2 pr-10 w-full focus:outline-none focus:ring-2 focus:ring-white/20"
+                                        class="rounded-md border border-black/30 bg-black/25 text-white placeholder-white/40 font-mono text-sm px-3 py-2 pr-10 w-full"
                                         id="searchInput" autocomplete="off" />
                                     <button type="button" id="clearSearchBtn"
                                         class="absolute right-2 top-1/2 -translate-y-1/2 text-white/70 hover:text-white

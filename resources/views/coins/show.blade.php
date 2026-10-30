@@ -2,9 +2,18 @@
 
 @php
 $metaDescription = "WWII-era coin — {$coin->card_title} — part of the CollectorWWII collection.";
+$structuredData = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Coins', 'item' => route('coins.index')],
+        ['@type' => 'ListItem', 'position' => 3, 'name' => $coin->card_title],
+    ],
+];
 @endphp
 <x-layout :title="$coin->card_title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
-    :metaDescription="$metaDescription" :ogImage="$coin->image_url">
+    :metaDescription="$metaDescription" :ogImage="$coin->image_url" :structuredData="$structuredData">
     @php
     $images = $coin->images;
     $main = $coin->mainImageFile();

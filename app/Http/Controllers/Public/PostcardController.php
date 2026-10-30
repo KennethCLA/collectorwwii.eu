@@ -41,7 +41,7 @@ class PostcardController extends Controller
                 break;
         }
 
-        $postcards = $query->paginate(50)->withQueryString();
+        $postcards = $query->paginate(204)->withQueryString();
 
         return view('postcards.index', compact('postcards', 'countries', 'postcardTypes', 'sort'));
     }

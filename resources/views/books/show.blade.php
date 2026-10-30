@@ -4,9 +4,18 @@
 $metaDescription = $book->description
     ? \Illuminate\Support\Str::limit(strip_tags($book->description), 155)
     : "WWII book — {$book->title} — part of the CollectorWWII collection.";
+$structuredData = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Books', 'item' => route('books.index')],
+        ['@type' => 'ListItem', 'position' => 3, 'name' => $book->title],
+    ],
+];
 @endphp
 <x-layout :title="$book->title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
-    :metaDescription="$metaDescription" :ogImage="$book->image_url">
+    :metaDescription="$metaDescription" :ogImage="$book->image_url" :structuredData="$structuredData">
     @php
     $images = $book->images()->get();
     $main = $images->first();
@@ -37,7 +46,7 @@ $metaDescription = $book->description
                 <span class="opacity-50">›</span>
                 <span class="text-white font-medium">{{ $book->title }}</span>
             </nav>
-            @if(auth()->user()?->isAdmin())
+            @if(! request()->attributes->get('sessionless_catalogue', false) && auth()->user()?->isAdmin())
             <a href="{{ route('admin.pdf', ['books', $book->id]) }}"
                 class="font-mono text-[10px] tracking-[0.15em] text-white/40 hover:text-white/70 uppercase transition">
                 ⬇ PDF

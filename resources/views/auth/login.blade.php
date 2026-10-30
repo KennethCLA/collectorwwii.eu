@@ -25,34 +25,34 @@
                 @csrf
 
                 <div>
-                    <label for="email" class="font-mono block text-[10px] tracking-[0.25em] text-khaki/70 uppercase mb-1">KENNZEICHEN / EMAIL</label>
-                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
+                    <label for="email" class="font-mono block text-[10px] tracking-[0.25em] text-white/95 uppercase mb-1">KENNZEICHEN / EMAIL</label>
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus @error('email') aria-invalid="true" aria-describedby="login-error-email" @enderror
                         class="w-full rounded-xl bg-black/25 ring-1 ring-black/40 px-3 py-2 text-white placeholder-white/40 font-mono text-sm
-                               focus:outline-none focus:ring-2 focus:ring-white/30 @error('email') ring-red-400/60 @enderror" />
+                               @error('email') ring-red-400/60 @enderror" />
                     @error('email')
-                    <p class="mt-1 text-sm text-red-200">{{ $message }}</p>
+                    <p id="login-error-email" class="mt-1 text-sm text-red-200">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
-                    <label for="password" class="font-mono block text-[10px] tracking-[0.25em] text-khaki/70 uppercase mb-1">LOSUNGSWORT / PASSWORT</label>
-                    <input id="password" type="password" name="password" required
+                    <label for="password" class="font-mono block text-[10px] tracking-[0.25em] text-white/95 uppercase mb-1">LOSUNGSWORT / PASSWORT</label>
+                    <input id="password" type="password" name="password" required @error('password') aria-invalid="true" aria-describedby="login-error-password" @enderror
                         class="w-full rounded-xl bg-black/25 ring-1 ring-black/40 px-3 py-2 text-white placeholder-white/40 font-mono text-sm
-                               focus:outline-none focus:ring-2 focus:ring-white/30 @error('password') ring-red-400/60 @enderror" />
+                               @error('password') ring-red-400/60 @enderror" />
                     @error('password')
-                    <p class="mt-1 text-sm text-red-200">{{ $message }}</p>
+                    <p id="login-error-password" class="mt-1 text-sm text-red-200">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="flex items-center justify-between">
                     <label class="inline-flex items-center gap-2">
                         <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}
-                            class="rounded border-black/40 bg-black/25 text-white focus:ring-white/30" />
-                        <span class="font-mono text-[10px] tracking-[0.15em] text-white/70 uppercase">Eingeloggt bleiben</span>
+                            class="rounded border-black/40 bg-black/25 text-white" />
+                        <span class="font-mono text-[10px] tracking-[0.15em] text-white/95 uppercase">Eingeloggt bleiben</span>
                     </label>
 
                     @if (Route::has('password.request'))
-                    <a class="font-mono text-[10px] tracking-[0.15em] text-khaki/70 hover:text-khaki uppercase"
+                    <a class="font-mono text-[10px] tracking-[0.15em] text-white/95 hover:text-white uppercase"
                         href="{{ route('password.request') }}">
                         Vergessen?
                     </a>

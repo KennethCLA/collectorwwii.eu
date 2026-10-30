@@ -10,16 +10,31 @@ use App\Models\BookCover;
 use App\Models\BookSeries;
 use App\Models\BookTopic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class BookController extends Controller
 {
     public function index(Request $request)
     {
-        $topics = BookTopic::orderBy('name')->get();
-        $series = BookSeries::orderBy('name')->get();
-        $covers = BookCover::orderBy('name')->get();
+        $topics = Cache::remember(
+        'collectorwwii:book_topics:v1',
+        now()->addMinutes(10),
+        fn () => BookTopic::orderBy('name')->get()
+    );
 
-        $booksQuery = Book::query()->with(['authors', 'images']);
+    $series = Cache::remember(
+        'collectorwwii:book_series:v1',
+        now()->addMinutes(10),
+        fn () => BookSeries::orderBy('name')->get()
+    );
+
+    $covers = Cache::remember(
+        'collectorwwii:book_covers:v1',
+        now()->addMinutes(10),
+        fn () => BookCover::orderBy('name')->get()
+	);
+
+        $booksQuery = Book::query()->with(['authors', 'mainImage']);
 
         // SEARCH
         if ($request->filled('search')) {
@@ -110,6 +125,10 @@ class BookController extends Controller
 
         // paginate lager (UX + performance)
         $books = $booksQuery->paginate(204)->withQueryString();
+
+        if ($books->currentPage() > 1 && $books->currentPage() > $books->lastPage()) {
+            abort(404);
+        }
 
         return view('books.index', compact('books', 'topics', 'series', 'covers'));
     }

@@ -1,5 +1,7 @@
 {{-- resources/views/for-sale/index.blade.php --}}
-<x-layout :mainClass="'w-full px-2 sm:px-4 py-6'">
+<x-layout title="WWII Collectibles for Sale — CollectorWWII"
+    metaDescription="Browse items currently offered for sale from the CollectorWWII collection."
+    :mainClass="'w-full px-2 sm:px-4 py-6'">
 
     {{-- Page header --}}
     <div class="w-full px-4 pt-6 pb-5">
@@ -13,10 +15,10 @@
     <div class="w-full px-4 pt-0">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             {{-- Breadcrumb --}}
-            <nav class="flex items-center pl-1 space-x-2 font-mono text-[11px] tracking-[0.15em] text-white/60 uppercase">
+            <nav aria-label="Breadcrumb" class="flex items-center pl-1 space-x-2 font-mono text-[11px] tracking-[0.15em] text-white/95 uppercase">
                 <a href="{{ route('home') }}" class="hover:text-white transition">Home</a>
-                <span class="text-white/30">·</span>
-                <span class="text-khaki/70">Zu Verkaufen</span>
+                <span aria-hidden="true" class="text-white/30">·</span>
+                <span aria-current="page" class="text-white/95">Zu Verkaufen</span>
             </nav>
 
             {{-- Controls: type + sort + search --}}
@@ -26,8 +28,8 @@
                     @if(request()->filled('q')) <input type="hidden" name="q" value="{{ request('q') }}"> @endif
                     @if(request()->filled('sort')) <input type="hidden" name="sort" value="{{ request('sort') }}"> @endif
 
-                    <select name="type"
-                        class="rounded-md border border-black/30 bg-black/25 text-white px-3 py-2 font-mono text-sm min-w-[150px] focus:outline-none focus:ring-2 focus:ring-white/20"
+                    <select name="type" aria-label="Filter items for sale by type"
+                        class="rounded-md border border-black/30 bg-black/25 text-white px-3 py-2 font-mono text-sm min-w-[150px]"
                         onchange="this.form.submit()">
                         <option value="all" {{ request('type','all') == 'all' ? 'selected' : '' }}>All</option>
                         <option value="books" {{ request('type') == 'books' ? 'selected' : '' }}>Books</option>
@@ -46,8 +48,8 @@
                     @if(request()->filled('q')) <input type="hidden" name="q" value="{{ request('q') }}"> @endif
                     @if(request()->filled('type')) <input type="hidden" name="type" value="{{ request('type') }}"> @endif
 
-                    <select name="sort"
-                        class="rounded-md border border-black/30 bg-black/25 text-white px-3 py-2 font-mono text-sm min-w-[170px] focus:outline-none focus:ring-2 focus:ring-white/20"
+                    <select name="sort" aria-label="Sort items for sale"
+                        class="rounded-md border border-black/30 bg-black/25 text-white px-3 py-2 font-mono text-sm min-w-[170px]"
                         onchange="this.form.submit()">
                         <option value="" disabled>Sort by</option>
                         <option value="title_asc" {{ request('sort', 'created_at_desc') == 'title_asc' ? 'selected' : '' }}>Title (A-Z)</option>
@@ -67,9 +69,10 @@
                     <div class="relative w-full sm:w-[320px]">
                         <input type="text"
                             name="q"
+                            aria-label="Search items for sale"
                             placeholder="Search..."
                             value="{{ request('q') }}"
-                            class="rounded-md border border-black/30 bg-black/25 text-white placeholder-white/40 font-mono text-sm px-3 py-2 pr-10 w-full focus:outline-none focus:ring-2 focus:ring-white/20"
+                            class="rounded-md border border-black/30 bg-black/25 text-white placeholder-white/40 font-mono text-sm px-3 py-2 pr-10 w-full"
                             id="searchInput"
                             autocomplete="off" />
 
@@ -97,7 +100,7 @@
         @endphp
 
         <div class="mb-3 flex items-center justify-between">
-            <p class="font-mono text-[11px] tracking-[0.15em] text-white/60 uppercase">
+            <p class="font-mono text-[11px] tracking-[0.15em] text-white/95 uppercase">
                 @if($total > 0)
                 [ <span class="text-white">{{ $from }}</span>–<span class="text-white">{{ $to }}</span>
                 &nbsp;of&nbsp; <span class="text-khaki">{{ $total }}</span> ]
@@ -108,7 +111,7 @@
 
             @if($hasAnyFilter)
             <a href="{{ route('for-sale.index') }}"
-                class="font-mono text-[10px] tracking-[0.15em] text-khaki/70 hover:text-khaki uppercase">
+                class="font-mono text-[10px] tracking-[0.15em] text-white/95 hover:text-white uppercase">
                 Clear filters
             </a>
             @endif
@@ -116,8 +119,8 @@
 
         @if($forSale->count() === 0)
         <div class="rounded-xl bg-black/20 ring-1 ring-black/30 p-6 text-center noise-texture">
-            <p class="font-mono text-white/60 text-sm tracking-widest">[ NO RESULTS FOUND ]</p>
-            <p class="font-mono text-xs text-white/40 mt-2 tracking-wide">Adjust search or remove filters.</p>
+            <p class="font-mono text-white/95 text-sm tracking-widest">[ NO RESULTS FOUND ]</p>
+            <p class="font-mono text-xs text-white/95 mt-2 tracking-wide">Adjust search or remove filters.</p>
             <div class="mt-4">
                 <a href="{{ route('for-sale.index') }}"
                     class="inline-block rounded-xl bg-black/30 hover:bg-black/40 ring-1 ring-khaki/30 px-4 py-2 font-stencil tracking-[0.15em] text-sm text-white uppercase transition">

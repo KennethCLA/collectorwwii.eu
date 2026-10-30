@@ -24,6 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'is_admin' => \App\Http\Middleware\IsAdmin::class,
+            'existing_session' => \App\Http\Middleware\StartSessionForExistingCookie::class,
+            'catalogue_query' => \App\Http\Middleware\ValidateCatalogueQuery::class,
         ]);
         $middleware->remove(\Illuminate\Http\Middleware\FrameGuard::class);
     })

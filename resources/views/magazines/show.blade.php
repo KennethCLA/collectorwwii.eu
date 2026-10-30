@@ -4,9 +4,18 @@
 $metaDescription = $magazine->description
     ? \Illuminate\Support\Str::limit(strip_tags($magazine->description), 155)
     : "WWII magazine — {$magazine->title} — part of the CollectorWWII collection.";
+$structuredData = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Magazines', 'item' => route('magazines.index')],
+        ['@type' => 'ListItem', 'position' => 3, 'name' => $magazine->title],
+    ],
+];
 @endphp
 <x-layout :title="$magazine->title" :mainClass="'mx-auto w-full max-w-none px-0 py-8'"
-    :metaDescription="$metaDescription" :ogImage="$magazine->image_url">
+    :metaDescription="$metaDescription" :ogImage="$magazine->image_url" :structuredData="$structuredData">
     @php
     $images = $magazine->images;
     $main = $magazine->mainImageFile();

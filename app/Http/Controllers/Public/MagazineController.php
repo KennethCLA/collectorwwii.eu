@@ -43,7 +43,7 @@ class MagazineController extends Controller
                 break;
         }
 
-        $magazines = $query->paginate(50)->withQueryString();
+        $magazines = $query->paginate(204)->withQueryString();
 
         return view('magazines.index', compact('magazines', 'sort'));
     }
